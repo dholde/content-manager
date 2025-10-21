@@ -4,6 +4,7 @@ import com.dehold.contentmanager.tenant.model.Tenant;
 import com.dehold.contentmanager.tenant.repository.TenantRepository;
 import com.dehold.contentmanager.tenant.web.dto.CreateTenantRequest;
 import com.dehold.contentmanager.tenant.web.dto.UpdateTenantRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +35,7 @@ class TenantControllerIntegrationTest {
     void createTenant_shouldReturnCreatedTenant() {
         CreateTenantRequest request = new CreateTenantRequest();
         request.setName("Integration Test Tenant");
-        request.setIdentifier("integration-test-identifier");
+        request.setIdentifier("integration-test-identifier-" + UUID.randomUUID());
 
         ResponseEntity<Tenant> response = restTemplate.postForEntity("http://localhost:" + port + "/api/tenants", request, Tenant.class);
 
