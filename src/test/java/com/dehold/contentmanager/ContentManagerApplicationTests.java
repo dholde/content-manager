@@ -1,4 +1,4 @@
-package com.dehold.content_manager;
+package com.dehold.contentmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
