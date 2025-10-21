@@ -1,6 +1,7 @@
 spring:
-  application:
-    name: content-manager
+  config:
+    activate:
+      on-profile: content-manager
 
   datasource:
     url: jdbc:mysql://localhost:3306/content_manager_db
@@ -14,7 +15,9 @@ spring:
 
 ---
 spring:
-  profiles: h2
+  config:
+    activate:
+      on-profile: h2
 
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
