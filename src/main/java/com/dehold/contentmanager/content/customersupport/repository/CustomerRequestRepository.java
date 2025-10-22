@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +36,11 @@ public class CustomerRequestRepository {
     public void create(CustomerRequest request) {
         String sql = "INSERT INTO customer_request (id, text, support_response, customer_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, request.getId(), request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt());
+    }
+
+    public List<CustomerRequest> findAll() {
+        String sql = "SELECT * FROM customer_request";
+        return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 
     public Optional<CustomerRequest> getById(UUID id) {

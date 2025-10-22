@@ -35,18 +35,19 @@ class CustomerRequestControllerIntegrationTest {
         request.setText("Customer request text");
         request.setSupportResponse(UUID.randomUUID());
         request.setCustomerId(UUID.randomUUID());
-        request.setCreatedAt(Instant.now());
-        request.setUpdatedAt(Instant.now());
 
-        ResponseEntity<CustomerRequest> response = restTemplate.postForEntity(
+        ResponseEntity<CustomerRequestDto> response = restTemplate.postForEntity(
             "http://localhost:" + port + "/api/customer-requests",
             request,
-            CustomerRequest.class
+            CustomerRequestDto.class
         );
 
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(201, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals(request.getText(), response.getBody().getText());
+        assertNotNull(response.getBody().getId());
+        assertNotNull(response.getBody().getCreatedAt());
+        assertNotNull(response.getBody().getUpdatedAt());
     }
 
     @Test
@@ -61,14 +62,15 @@ class CustomerRequestControllerIntegrationTest {
         );
         repository.create(request);
 
-        ResponseEntity<CustomerRequest> response = restTemplate.getForEntity(
+        ResponseEntity<CustomerRequestDto> response = restTemplate.getForEntity(
             "http://localhost:" + port + "/api/customer-requests/" + request.getId(),
-            CustomerRequest.class
+            CustomerRequestDto.class
         );
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals(request.getText(), response.getBody().getText());
+        assertEquals(request.getId(), response.getBody().getId());
     }
 
     @Test
@@ -87,20 +89,19 @@ class CustomerRequestControllerIntegrationTest {
         updateRequest.setText("Updated text");
         updateRequest.setSupportResponse(request.getSupportResponse());
         updateRequest.setCustomerId(request.getCustomerId());
-        updateRequest.setCreatedAt(request.getCreatedAt());
-        updateRequest.setUpdatedAt(Instant.now());
 
         HttpEntity<CustomerRequestDto> entity = new HttpEntity<>(updateRequest);
-        ResponseEntity<CustomerRequest> response = restTemplate.exchange(
+        ResponseEntity<CustomerRequestDto> response = restTemplate.exchange(
             "http://localhost:" + port + "/api/customer-requests/" + request.getId(),
             HttpMethod.PUT,
             entity,
-            CustomerRequest.class
+            CustomerRequestDto.class
         );
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals(updateRequest.getText(), response.getBody().getText());
+        assertEquals(request.getId(), response.getBody().getId());
     }
 
     @Test
@@ -115,7 +116,14 @@ class CustomerRequestControllerIntegrationTest {
         );
         repository.create(request);
 
-        restTemplate.delete("http://localhost:" + port + "/api/customer-requests/" + request.getId());
+        ResponseEntity<Void> response = restTemplate.exchange(
+            "http://localhost:" + port + "/api/customer-requests/" + request.getId(),
+            HttpMethod.DELETE,
+            null,
+            Void.class
+        );
+
+        assertEquals(204, response.getStatusCode().value());
 
         Optional<CustomerRequest> deletedRequest = repository.getById(request.getId());
         assertTrue(deletedRequest.isEmpty());

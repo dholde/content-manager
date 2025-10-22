@@ -17,7 +17,7 @@ public class CustomerRequestService {
     }
 
     public List<CustomerRequest> findAll() {
-        throw new UnsupportedOperationException("findAll is not implemented yet");
+        return repository.findAll();
     }
 
     public Optional<CustomerRequest> findById(UUID id) {
