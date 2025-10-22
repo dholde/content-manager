@@ -1,6 +1,7 @@
 package com.dehold.contentmanager.validation.step;
 
-public class LengthValidator {
+public class LengthValidator implements ValidationStep {
+    @Override
     public boolean validate(String value, int minLength, int maxLength) {
         if (minLength < 0 || maxLength < 0 || minLength > maxLength) {
             throw new IllegalArgumentException("Invalid min/max lengths");
@@ -12,4 +13,3 @@ public class LengthValidator {
         return len >= minLength && len <= maxLength;
     }
 }
-
