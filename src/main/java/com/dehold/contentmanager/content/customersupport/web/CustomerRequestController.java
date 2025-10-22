@@ -46,7 +46,7 @@ public class CustomerRequestController {
                 Instant.now(),
                 Instant.now()
         );
-        service.save(entity);
+        service.createCustomerRequest(entity);
         return new ResponseEntity<>(toDto(entity), HttpStatus.CREATED);
     }
 
@@ -64,7 +64,7 @@ public class CustomerRequestController {
                 existing.get().getCreatedAt(),
                 Instant.now()
         );
-        service.save(entity);
+        service.updateCustomerRequest(entity);
         return ResponseEntity.ok(toDto(entity));
     }
 

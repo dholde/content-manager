@@ -24,6 +24,14 @@ public class CustomerRequestService {
         return repository.getById(id);
     }
 
+    public void createCustomerRequest(CustomerRequest customerRequest) {
+        repository.create(customerRequest);
+    }
+
+    public void updateCustomerRequest(CustomerRequest customerRequest) {
+        repository.update(customerRequest);
+    }
+
     public void save(CustomerRequest customerRequest) {
         repository.create(customerRequest);
     }

@@ -38,6 +38,11 @@ public class CustomerRequestRepository {
         jdbcTemplate.update(sql, request.getId(), request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt());
     }
 
+    public void update(CustomerRequest request) {
+        String sql = "UPDATE customer_request SET text = ?, support_response = ?, customer_id = ?, created_at = ?, updated_at = ? WHERE id = ?";
+        jdbcTemplate.update(sql, request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt(), request.getId());
+    }
+
     public List<CustomerRequest> findAll() {
         String sql = "SELECT * FROM customer_request";
         return jdbcTemplate.query(sql, ROW_MAPPER);
