@@ -17,15 +17,15 @@ public class CustomerRequestService {
     }
 
     public List<CustomerRequest> findAll() {
-        return repository.findAll();
+        throw new UnsupportedOperationException("findAll is not implemented yet");
     }
 
     public Optional<CustomerRequest> findById(UUID id) {
-        return repository.findById(id);
+        return repository.getById(id);
     }
 
     public void save(CustomerRequest customerRequest) {
-        repository.save(customerRequest);
+        repository.create(customerRequest);
     }
 
     public void deleteById(UUID id) {
