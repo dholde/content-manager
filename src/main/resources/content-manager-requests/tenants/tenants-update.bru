@@ -1,0 +1,22 @@
+meta {
+  name: users-update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/api/users/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: ed62d2eb-c293-4c48-a5ce-bc1130d19610
+}
+
+body:json {
+  {
+    "name": "Updated User Name",
+    "identifier": "updated-user-identifier"
+  }
+}

@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: content-manager
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/content_manager_db
+    username: content_user
+    password: secret
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  sql:
+    init:
+      mode: never
+
+---
+spring:
+  config:
+    activate:
+      on-profile: h2
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql

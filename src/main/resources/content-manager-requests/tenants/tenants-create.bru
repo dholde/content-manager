@@ -1,0 +1,18 @@
+meta {
+  name: users-create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Test User",
+    "identifier": "test-user-identifier"
+  }
+}
