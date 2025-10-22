@@ -7,7 +7,6 @@ import com.dehold.contentmanager.tenant.web.dto.UpdateTenantRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,8 +22,8 @@ public class TenantServiceImpl implements TenantService {
     public Tenant createTenant(CreateTenantRequest dto) {
         Tenant tenant = new Tenant(
                 UUID.randomUUID(),
-                dto.getName(),
-                dto.getIdentifier(),
+                dto.getAlias(),
+                dto.getEmail(),
                 Instant.now(),
                 Instant.now()
         );
@@ -43,8 +42,8 @@ public class TenantServiceImpl implements TenantService {
         Tenant existingTenant = getTenant(id);
         Tenant updatedTenant = new Tenant(
                 existingTenant.getId(),
-                dto.getName() != null ? dto.getName() : existingTenant.getName(),
-                dto.getIdentifier() != null ? dto.getIdentifier() : existingTenant.getIdentifier(),
+                dto.getAlias() != null ? dto.getAlias() : existingTenant.getAlias(),
+                dto.getEmail() != null ? dto.getEmail() : existingTenant.getEmail(),
                 existingTenant.getCreatedAt(),
                 Instant.now()
         );

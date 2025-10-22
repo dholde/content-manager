@@ -1,9 +1,10 @@
 package com.dehold.contentmanager.blogpost.service;
 
-import com.dehold.contentmanager.blogpost.model.BlogPost;
-import com.dehold.contentmanager.blogpost.repository.BlogPostRepository;
-import com.dehold.contentmanager.blogpost.web.dto.CreateBlogPostRequest;
-import com.dehold.contentmanager.blogpost.web.dto.UpdateBlogPostRequest;
+import com.dehold.contentmanager.content.blogpost.model.BlogPost;
+import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
+import com.dehold.contentmanager.content.blogpost.service.BlogPostService;
+import com.dehold.contentmanager.content.blogpost.web.dto.CreateBlogPostRequest;
+import com.dehold.contentmanager.content.blogpost.web.dto.UpdateBlogPostRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

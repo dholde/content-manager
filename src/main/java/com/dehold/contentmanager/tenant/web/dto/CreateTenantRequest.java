@@ -2,23 +2,23 @@ package com.dehold.contentmanager.tenant.web.dto;
 
 public class CreateTenantRequest {
 
-    private String name;
+    private String alias;
 
-    private String identifier;
+    private String email;
 
-    public String getName() {
-        return name;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

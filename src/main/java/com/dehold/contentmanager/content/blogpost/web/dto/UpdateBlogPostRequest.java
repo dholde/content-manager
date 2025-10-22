@@ -1,6 +1,6 @@
-package com.dehold.contentmanager.blogpost.web.dto;
+package com.dehold.contentmanager.content.blogpost.web.dto;
 
-public class CreateBlogPostRequest {
+public class UpdateBlogPostRequest {
 
     private String title;
     private String content;

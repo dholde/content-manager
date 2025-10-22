@@ -11,18 +11,18 @@ public class Tenant {
 
     @Id
     private UUID id;
-    private String name;
-    private String identifier;
+    private String alias;
+    private String email;
     private Instant createdAt;
     private Instant updatedAt;
 
     public Tenant() {
     }
 
-    public Tenant(UUID id, String name, String identifier, Instant createdAt, Instant updatedAt) {
+    public Tenant(UUID id, String alias, String email, Instant createdAt, Instant updatedAt) {
         this.id = id;
-        this.name = name;
-        this.identifier = identifier;
+        this.alias = alias;
+        this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -35,20 +35,20 @@ public class Tenant {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Instant getCreatedAt() {

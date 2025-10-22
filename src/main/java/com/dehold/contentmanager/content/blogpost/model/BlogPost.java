@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.blogpost.model;
+package com.dehold.contentmanager.content.blogpost.model;
 
 import java.time.Instant;
 import java.util.UUID;

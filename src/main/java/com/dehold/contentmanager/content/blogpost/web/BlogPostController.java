@@ -1,9 +1,9 @@
-package com.dehold.contentmanager.blogpost.web;
+package com.dehold.contentmanager.content.blogpost.web;
 
-import com.dehold.contentmanager.blogpost.model.BlogPost;
-import com.dehold.contentmanager.blogpost.service.BlogPostService;
-import com.dehold.contentmanager.blogpost.web.dto.CreateBlogPostRequest;
-import com.dehold.contentmanager.blogpost.web.dto.UpdateBlogPostRequest;
+import com.dehold.contentmanager.content.blogpost.model.BlogPost;
+import com.dehold.contentmanager.content.blogpost.service.BlogPostService;
+import com.dehold.contentmanager.content.blogpost.web.dto.CreateBlogPostRequest;
+import com.dehold.contentmanager.content.blogpost.web.dto.UpdateBlogPostRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

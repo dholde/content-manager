@@ -1,9 +1,9 @@
 package com.dehold.contentmanager.blogpost.web;
 
-import com.dehold.contentmanager.blogpost.model.BlogPost;
-import com.dehold.contentmanager.blogpost.repository.BlogPostRepository;
-import com.dehold.contentmanager.blogpost.web.dto.CreateBlogPostRequest;
-import com.dehold.contentmanager.blogpost.web.dto.UpdateBlogPostRequest;
+import com.dehold.contentmanager.content.blogpost.model.BlogPost;
+import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
+import com.dehold.contentmanager.content.blogpost.web.dto.CreateBlogPostRequest;
+import com.dehold.contentmanager.content.blogpost.web.dto.UpdateBlogPostRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
