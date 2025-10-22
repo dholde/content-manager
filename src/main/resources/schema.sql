@@ -21,3 +21,12 @@ CREATE TABLE IF NOT EXISTS support_response (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS customer_request (
+    id UUID PRIMARY KEY,
+    text TEXT NOT NULL,
+    support_response UUID NOT NULL,
+    customer_id UUID NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);
