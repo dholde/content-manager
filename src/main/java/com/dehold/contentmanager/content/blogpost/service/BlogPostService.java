@@ -2,6 +2,7 @@ package com.dehold.contentmanager.content.blogpost.service;
 
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
+import com.dehold.contentmanager.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -30,7 +31,8 @@ public class BlogPostService {
     }
 
     public BlogPost getBlogPost(UUID id) {
-        return blogPostRepository.getBlogPost(id);
+        return blogPostRepository.getBlogPost(id)
+                .orElseThrow(() -> EntityNotFoundException.of("BlogPost", id.toString()));
     }
 
     public List<BlogPost> getAllBlogPosts() {
@@ -38,7 +40,7 @@ public class BlogPostService {
     }
 
     public BlogPost updateBlogPost(UUID id, String title, String content) {
-        BlogPost blogPost = blogPostRepository.getBlogPost(id);
+        BlogPost blogPost = getBlogPost(id); // This will now throw EntityNotFoundException if not found
         blogPost.setTitle(title);
         blogPost.setContent(content);
         blogPost.setUpdatedAt(Instant.now());

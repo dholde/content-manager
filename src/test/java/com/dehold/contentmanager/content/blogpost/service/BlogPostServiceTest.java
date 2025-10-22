@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +54,7 @@ class BlogPostServiceTest {
         UUID blogPostId = UUID.randomUUID();
         BlogPost blogPost = new BlogPost(blogPostId, "Test Blog Post", "This is a test blog post.", Instant.now(), Instant.now());
 
-        when(blogPostRepository.getBlogPost(blogPostId)).thenReturn(blogPost);
+        when(blogPostRepository.getBlogPost(blogPostId)).thenReturn(Optional.of(blogPost));
 
         BlogPost foundBlogPost = blogPostService.getBlogPost(blogPostId);
 
@@ -70,7 +71,7 @@ class BlogPostServiceTest {
         request.setTitle("New Title");
         request.setContent("New Content");
 
-        when(blogPostRepository.getBlogPost(blogPostId)).thenReturn(existingBlogPost);
+        when(blogPostRepository.getBlogPost(blogPostId)).thenReturn(Optional.of(existingBlogPost));
         doNothing().when(blogPostRepository).updateBlogPost(any(BlogPost.class));
 
         BlogPost updatedBlogPost = blogPostService.updateBlogPost(blogPostId, request.getTitle(), request.getContent());
@@ -84,9 +85,7 @@ class BlogPostServiceTest {
     @Test
     void deleteBlogPost_shouldDeleteBlogPostIfExists() {
         UUID blogPostId = UUID.randomUUID();
-        BlogPost blogPost = new BlogPost(blogPostId, "Test Blog Post", "This is a test blog post.", Instant.now(), Instant.now());
 
-        when(blogPostRepository.getBlogPost(blogPostId)).thenReturn(blogPost);
         doNothing().when(blogPostRepository).deleteBlogPost(blogPostId);
 
         blogPostService.deleteBlogPost(blogPostId);

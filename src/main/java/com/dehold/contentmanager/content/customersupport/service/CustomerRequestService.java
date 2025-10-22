@@ -2,6 +2,7 @@ package com.dehold.contentmanager.content.customersupport.service;
 
 import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
 import com.dehold.contentmanager.content.customersupport.repository.CustomerRequestRepository;
+import com.dehold.contentmanager.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,13 @@ public class CustomerRequestService {
         return repository.findAll();
     }
 
-    public Optional<CustomerRequest> findById(UUID id) {
+    public CustomerRequest findById(UUID id) {
+        return repository.getById(id)
+                .orElseThrow(() -> EntityNotFoundException.of("CustomerRequest", id.toString()));
+    }
+
+    // Keep the optional version for internal use if needed
+    public Optional<CustomerRequest> findByIdOptional(UUID id) {
         return repository.getById(id);
     }
 

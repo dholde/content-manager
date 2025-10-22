@@ -89,6 +89,18 @@ class BlogPostControllerIntegrationTest {
         restTemplate.delete("http://localhost:" + port + "/api/blogposts/" + blogPostId);
 
         ResponseEntity<BlogPost> getResponse = restTemplate.getForEntity("http://localhost:" + port + "/api/blogposts/" + blogPostId, BlogPost.class);
-        assertEquals(500, getResponse.getStatusCode().value()); //TODO: Fix this to return 404 Not Found
+        assertEquals(404, getResponse.getStatusCode().value()); // Now correctly returns 404 Not Found
+    }
+
+    @Test
+    void getBlogPost_shouldReturnNotFound() {
+        UUID nonExistentId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = restTemplate.getForEntity(
+            "http://localhost:" + port + "/api/blogposts/" + nonExistentId,
+            Void.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
     }
 }

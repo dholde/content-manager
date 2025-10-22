@@ -70,4 +70,16 @@ class UserControllerIntegrationTest {
         assertEquals(request.getAlias(), response.getBody().getAlias());
         assertEquals(request.getEmail(), response.getBody().getEmail());
     }
+
+    @Test
+    void getUser_shouldReturnNotFound() {
+        UUID nonExistentId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = restTemplate.getForEntity(
+            "http://localhost:" + port + "/api/users/" + nonExistentId,
+            Void.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+    }
 }

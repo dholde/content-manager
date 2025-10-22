@@ -128,4 +128,16 @@ class CustomerRequestControllerIntegrationTest {
         Optional<CustomerRequest> deletedRequest = repository.getById(request.getId());
         assertTrue(deletedRequest.isEmpty());
     }
+
+    @Test
+    void getCustomerRequest_shouldReturnNotFound() {
+        UUID nonExistentId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = restTemplate.getForEntity(
+            "http://localhost:" + port + "/api/customer-requests/" + nonExistentId,
+            Void.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+    }
 }
