@@ -68,6 +68,7 @@ class UserServiceTest {
     void updateUser_shouldUpdateAndReturnUpdatedUser() {
         UUID userId = UUID.randomUUID();
         User existingUser = new User(userId, "Old Name", "old@example.com", Instant.now(), Instant.now());
+        Instant originalUpdatedAt = existingUser.getUpdatedAt();
         UpdateUserRequest request = new UpdateUserRequest();
         request.setAlias("New Name");
         request.setEmail("new@example.com");
@@ -80,6 +81,7 @@ class UserServiceTest {
         assertNotNull(updatedUser);
         assertEquals(request.getAlias(), updatedUser.getAlias());
         assertEquals(request.getEmail(), updatedUser.getEmail());
+        assertTrue(updatedUser.getUpdatedAt().isAfter(originalUpdatedAt));
         verify(userRepository, times(1)).updateUser(any(User.class));
     }
 
