@@ -96,11 +96,13 @@ class BlogPostControllerIntegrationTest {
     void getBlogPost_shouldReturnNotFound() {
         UUID nonExistentId = UUID.randomUUID();
 
-        ResponseEntity<Void> response = restTemplate.getForEntity(
+        ResponseEntity<String> response = restTemplate.getForEntity(
             "http://localhost:" + port + "/api/blogposts/" + nonExistentId,
-            Void.class
+            String.class
         );
 
         assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().contains("The entity BlogPost with id " + nonExistentId + " does not exist"));
     }
 }

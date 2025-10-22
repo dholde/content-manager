@@ -1,5 +1,6 @@
 package com.dehold.contentmanager.content.customersupport.web;
 
+import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
 import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
 import com.dehold.contentmanager.content.customersupport.service.SupportResponseService;
 import com.dehold.contentmanager.content.customersupport.web.dto.CreateSupportResponseRequest;
@@ -30,17 +31,14 @@ public class SupportResponseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SupportResponse> get(@PathVariable UUID id) {
-        Optional<SupportResponse> response = service.getSupportResponse(id);
-        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        SupportResponse supportResponse = service.getSupportResponse(id); // This will throw EntityNotFoundException if not found
+        return ResponseEntity.ok(supportResponse);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<SupportResponse> update(@PathVariable UUID id, @RequestBody UpdateSupportResponseRequest request) {
-        Optional<SupportResponse> existing = service.getSupportResponse(id);
-        if (existing.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        SupportResponse updated = new SupportResponse(id, request.getText(), request.getSupportRequest(), existing.get().getCreatedAt(), Instant.now());
+        SupportResponse supportResponse = service.getSupportResponse(id);
+        SupportResponse updated = new SupportResponse(id, request.getText(), request.getSupportRequest(), supportResponse.getCreatedAt(), Instant.now());
         service.updateSupportResponse(updated);
         return ResponseEntity.ok(updated);
     }

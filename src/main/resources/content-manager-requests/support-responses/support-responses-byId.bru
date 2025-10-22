@@ -1,0 +1,20 @@
+meta {
+  name: support-responses-byId
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/support-responses/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: ed62d2eb-c293-4c48-a5ce-bc1130d19610
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -2,6 +2,7 @@ package com.dehold.contentmanager.content.customersupport.service;
 
 import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
 import com.dehold.contentmanager.content.customersupport.repository.SupportResponseRepository;
+import com.dehold.contentmanager.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,8 +22,9 @@ public class SupportResponseServiceImpl implements SupportResponseService {
     }
 
     @Override
-    public Optional<SupportResponse> getSupportResponse(UUID id) {
-        return repository.getById(id);
+    public SupportResponse getSupportResponse(UUID id) {
+        return repository.getById(id)
+                .orElseThrow(() -> EntityNotFoundException.of("SupportResponse", id.toString()));
     }
 
     @Override
@@ -35,4 +37,3 @@ public class SupportResponseServiceImpl implements SupportResponseService {
         repository.delete(id);
     }
 }
-
