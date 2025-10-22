@@ -13,3 +13,11 @@ CREATE TABLE IF NOT EXISTS "user" (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS support_response (
+    id UUID PRIMARY KEY,
+    text TEXT NOT NULL,
+    support_request UUID NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);
