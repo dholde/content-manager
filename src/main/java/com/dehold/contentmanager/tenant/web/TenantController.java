@@ -27,8 +27,8 @@ public class TenantController {
         var tenant = tenantService.createTenant(request);
         var response = new TenantResponse(
                 tenant.getId(),
-                tenant.getName(),
-                tenant.getIdentifier(),
+                tenant.getAlias(),
+                tenant.getEmail(),
                 tenant.getCreatedAt(),
                 tenant.getUpdatedAt()
         );
@@ -40,8 +40,8 @@ public class TenantController {
         var tenant = tenantService.getTenant(id);
         var response = new TenantResponse(
                 tenant.getId(),
-                tenant.getName(),
-                tenant.getIdentifier(),
+                tenant.getAlias(),
+                tenant.getEmail(),
                 tenant.getCreatedAt(),
                 tenant.getUpdatedAt()
         );
@@ -53,8 +53,8 @@ public class TenantController {
         var tenant = tenantService.updateTenant(id, request);
         var response = new TenantResponse(
                 tenant.getId(),
-                tenant.getName(),
-                tenant.getIdentifier(),
+                tenant.getAlias(),
+                tenant.getEmail(),
                 tenant.getCreatedAt(),
                 tenant.getUpdatedAt()
         );

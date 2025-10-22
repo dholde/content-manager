@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS tenant (
     id UUID PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    identifier VARCHAR(255) NOT NULL UNIQUE,
+    alias VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );

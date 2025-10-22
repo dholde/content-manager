@@ -33,25 +33,25 @@ class TenantServiceTest {
     @Test
     void createTenant_shouldCreateAndReturnTenant() {
         CreateTenantRequest request = new CreateTenantRequest();
-        request.setName("Test Tenant");
-        request.setIdentifier("test-identifier");
+        request.setAlias("Test Tenant");
+        request.setEmail("test@example.com");
 
-        Tenant tenant = new Tenant(UUID.randomUUID(), "Test Tenant", "test-identifier", Instant.now(), Instant.now());
+        Tenant tenant = new Tenant(UUID.randomUUID(), "Test Tenant", "test@example.com", Instant.now(), Instant.now());
 
         doNothing().when(tenantRepository).createTenant(any(Tenant.class));
 
         Tenant createdTenant = tenantService.createTenant(request);
 
         assertNotNull(createdTenant);
-        assertEquals(request.getName(), createdTenant.getName());
-        assertEquals(request.getIdentifier(), createdTenant.getIdentifier());
+        assertEquals(request.getAlias(), createdTenant.getAlias());
+        assertEquals(request.getEmail(), createdTenant.getEmail());
         verify(tenantRepository, times(1)).createTenant(any(Tenant.class));
     }
 
     @Test
     void getTenant_shouldReturnTenantIfExists() {
         UUID tenantId = UUID.randomUUID();
-        Tenant tenant = new Tenant(tenantId, "Test Tenant", "test-identifier", Instant.now(), Instant.now());
+        Tenant tenant = new Tenant(tenantId, "Test Tenant", "test@example.com", Instant.now(), Instant.now());
 
         when(tenantRepository.getTenantById(tenantId)).thenReturn(Optional.of(tenant));
 
@@ -65,10 +65,10 @@ class TenantServiceTest {
     @Test
     void updateTenant_shouldUpdateAndReturnUpdatedTenant() {
         UUID tenantId = UUID.randomUUID();
-        Tenant existingTenant = new Tenant(tenantId, "Old Name", "old-identifier", Instant.now(), Instant.now());
+        Tenant existingTenant = new Tenant(tenantId, "Old Name", "old@example.com", Instant.now(), Instant.now());
         UpdateTenantRequest request = new UpdateTenantRequest();
-        request.setName("New Name");
-        request.setIdentifier("new-identifier");
+        request.setAlias("New Name");
+        request.setEmail("new@example.com");
 
         when(tenantRepository.getTenantById(tenantId)).thenReturn(Optional.of(existingTenant));
         doNothing().when(tenantRepository).updateTenant(any(Tenant.class));
@@ -76,15 +76,15 @@ class TenantServiceTest {
         Tenant updatedTenant = tenantService.updateTenant(tenantId, request);
 
         assertNotNull(updatedTenant);
-        assertEquals(request.getName(), updatedTenant.getName());
-        assertEquals(request.getIdentifier(), updatedTenant.getIdentifier());
+        assertEquals(request.getAlias(), updatedTenant.getAlias());
+        assertEquals(request.getEmail(), updatedTenant.getEmail());
         verify(tenantRepository, times(1)).updateTenant(any(Tenant.class));
     }
 
     @Test
     void deleteTenant_shouldDeleteTenantIfExists() {
         UUID tenantId = UUID.randomUUID();
-        Tenant tenant = new Tenant(tenantId, "Test Tenant", "test-identifier", Instant.now(), Instant.now());
+        Tenant tenant = new Tenant(tenantId, "Test Tenant", "test@example.com", Instant.now(), Instant.now());
 
         when(tenantRepository.getTenantById(tenantId)).thenReturn(Optional.of(tenant));
         doNothing().when(tenantRepository).deleteTenant(tenantId);
