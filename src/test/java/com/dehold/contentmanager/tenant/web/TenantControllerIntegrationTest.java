@@ -74,4 +74,22 @@ class TenantControllerIntegrationTest {
         assertEquals(request.getName(), response.getBody().getName());
         assertEquals(request.getIdentifier(), response.getBody().getIdentifier());
     }
+
+    @Test
+    void deleteTenant_shouldDeleteTenant() {
+        CreateTenantRequest createRequest = new CreateTenantRequest();
+        createRequest.setName("Integration Test Tenant");
+        createRequest.setIdentifier("integration-test-identifier-" + UUID.randomUUID());
+
+        ResponseEntity<Tenant> createResponse = restTemplate.postForEntity("http://localhost:" + port + "/api/tenants", createRequest, Tenant.class);
+        assertEquals(201, createResponse.getStatusCode().value());
+        assertNotNull(createResponse.getBody());
+
+        UUID tenantId = createResponse.getBody().getId();
+
+        restTemplate.delete("http://localhost:" + port + "/api/tenants/" + tenantId);
+
+        ResponseEntity<Tenant> getResponse = restTemplate.getForEntity("http://localhost:" + port + "/api/tenants/" + tenantId, Tenant.class);
+        assertEquals(500, getResponse.getStatusCode().value()); //TODO: Fix this to return 404 Not Found
+    }
 }

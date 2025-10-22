@@ -60,4 +60,10 @@ public class TenantController {
         );
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTenant(@PathVariable UUID id) {
+        tenantService.deleteTenant(id);
+        return ResponseEntity.noContent().build();
+    }
 }
