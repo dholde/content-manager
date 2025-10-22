@@ -18,13 +18,14 @@ public class BlogPostService {
         this.blogPostRepository = blogPostRepository;
     }
 
-    public BlogPost createBlogPost(String title, String content) {
+    public BlogPost createBlogPost(String title, String content, UUID userId) {
         BlogPost blogPost = new BlogPost(
                 UUID.randomUUID(),
                 title,
                 content,
                 Instant.now(),
-                Instant.now()
+                Instant.now(),
+                userId
         );
         blogPostRepository.createBlogPost(blogPost);
         return blogPost;

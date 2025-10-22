@@ -46,7 +46,8 @@ class BlogPostControllerIntegrationTest {
 
     @Test
     void getBlogPost_shouldReturnBlogPost() {
-        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Integration Test Blog Post", "This is a test blog post for integration testing.", Instant.now(), Instant.now());
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Integration Test Blog Post", "This is a test blog post " +
+                "for integration testing.", Instant.now(), Instant.now(), UUID.randomUUID());
         blogPostRepository.createBlogPost(blogPost);
 
         ResponseEntity<BlogPost> response = restTemplate.getForEntity("http://localhost:" + port + "/api/blogposts/" + blogPost.getId(), BlogPost.class);
@@ -58,7 +59,7 @@ class BlogPostControllerIntegrationTest {
 
     @Test
     void updateBlogPost_shouldReturnUpdatedBlogPost() {
-        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Old Title", "Old Content", Instant.now(), Instant.now());
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Old Title", "Old Content", Instant.now(), Instant.now(), UUID.randomUUID());
         blogPostRepository.createBlogPost(blogPost);
 
         UpdateBlogPostRequest request = new UpdateBlogPostRequest();

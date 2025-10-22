@@ -23,7 +23,8 @@ public class BlogPostController {
 
     @PostMapping
     public ResponseEntity<BlogPost> createBlogPost(@RequestBody CreateBlogPostRequest request) {
-        BlogPost blogPost = blogPostService.createBlogPost(request.getTitle(), request.getContent());
+        BlogPost blogPost = blogPostService.createBlogPost(request.getTitle(), request.getContent(),
+                request.getUserId());
         return ResponseEntity.status(HttpStatus.CREATED).body(blogPost);
     }
 

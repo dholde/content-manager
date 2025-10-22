@@ -71,7 +71,8 @@ public class BlogPostRepository {
                 rs.getString("title"),
                 rs.getString("content"),
                 rs.getTimestamp("created_at").toInstant(),
-                rs.getTimestamp("updated_at").toInstant()
+                rs.getTimestamp("updated_at").toInstant(),
+                UUID.fromString(rs.getString("user_id"))
         );
     }
 }

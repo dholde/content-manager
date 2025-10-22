@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS "user" (
+    id UUID PRIMARY KEY,
+    alias VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS blog_post (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -6,14 +14,6 @@ CREATE TABLE IF NOT EXISTS blog_post (
     updated_at TIMESTAMP NOT NULL,
     user_id UUID,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS "user" (
-    id UUID PRIMARY KEY,
-    alias VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS support_response (
