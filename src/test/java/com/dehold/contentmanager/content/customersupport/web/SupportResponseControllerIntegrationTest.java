@@ -89,5 +89,17 @@ class SupportResponseControllerIntegrationTest {
         );
         assertEquals(404, getResponse.getStatusCode().value());
     }
+
+    @Test
+    void getSupportResponse_shouldReturnNotFound() {
+        UUID nonExistentId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/api/support-responses" + nonExistentId,
+                Void.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+    }
 }
 
