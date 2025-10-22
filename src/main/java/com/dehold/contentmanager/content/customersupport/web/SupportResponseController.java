@@ -1,6 +1,5 @@
 package com.dehold.contentmanager.content.customersupport.web;
 
-import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
 import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
 import com.dehold.contentmanager.content.customersupport.service.SupportResponseService;
 import com.dehold.contentmanager.content.customersupport.web.dto.CreateSupportResponseRequest;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

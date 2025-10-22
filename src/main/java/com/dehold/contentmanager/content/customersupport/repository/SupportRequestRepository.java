@@ -1,6 +1,6 @@
 package com.dehold.contentmanager.content.customersupport.repository;
 
-import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
+import com.dehold.contentmanager.content.customersupport.model.SupportRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,17 +12,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class CustomerRequestRepository {
+public class SupportRequestRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public CustomerRequestRepository(JdbcTemplate jdbcTemplate) {
+    public SupportRequestRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<CustomerRequest> ROW_MAPPER = new RowMapper<>() {
+    private static final RowMapper<SupportRequest> ROW_MAPPER = new RowMapper<>() {
         @Override
-        public CustomerRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new CustomerRequest(
+        public SupportRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new SupportRequest(
                 UUID.fromString(rs.getString("id")),
                 rs.getString("text"),
                 UUID.fromString(rs.getString("support_response")),
@@ -33,22 +33,22 @@ public class CustomerRequestRepository {
         }
     };
 
-    public void create(CustomerRequest request) {
+    public void create(SupportRequest request) {
         String sql = "INSERT INTO customer_request (id, text, support_response, customer_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, request.getId(), request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt());
     }
 
-    public void update(CustomerRequest request) {
+    public void update(SupportRequest request) {
         String sql = "UPDATE customer_request SET text = ?, support_response = ?, customer_id = ?, created_at = ?, updated_at = ? WHERE id = ?";
         jdbcTemplate.update(sql, request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt(), request.getId());
     }
 
-    public List<CustomerRequest> findAll() {
+    public List<SupportRequest> findAll() {
         String sql = "SELECT * FROM customer_request";
         return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 
-    public Optional<CustomerRequest> getById(UUID id) {
+    public Optional<SupportRequest> getById(UUID id) {
         String sql = "SELECT * FROM customer_request WHERE id = ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, id).stream().findFirst();
     }

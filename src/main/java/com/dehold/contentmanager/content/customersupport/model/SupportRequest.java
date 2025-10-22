@@ -3,7 +3,7 @@ package com.dehold.contentmanager.content.customersupport.model;
 import java.time.Instant;
 import java.util.UUID;
 
-public class CustomerRequest {
+public class SupportRequest {
     private UUID id;
     private String text;
     private UUID supportResponse;
@@ -11,9 +11,9 @@ public class CustomerRequest {
     private Instant createdAt;
     private Instant updatedAt;
 
-    public CustomerRequest() {}
+    public SupportRequest() {}
 
-    public CustomerRequest(UUID id, String text, UUID supportResponse, UUID customerId, Instant createdAt, Instant updatedAt) {
+    public SupportRequest(UUID id, String text, UUID supportResponse, UUID customerId, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.text = text;
         this.supportResponse = supportResponse;

@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.content.customersupport.web;
 
-import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
-import com.dehold.contentmanager.content.customersupport.repository.CustomerRequestRepository;
+import com.dehold.contentmanager.content.customersupport.model.SupportRequest;
+import com.dehold.contentmanager.content.customersupport.repository.SupportRequestRepository;
 import com.dehold.contentmanager.content.customersupport.web.dto.CustomerRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CustomerRequestControllerIntegrationTest {
+class SupportRequestControllerIntegrationTest {
     @LocalServerPort
     private int port;
 
@@ -27,7 +27,7 @@ class CustomerRequestControllerIntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private CustomerRequestRepository repository;
+    private SupportRequestRepository repository;
 
     @Test
     void createCustomerRequest_shouldReturnCreated() {
@@ -52,7 +52,7 @@ class CustomerRequestControllerIntegrationTest {
 
     @Test
     void getCustomerRequest_shouldReturnRequest() {
-        CustomerRequest request = new CustomerRequest(
+        SupportRequest request = new SupportRequest(
             UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),
@@ -75,7 +75,7 @@ class CustomerRequestControllerIntegrationTest {
 
     @Test
     void updateCustomerRequest_shouldReturnUpdated() {
-        CustomerRequest request = new CustomerRequest(
+        SupportRequest request = new SupportRequest(
             UUID.randomUUID(),
             "Old text",
             UUID.randomUUID(),
@@ -106,7 +106,7 @@ class CustomerRequestControllerIntegrationTest {
 
     @Test
     void deleteCustomerRequest_shouldReturnNoContent() {
-        CustomerRequest request = new CustomerRequest(
+        SupportRequest request = new SupportRequest(
             UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),
@@ -125,7 +125,7 @@ class CustomerRequestControllerIntegrationTest {
 
         assertEquals(204, response.getStatusCode().value());
 
-        Optional<CustomerRequest> deletedRequest = repository.getById(request.getId());
+        Optional<SupportRequest> deletedRequest = repository.getById(request.getId());
         assertTrue(deletedRequest.isEmpty());
     }
 

@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.content.customersupport.service;
 
-import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
-import com.dehold.contentmanager.content.customersupport.repository.CustomerRequestRepository;
+import com.dehold.contentmanager.content.customersupport.model.SupportRequest;
+import com.dehold.contentmanager.content.customersupport.repository.SupportRequestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,13 +15,13 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CustomerRequestServiceTest {
+class SupportRequestServiceTest {
 
     @Mock
-    private CustomerRequestRepository repository;
+    private SupportRequestRepository repository;
 
     @InjectMocks
-    private CustomerRequestService service;
+    private SupportRequestService service;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +30,7 @@ class CustomerRequestServiceTest {
 
     @Test
     void save_shouldCallRepositoryCreate() {
-        CustomerRequest request = new CustomerRequest(
+        SupportRequest request = new SupportRequest(
             UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),
@@ -47,7 +47,7 @@ class CustomerRequestServiceTest {
     @Test
     void findById_shouldReturnCustomerRequest() {
         UUID id = UUID.randomUUID();
-        CustomerRequest request = new CustomerRequest(
+        SupportRequest request = new SupportRequest(
             id,
             "Test text",
             UUID.randomUUID(),
@@ -57,7 +57,7 @@ class CustomerRequestServiceTest {
         );
         when(repository.getById(id)).thenReturn(Optional.of(request));
 
-        CustomerRequest result = service.findById(id);
+        SupportRequest result = service.findById(id);
 
         assertEquals(request, result);
         verify(repository, times(1)).getById(id);

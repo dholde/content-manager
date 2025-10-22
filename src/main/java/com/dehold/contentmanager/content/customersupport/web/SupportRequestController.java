@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.content.customersupport.web;
 
-import com.dehold.contentmanager.content.customersupport.model.CustomerRequest;
-import com.dehold.contentmanager.content.customersupport.service.CustomerRequestService;
+import com.dehold.contentmanager.content.customersupport.model.SupportRequest;
+import com.dehold.contentmanager.content.customersupport.service.SupportRequestService;
 import com.dehold.contentmanager.content.customersupport.web.dto.CustomerRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/customer-requests")
-public class CustomerRequestController {
-    private final CustomerRequestService service;
+public class SupportRequestController {
+    private final SupportRequestService service;
 
-    public CustomerRequestController(CustomerRequestService service) {
+    public SupportRequestController(SupportRequestService service) {
         this.service = service;
     }
 
@@ -30,13 +30,13 @@ public class CustomerRequestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerRequestDto> getById(@PathVariable UUID id) {
-        CustomerRequest request = service.findById(id); // This will throw EntityNotFoundException if not found
+        SupportRequest request = service.findById(id); // This will throw EntityNotFoundException if not found
         return ResponseEntity.ok(toDto(request));
     }
 
     @PostMapping
     public ResponseEntity<CustomerRequestDto> create(@RequestBody CustomerRequestDto dto) {
-        CustomerRequest entity = new CustomerRequest(
+        SupportRequest entity = new SupportRequest(
                 UUID.randomUUID(),
                 dto.getText(),
                 dto.getSupportResponse(),
@@ -50,8 +50,8 @@ public class CustomerRequestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerRequestDto> update(@PathVariable UUID id, @RequestBody CustomerRequestDto dto) {
-        CustomerRequest existing = service.findById(id); // This will throw EntityNotFoundException if not found
-        CustomerRequest entity = new CustomerRequest(
+        SupportRequest existing = service.findById(id); // This will throw EntityNotFoundException if not found
+        SupportRequest entity = new SupportRequest(
                 id,
                 dto.getText(),
                 dto.getSupportResponse(),
@@ -69,7 +69,7 @@ public class CustomerRequestController {
         return ResponseEntity.noContent().build();
     }
 
-    private CustomerRequestDto toDto(CustomerRequest entity) {
+    private CustomerRequestDto toDto(SupportRequest entity) {
         CustomerRequestDto dto = new CustomerRequestDto();
         dto.setId(entity.getId());
         dto.setText(entity.getText());

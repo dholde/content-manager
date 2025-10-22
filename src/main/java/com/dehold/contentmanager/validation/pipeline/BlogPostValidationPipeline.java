@@ -4,7 +4,7 @@ import com.dehold.contentmanager.validation.step.ValidationStep;
 
 import java.util.List;
 
-public class BlockPostValidationPipeline implements ValidationPipeline {
+public class BlogPostValidationPipeline implements ValidationPipeline {
 
     @Override
     public boolean runPipeline(String value, List<ValidationStep> steps) {
