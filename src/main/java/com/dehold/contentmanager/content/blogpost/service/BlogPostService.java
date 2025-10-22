@@ -18,13 +18,14 @@ public class BlogPostService {
         this.blogPostRepository = blogPostRepository;
     }
 
-    public BlogPost createBlogPost(String title, String content) {
+    public BlogPost createBlogPost(String title, String content, UUID userId) {
         BlogPost blogPost = new BlogPost(
                 UUID.randomUUID(),
                 title,
                 content,
                 Instant.now(),
-                Instant.now()
+                Instant.now(),
+                userId
         );
         blogPostRepository.createBlogPost(blogPost);
         return blogPost;
@@ -50,5 +51,9 @@ public class BlogPostService {
 
     public void deleteBlogPost(UUID id) {
         blogPostRepository.deleteBlogPost(id);
+    }
+
+    public List<BlogPost> getBlogPostsByUser(UUID userId) {
+        return blogPostRepository.getBlogPostsByUserId(userId);
     }
 }

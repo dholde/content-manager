@@ -21,12 +21,13 @@ public class BlogPostRepository {
 
     public void createBlogPost(BlogPost blogPost) {
         jdbcTemplate.update(
-                "INSERT INTO blog_post (id, title, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO blog_post (id, title, content, created_at, updated_at, user_id) VALUES (?, ?, ?, ?, ?, ?)",
                 blogPost.getId(),
                 blogPost.getTitle(),
                 blogPost.getContent(),
                 blogPost.getCreatedAt(),
-                blogPost.getUpdatedAt()
+                blogPost.getUpdatedAt(),
+                blogPost.getUserId()
         );
     }
 
@@ -40,6 +41,14 @@ public class BlogPostRepository {
 
     public List<BlogPost> getAllBlogPosts() {
         return jdbcTemplate.query("SELECT * FROM blog_post", this::mapRowToBlogPost);
+    }
+
+    public List<BlogPost> getBlogPostsByUserId(UUID userId) {
+        return jdbcTemplate.query(
+                "SELECT * FROM blog_post WHERE user_id = ?",
+                this::mapRowToBlogPost,
+                userId
+        );
     }
 
     public void updateBlogPost(BlogPost blogPost) {
@@ -62,7 +71,8 @@ public class BlogPostRepository {
                 rs.getString("title"),
                 rs.getString("content"),
                 rs.getTimestamp("created_at").toInstant(),
-                rs.getTimestamp("updated_at").toInstant()
+                rs.getTimestamp("updated_at").toInstant(),
+                UUID.fromString(rs.getString("user_id"))
         );
     }
 }

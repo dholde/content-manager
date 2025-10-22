@@ -23,7 +23,8 @@ public class BlogPostController {
 
     @PostMapping
     public ResponseEntity<BlogPost> createBlogPost(@RequestBody CreateBlogPostRequest request) {
-        BlogPost blogPost = blogPostService.createBlogPost(request.getTitle(), request.getContent());
+        BlogPost blogPost = blogPostService.createBlogPost(request.getTitle(), request.getContent(),
+                request.getUserId());
         return ResponseEntity.status(HttpStatus.CREATED).body(blogPost);
     }
 
@@ -49,5 +50,11 @@ public class BlogPostController {
     public ResponseEntity<Void> deleteBlogPost(@PathVariable UUID id) {
         blogPostService.deleteBlogPost(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BlogPost>> getBlogPostsByUser(@PathVariable UUID userId) {
+        List<BlogPost> blogPosts = blogPostService.getBlogPostsByUser(userId);
+        return ResponseEntity.ok(blogPosts);
     }
 }

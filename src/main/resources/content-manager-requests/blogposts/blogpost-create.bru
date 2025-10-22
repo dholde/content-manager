@@ -1,0 +1,24 @@
+meta {
+  name: blogpost-create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/blogposts
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "My Second Blog Post",
+    "content": "This is the content of my second blog post.",
+    "userId": "bb8bdcde-b5e4-48e3-a9ec-c724ebe30781"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

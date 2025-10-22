@@ -72,6 +72,7 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
 | POST | `/api/blog-posts` | Create new blog post |
 | PUT | `/api/blog-posts/{id}` | Update existing blog post |
 | DELETE | `/api/blog-posts/{id}` | Delete blog post |
+| GET | `/api/blogposts/user/{userId}` | Get all blog posts for a specific user |
 
 **Blog Post Model:**
 ```json
@@ -80,7 +81,8 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
   "title": "string",
   "content": "string",
   "createdAt": "timestamp",
-  "updatedAt": "timestamp"
+  "updatedAt": "timestamp",
+  "userId": "uuid"
 }
 ```
 

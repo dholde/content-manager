@@ -10,13 +10,15 @@ public class BlogPost {
     private String content;
     private Instant createdAt;
     private Instant updatedAt;
+    private UUID userId; // Foreign key to User
 
-    public BlogPost(UUID id, String title, String content, Instant createdAt, Instant updatedAt) {
+    public BlogPost(UUID id, String title, String content, Instant createdAt, Instant updatedAt, UUID userId) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.userId = userId;
     }
 
     public UUID getId() {
@@ -57,5 +59,13 @@ public class BlogPost {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

@@ -36,12 +36,16 @@ class BlogPostServiceTest {
         CreateBlogPostRequest request = new CreateBlogPostRequest();
         request.setTitle("Test Blog Post");
         request.setContent("This is a test blog post.");
+        UUID userId = UUID.randomUUID();
+        request.setUserId(userId);
 
-        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Test Blog Post", "This is a test blog post.", Instant.now(), Instant.now());
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Test Blog Post", "This is a test blog post.",
+                Instant.now(), Instant.now(), UUID.randomUUID());
 
         doNothing().when(blogPostRepository).createBlogPost(any(BlogPost.class));
 
-        BlogPost createdBlogPost = blogPostService.createBlogPost(request.getTitle(), request.getContent());
+        BlogPost createdBlogPost = blogPostService.createBlogPost(request.getTitle(), request.getContent(),
+                request.getUserId());
 
         assertNotNull(createdBlogPost);
         assertEquals(request.getTitle(), createdBlogPost.getTitle());
@@ -52,7 +56,8 @@ class BlogPostServiceTest {
     @Test
     void getBlogPost_shouldReturnBlogPostIfExists() {
         UUID blogPostId = UUID.randomUUID();
-        BlogPost blogPost = new BlogPost(blogPostId, "Test Blog Post", "This is a test blog post.", Instant.now(), Instant.now());
+        BlogPost blogPost = new BlogPost(blogPostId, "Test Blog Post", "This is a test blog post.", Instant.now(),
+                Instant.now(), UUID.randomUUID());
 
         when(blogPostRepository.getBlogPost(blogPostId)).thenReturn(Optional.of(blogPost));
 
@@ -66,7 +71,8 @@ class BlogPostServiceTest {
     @Test
     void updateBlogPost_shouldUpdateAndReturnUpdatedBlogPost() {
         UUID blogPostId = UUID.randomUUID();
-        BlogPost existingBlogPost = new BlogPost(blogPostId, "Old Title", "Old Content", Instant.now(), Instant.now());
+        BlogPost existingBlogPost = new BlogPost(blogPostId, "Old Title", "Old Content", Instant.now(), Instant.now()
+                , UUID.randomUUID());
         UpdateBlogPostRequest request = new UpdateBlogPostRequest();
         request.setTitle("New Title");
         request.setContent("New Content");
