@@ -4,14 +4,19 @@ import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
 import com.dehold.contentmanager.content.blogpost.web.dto.CreateBlogPostRequest;
 import com.dehold.contentmanager.content.blogpost.web.dto.UpdateBlogPostRequest;
+import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -21,6 +26,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BlogPostControllerIntegrationTest {
 
+    private static UUID user1Id = UUID.fromString("06c4f0e4-20d7-4886-841b-ebe0ca3622a5");
+    private static UUID user2Id = UUID.fromString("514b7a57-39a7-4623-9db0-3fda971bf11f");
+
     @LocalServerPort
     private int port;
 
@@ -29,6 +37,15 @@ class BlogPostControllerIntegrationTest {
 
     @Autowired
     private BlogPostRepository blogPostRepository;
+
+    @BeforeAll
+    static void setup(@Autowired JdbcTemplate jdbcTemplate) {
+        jdbcTemplate.update("INSERT INTO \"user\" (id, alias, email, created_at, updated_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
+                user1Id, "testuser1", "testuser1@example.com");
+
+        jdbcTemplate.update("INSERT INTO \"user\" (id, alias, email, created_at, updated_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
+                user2Id, "testuser2", "testuser2@example.com");
+    }
 
     @Test
     void createBlogPost_shouldReturnCreatedBlogPost() {
@@ -47,19 +64,19 @@ class BlogPostControllerIntegrationTest {
     @Test
     void getBlogPost_shouldReturnBlogPost() {
         BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Integration Test Blog Post", "This is a test blog post " +
-                "for integration testing.", Instant.now(), Instant.now(), UUID.randomUUID());
+                "for integration testing.", Instant.now(), Instant.now(), user1Id);
         blogPostRepository.createBlogPost(blogPost);
 
         ResponseEntity<BlogPost> response = restTemplate.getForEntity("http://localhost:" + port + "/api/blogposts/" + blogPost.getId(), BlogPost.class);
 
-        assertEquals(200, response.getStatusCode().value());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(blogPost.getId(), response.getBody().getId());
     }
 
     @Test
     void updateBlogPost_shouldReturnUpdatedBlogPost() {
-        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Old Title", "Old Content", Instant.now(), Instant.now(), UUID.randomUUID());
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Old Title", "Old Content", Instant.now(), Instant.now(), user2Id);
         blogPostRepository.createBlogPost(blogPost);
 
         UpdateBlogPostRequest request = new UpdateBlogPostRequest();
@@ -69,7 +86,7 @@ class BlogPostControllerIntegrationTest {
         HttpEntity<UpdateBlogPostRequest> entity = new HttpEntity<>(request);
         ResponseEntity<BlogPost> response = restTemplate.exchange("http://localhost:" + port + "/api/blogposts/" + blogPost.getId(), HttpMethod.PUT, entity, BlogPost.class);
 
-        assertEquals(200, response.getStatusCode().value());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(request.getTitle(), response.getBody().getTitle());
         assertEquals(request.getContent(), response.getBody().getContent());
