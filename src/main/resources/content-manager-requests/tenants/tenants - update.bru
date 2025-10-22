@@ -1,0 +1,22 @@
+meta {
+  name: tenants - update
+  type: http
+  seq: 2
+}
+
+put {
+  url: /tenants/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "name": "Updated Tenant Name",
+    "identifier": "updated-tenant-identifier"
+  }
+}
