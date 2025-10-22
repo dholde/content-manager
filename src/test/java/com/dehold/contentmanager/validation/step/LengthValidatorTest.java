@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LengthValidatorTest {
+class LengthValidatorTest implements ValidationStep {
 
     private final LengthValidator validator = new LengthValidator();
 
