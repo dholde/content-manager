@@ -33,27 +33,27 @@ public class UserRepository {
     };
 
     public void createUser(User user) {
-        String sql = "INSERT INTO user (id, alias, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO \"user\" (id, alias, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getId(), user.getAlias(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
     }
 
     public Optional<User> getUserById(UUID id) {
-        String sql = "SELECT * FROM user WHERE id = ?";
+        String sql = "SELECT * FROM \"user\" WHERE id = ?";
         return jdbcTemplate.query(sql, USER_ROW_MAPPER, id).stream().findFirst();
     }
 
     public Optional<User> getUserByEmail(String email) {
-        String sql = "SELECT * FROM user WHERE email = ?";
+        String sql = "SELECT * FROM \"user\" WHERE email = ?";
         return jdbcTemplate.query(sql, USER_ROW_MAPPER, email).stream().findFirst();
     }
 
     public void updateUser(User user) {
-        String sql = "UPDATE user SET alias = ?, email = ?, created_at = ?, updated_at = ? WHERE id = ?";
+        String sql = "UPDATE \"user\" SET alias = ?, email = ?, created_at = ?, updated_at = ? WHERE id = ?";
         jdbcTemplate.update(sql, user.getAlias(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt(), user.getId());
     }
 
     public void deleteUser(UUID id) {
-        String sql = "DELETE FROM user WHERE id = ?";
+        String sql = "DELETE FROM \"user\" WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 }
