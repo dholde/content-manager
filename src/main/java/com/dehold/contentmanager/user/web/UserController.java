@@ -1,9 +1,9 @@
-package com.dehold.contentmanager.tenant.web;
+package com.dehold.contentmanager.user.web;
 
-import com.dehold.contentmanager.tenant.service.UserService;
-import com.dehold.contentmanager.tenant.web.dto.CreateUserRequest;
-import com.dehold.contentmanager.tenant.web.dto.UserResponse;
-import com.dehold.contentmanager.tenant.web.dto.UpdateUserRequest;
+import com.dehold.contentmanager.user.service.UserService;
+import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
+import com.dehold.contentmanager.user.web.dto.UserResponse;
+import com.dehold.contentmanager.user.web.dto.UpdateUserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

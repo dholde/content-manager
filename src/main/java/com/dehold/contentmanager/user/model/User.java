@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.tenant.model;
+package com.dehold.contentmanager.user.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;

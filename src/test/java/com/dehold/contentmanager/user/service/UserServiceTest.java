@@ -1,9 +1,9 @@
-package com.dehold.contentmanager.tenant.service;
+package com.dehold.contentmanager.user.service;
 
-import com.dehold.contentmanager.tenant.model.User;
-import com.dehold.contentmanager.tenant.repository.UserRepository;
-import com.dehold.contentmanager.tenant.web.dto.CreateUserRequest;
-import com.dehold.contentmanager.tenant.web.dto.UpdateUserRequest;
+import com.dehold.contentmanager.user.model.User;
+import com.dehold.contentmanager.user.repository.UserRepository;
+import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
+import com.dehold.contentmanager.user.web.dto.UpdateUserRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ class UserServiceTest {
     void createUser_shouldCreateAndReturnUser() {
         CreateUserRequest request = new CreateUserRequest();
         request.setAlias("Test User");
-        request.setIdentifier("test-identifier");
+        request.setEmail("test@example.com");
 
         User user = new User(UUID.randomUUID(), "Test User", "test@example.com", Instant.now(), Instant.now());
 
@@ -59,6 +59,8 @@ class UserServiceTest {
 
         assertNotNull(foundUser);
         assertEquals(userId, foundUser.getId());
+        assertEquals(user.getAlias(), foundUser.getAlias());
+        assertEquals(user.getEmail(), foundUser.getEmail());
         verify(userRepository, times(1)).getUserById(userId);
     }
 
@@ -67,8 +69,8 @@ class UserServiceTest {
         UUID userId = UUID.randomUUID();
         User existingUser = new User(userId, "Old Name", "old@example.com", Instant.now(), Instant.now());
         UpdateUserRequest request = new UpdateUserRequest();
-        request.setName("New Name");
-        request.setIdentifier("new-identifier");
+        request.setAlias("New Name");
+        request.setEmail("new@example.com");
 
         when(userRepository.getUserById(userId)).thenReturn(Optional.of(existingUser));
         doNothing().when(userRepository).updateUser(any(User.class));

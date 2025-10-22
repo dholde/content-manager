@@ -1,9 +1,9 @@
-package com.dehold.contentmanager.tenant.service;
+package com.dehold.contentmanager.user.service;
 
-import com.dehold.contentmanager.tenant.model.User;
-import com.dehold.contentmanager.tenant.repository.UserRepository;
-import com.dehold.contentmanager.tenant.web.dto.CreateUserRequest;
-import com.dehold.contentmanager.tenant.web.dto.UpdateUserRequest;
+import com.dehold.contentmanager.user.model.User;
+import com.dehold.contentmanager.user.repository.UserRepository;
+import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
+import com.dehold.contentmanager.user.web.dto.UpdateUserRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

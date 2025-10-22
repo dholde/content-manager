@@ -1,6 +1,6 @@
-package com.dehold.contentmanager.tenant.web.dto;
+package com.dehold.contentmanager.user.web.dto;
 
-public class CreateUserRequest {
+public class UpdateUserRequest {
 
     private String alias;
 

@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.tenant.web.dto;
+package com.dehold.contentmanager.user.web.dto;
 
 import java.time.Instant;
 import java.util.UUID;

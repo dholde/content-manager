@@ -1,6 +1,6 @@
-package com.dehold.contentmanager.tenant.repository;
+package com.dehold.contentmanager.user.repository;
 
-import com.dehold.contentmanager.tenant.model.User;
+import com.dehold.contentmanager.user.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
