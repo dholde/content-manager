@@ -12,28 +12,29 @@ class BlockPostValidationPipelineTest {
 
     @Test
     void runPipeline_allStepsPass_returnsTrue() {
-        ValidationPipeline pipeline = new BlockPostValidationPipeline(List.of(new LengthValidator()));
-        assertTrue(pipeline.runPipeline("hello", 1, 10));
+        ValidationPipeline pipeline = new BlockPostValidationPipeline();
+        List<ValidationStep> steps = List.of(new LengthValidator(1,250));
+        assertTrue(pipeline.runPipeline("hello", steps));
     }
 
     @Test
     void runPipeline_stepFails_returnsFalse() {
-        ValidationStep failing = (value, min, max) -> false;
-        ValidationPipeline pipeline = new BlockPostValidationPipeline(List.of(new LengthValidator(), failing));
-        assertFalse(pipeline.runPipeline("hello", 1, 10));
+        ValidationPipeline pipeline = new BlockPostValidationPipeline();
+        ValidationStep failing = value -> false;
+        List<ValidationStep> steps = List.of(new LengthValidator(1,250), failing);
+        assertFalse(pipeline.runPipeline("hello", steps));
     }
 
     @Test
     void runPipeline_emptySteps_returnsTrue() {
-        ValidationPipeline pipeline = new BlockPostValidationPipeline(List.of());
-        assertTrue(pipeline.runPipeline("any", 0, 5));
+        ValidationPipeline pipeline = new BlockPostValidationPipeline();
+        assertTrue(pipeline.runPipeline("any", List.of()));
     }
 
     @Test
     void runPipeline_nullStepsHandled() {
-        ValidationPipeline pipeline = new BlockPostValidationPipeline(null);
-        assertTrue(pipeline.runPipeline("any", 0, 5));
+        ValidationPipeline pipeline = new BlockPostValidationPipeline();
+        assertTrue(pipeline.runPipeline("any", null));
     }
 
 }
-

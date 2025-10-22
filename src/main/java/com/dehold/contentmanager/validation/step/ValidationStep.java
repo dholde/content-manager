@@ -1,5 +1,5 @@
 package com.dehold.contentmanager.validation.step;
 
 public interface ValidationStep {
-    boolean validate(String value, int minLength, int maxLength);
+    boolean validate(String content);
 }
