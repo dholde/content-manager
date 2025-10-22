@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.blogpost.web;
+package com.dehold.contentmanager.content.blogpost.web;
 
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
