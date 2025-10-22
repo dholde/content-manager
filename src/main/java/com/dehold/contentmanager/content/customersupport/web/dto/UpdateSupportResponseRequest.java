@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.customersupport.web.dto;
+package com.dehold.contentmanager.content.customersupport.web.dto;
 
 import java.util.UUID;
 

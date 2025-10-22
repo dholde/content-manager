@@ -1,9 +1,9 @@
-package com.dehold.contentmanager.customersupport.web;
+package com.dehold.contentmanager.content.customersupport.web;
 
-import com.dehold.contentmanager.customersupport.model.SupportResponse;
-import com.dehold.contentmanager.customersupport.service.SupportResponseService;
-import com.dehold.contentmanager.customersupport.web.dto.CreateSupportResponseRequest;
-import com.dehold.contentmanager.customersupport.web.dto.UpdateSupportResponseRequest;
+import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
+import com.dehold.contentmanager.content.customersupport.service.SupportResponseService;
+import com.dehold.contentmanager.content.customersupport.web.dto.CreateSupportResponseRequest;
+import com.dehold.contentmanager.content.customersupport.web.dto.UpdateSupportResponseRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
-package com.dehold.contentmanager.customersupport.service;
+package com.dehold.contentmanager.content.customersupport.service;
 
-import com.dehold.contentmanager.customersupport.model.SupportResponse;
+import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
 import java.util.Optional;
 import java.util.UUID;
 

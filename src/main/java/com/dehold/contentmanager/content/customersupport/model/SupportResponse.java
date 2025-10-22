@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.customersupport.model;
+package com.dehold.contentmanager.content.customersupport.model;
 
 import java.time.Instant;
 import java.util.UUID;

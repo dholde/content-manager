@@ -1,9 +1,9 @@
 package com.dehold.contentmanager.customersupport.web;
 
-import com.dehold.contentmanager.customersupport.model.SupportResponse;
-import com.dehold.contentmanager.customersupport.repository.SupportResponseRepository;
-import com.dehold.contentmanager.customersupport.web.dto.CreateSupportResponseRequest;
-import com.dehold.contentmanager.customersupport.web.dto.UpdateSupportResponseRequest;
+import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
+import com.dehold.contentmanager.content.customersupport.repository.SupportResponseRepository;
+import com.dehold.contentmanager.content.customersupport.web.dto.CreateSupportResponseRequest;
+import com.dehold.contentmanager.content.customersupport.web.dto.UpdateSupportResponseRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,13 +1,12 @@
-package com.dehold.contentmanager.customersupport.repository;
+package com.dehold.contentmanager.content.customersupport.repository;
 
-import com.dehold.contentmanager.customersupport.model.SupportResponse;
+import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 

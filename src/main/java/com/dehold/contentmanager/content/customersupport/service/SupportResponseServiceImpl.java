@@ -1,7 +1,7 @@
-package com.dehold.contentmanager.customersupport.service;
+package com.dehold.contentmanager.content.customersupport.service;
 
-import com.dehold.contentmanager.customersupport.model.SupportResponse;
-import com.dehold.contentmanager.customersupport.repository.SupportResponseRepository;
+import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
+import com.dehold.contentmanager.content.customersupport.repository.SupportResponseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
