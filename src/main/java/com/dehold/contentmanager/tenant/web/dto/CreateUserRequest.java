@@ -1,6 +1,6 @@
 package com.dehold.contentmanager.tenant.web.dto;
 
-public class CreateTenantRequest {
+public class CreateUserRequest {
 
     private String alias;
 

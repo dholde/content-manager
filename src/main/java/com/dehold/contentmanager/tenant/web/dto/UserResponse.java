@@ -1,25 +1,17 @@
-package com.dehold.contentmanager.tenant.model;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+package com.dehold.contentmanager.tenant.web.dto;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Table("tenant")
-public class Tenant {
+public class UserResponse {
 
-    @Id
     private UUID id;
     private String alias;
     private String email;
     private Instant createdAt;
     private Instant updatedAt;
 
-    public Tenant() {
-    }
-
-    public Tenant(UUID id, String alias, String email, Instant createdAt, Instant updatedAt) {
+    public UserResponse(UUID id, String alias, String email, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.alias = alias;
         this.email = email;

@@ -1,11 +1,11 @@
 meta {
-  name: tenants-update
+  name: users-update
   type: http
   seq: 2
 }
 
 put {
-  url: {{baseUrl}}/api/tenants/:id
+  url: {{baseUrl}}/api/users/:id
   body: json
   auth: inherit
 }
@@ -16,7 +16,7 @@ params:path {
 
 body:json {
   {
-    "name": "Updated Tenant Name",
-    "identifier": "updated-tenant-identifier"
+    "name": "Updated User Name",
+    "identifier": "updated-user-identifier"
   }
 }

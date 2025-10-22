@@ -1,9 +1,9 @@
 package com.dehold.contentmanager.tenant.service;
 
-import com.dehold.contentmanager.tenant.model.Tenant;
-import com.dehold.contentmanager.tenant.repository.TenantRepository;
-import com.dehold.contentmanager.tenant.web.dto.CreateTenantRequest;
-import com.dehold.contentmanager.tenant.web.dto.UpdateTenantRequest;
+import com.dehold.contentmanager.tenant.model.User;
+import com.dehold.contentmanager.tenant.repository.UserRepository;
+import com.dehold.contentmanager.tenant.web.dto.CreateUserRequest;
+import com.dehold.contentmanager.tenant.web.dto.UpdateUserRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,13 +17,13 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class TenantServiceTest {
+class UserServiceTest {
 
     @Mock
-    private TenantRepository tenantRepository;
+    private UserRepository userRepository;
 
     @InjectMocks
-    private TenantServiceImpl tenantService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
@@ -31,66 +31,66 @@ class TenantServiceTest {
     }
 
     @Test
-    void createTenant_shouldCreateAndReturnTenant() {
-        CreateTenantRequest request = new CreateTenantRequest();
-        request.setAlias("Test Tenant");
-        request.setEmail("test@example.com");
+    void createUser_shouldCreateAndReturnUser() {
+        CreateUserRequest request = new CreateUserRequest();
+        request.setAlias("Test User");
+        request.setIdentifier("test-identifier");
 
-        Tenant tenant = new Tenant(UUID.randomUUID(), "Test Tenant", "test@example.com", Instant.now(), Instant.now());
+        User user = new User(UUID.randomUUID(), "Test User", "test@example.com", Instant.now(), Instant.now());
 
-        doNothing().when(tenantRepository).createTenant(any(Tenant.class));
+        doNothing().when(userRepository).createUser(any(User.class));
 
-        Tenant createdTenant = tenantService.createTenant(request);
+        User createdUser = userService.createUser(request);
 
-        assertNotNull(createdTenant);
-        assertEquals(request.getAlias(), createdTenant.getAlias());
-        assertEquals(request.getEmail(), createdTenant.getEmail());
-        verify(tenantRepository, times(1)).createTenant(any(Tenant.class));
+        assertNotNull(createdUser);
+        assertEquals(request.getAlias(), createdUser.getAlias());
+        assertEquals(request.getEmail(), createdUser.getEmail());
+        verify(userRepository, times(1)).createUser(any(User.class));
     }
 
     @Test
-    void getTenant_shouldReturnTenantIfExists() {
-        UUID tenantId = UUID.randomUUID();
-        Tenant tenant = new Tenant(tenantId, "Test Tenant", "test@example.com", Instant.now(), Instant.now());
+    void getUser_shouldReturnUserIfExists() {
+        UUID userId = UUID.randomUUID();
+        User user = new User(userId, "Test User", "test@example.com", Instant.now(), Instant.now());
 
-        when(tenantRepository.getTenantById(tenantId)).thenReturn(Optional.of(tenant));
+        when(userRepository.getUserById(userId)).thenReturn(Optional.of(user));
 
-        Tenant foundTenant = tenantService.getTenant(tenantId);
+        User foundUser = userService.getUser(userId);
 
-        assertNotNull(foundTenant);
-        assertEquals(tenantId, foundTenant.getId());
-        verify(tenantRepository, times(1)).getTenantById(tenantId);
+        assertNotNull(foundUser);
+        assertEquals(userId, foundUser.getId());
+        verify(userRepository, times(1)).getUserById(userId);
     }
 
     @Test
-    void updateTenant_shouldUpdateAndReturnUpdatedTenant() {
-        UUID tenantId = UUID.randomUUID();
-        Tenant existingTenant = new Tenant(tenantId, "Old Name", "old@example.com", Instant.now(), Instant.now());
-        UpdateTenantRequest request = new UpdateTenantRequest();
-        request.setAlias("New Name");
-        request.setEmail("new@example.com");
+    void updateUser_shouldUpdateAndReturnUpdatedUser() {
+        UUID userId = UUID.randomUUID();
+        User existingUser = new User(userId, "Old Name", "old@example.com", Instant.now(), Instant.now());
+        UpdateUserRequest request = new UpdateUserRequest();
+        request.setName("New Name");
+        request.setIdentifier("new-identifier");
 
-        when(tenantRepository.getTenantById(tenantId)).thenReturn(Optional.of(existingTenant));
-        doNothing().when(tenantRepository).updateTenant(any(Tenant.class));
+        when(userRepository.getUserById(userId)).thenReturn(Optional.of(existingUser));
+        doNothing().when(userRepository).updateUser(any(User.class));
 
-        Tenant updatedTenant = tenantService.updateTenant(tenantId, request);
+        User updatedUser = userService.updateUser(userId, request);
 
-        assertNotNull(updatedTenant);
-        assertEquals(request.getAlias(), updatedTenant.getAlias());
-        assertEquals(request.getEmail(), updatedTenant.getEmail());
-        verify(tenantRepository, times(1)).updateTenant(any(Tenant.class));
+        assertNotNull(updatedUser);
+        assertEquals(request.getAlias(), updatedUser.getAlias());
+        assertEquals(request.getEmail(), updatedUser.getEmail());
+        verify(userRepository, times(1)).updateUser(any(User.class));
     }
 
     @Test
-    void deleteTenant_shouldDeleteTenantIfExists() {
-        UUID tenantId = UUID.randomUUID();
-        Tenant tenant = new Tenant(tenantId, "Test Tenant", "test@example.com", Instant.now(), Instant.now());
+    void deleteUser_shouldDeleteUserIfExists() {
+        UUID userId = UUID.randomUUID();
+        User user = new User(userId, "Test User", "test@example.com", Instant.now(), Instant.now());
 
-        when(tenantRepository.getTenantById(tenantId)).thenReturn(Optional.of(tenant));
-        doNothing().when(tenantRepository).deleteTenant(tenantId);
+        when(userRepository.getUserById(userId)).thenReturn(Optional.of(user));
+        doNothing().when(userRepository).deleteUser(userId);
 
-        tenantService.deleteTenant(tenantId);
+        userService.deleteUser(userId);
 
-        verify(tenantRepository, times(1)).deleteTenant(tenantId);
+        verify(userRepository, times(1)).deleteUser(userId);
     }
 }

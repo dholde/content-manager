@@ -1,6 +1,6 @@
 package com.dehold.contentmanager.tenant.web.dto;
 
-public class UpdateTenantRequest {
+public class UpdateUserRequest {
 
     private String alias;
 

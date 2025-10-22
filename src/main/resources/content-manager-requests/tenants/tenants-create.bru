@@ -1,18 +1,18 @@
 meta {
-  name: tenants-create
+  name: users-create
   type: http
   seq: 1
 }
 
 post {
-  url: {{baseUrl}}/api/tenants
+  url: {{baseUrl}}/api/users
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "name": "Test Tenant",
-    "identifier": "test-tenant-identifier"
+    "name": "Test User",
+    "identifier": "test-user-identifier"
   }
 }
