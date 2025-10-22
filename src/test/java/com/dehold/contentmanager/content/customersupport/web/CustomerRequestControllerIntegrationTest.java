@@ -133,11 +133,14 @@ class CustomerRequestControllerIntegrationTest {
     void getCustomerRequest_shouldReturnNotFound() {
         UUID nonExistentId = UUID.randomUUID();
 
-        ResponseEntity<Void> response = restTemplate.getForEntity(
+        ResponseEntity<String> response = restTemplate.getForEntity(
             "http://localhost:" + port + "/api/customer-requests/" + nonExistentId,
-            Void.class
+            String.class
         );
 
         assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().contains("The entity CustomerRequest with id " + nonExistentId + " does not " +
+                "exist"));
     }
 }
