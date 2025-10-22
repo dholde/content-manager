@@ -51,4 +51,10 @@ public class BlogPostController {
         blogPostService.deleteBlogPost(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BlogPost>> getBlogPostsByUser(@PathVariable UUID userId) {
+        List<BlogPost> blogPosts = blogPostService.getBlogPostsByUser(userId);
+        return ResponseEntity.ok(blogPosts);
+    }
 }

@@ -123,4 +123,23 @@ class BlogPostControllerIntegrationTest {
         assertNotNull(response.getBody());
         assertTrue(response.getBody().contains("The entity BlogPost with id " + nonExistentId + " does not exist"));
     }
+
+    @Test
+    void getBlogPostsByUser_shouldReturnBlogPostsForUser() {
+        // Arrange: Create blog posts for user1
+        BlogPost blogPost1 = new BlogPost(UUID.randomUUID(), "User1 Blog Post 1", "Content 1", Instant.now(), Instant.now(), user1Id);
+        BlogPost blogPost2 = new BlogPost(UUID.randomUUID(), "User1 Blog Post 2", "Content 2", Instant.now(), Instant.now(), user1Id);
+        blogPostRepository.createBlogPost(blogPost1);
+        blogPostRepository.createBlogPost(blogPost2);
+
+        // Act: Fetch blog posts for user1
+        ResponseEntity<BlogPost[]> response = restTemplate.getForEntity("http://localhost:" + port + "/api/blogposts/user/" + user1Id, BlogPost[].class);
+
+        // Assert: Verify the response
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().length);
+        assertEquals(blogPost1.getId(), response.getBody()[0].getId());
+        assertEquals(blogPost2.getId(), response.getBody()[1].getId());
+    }
 }

@@ -52,4 +52,8 @@ public class BlogPostService {
     public void deleteBlogPost(UUID id) {
         blogPostRepository.deleteBlogPost(id);
     }
+
+    public List<BlogPost> getBlogPostsByUser(UUID userId) {
+        return blogPostRepository.getBlogPostsByUserId(userId);
+    }
 }
