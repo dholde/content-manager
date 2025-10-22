@@ -1,4 +1,4 @@
-package com.dehold.contentmanager.content.customersupport;
+package com.dehold.contentmanager.content.customersupport.web;
 
 import com.dehold.contentmanager.content.customersupport.model.SupportResponse;
 import com.dehold.contentmanager.content.customersupport.repository.SupportResponseRepository;
