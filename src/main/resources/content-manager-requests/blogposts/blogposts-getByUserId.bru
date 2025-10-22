@@ -1,0 +1,20 @@
+meta {
+  name: blogposts-getByUserId
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}//api/blogposts/user/:userId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  userId: bb8bdcde-b5e4-48e3-a9ec-c724ebe30781
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
