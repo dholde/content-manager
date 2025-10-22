@@ -40,9 +40,8 @@ class SupportResponseServiceTest {
         UUID id = UUID.randomUUID();
         SupportResponse response = new SupportResponse(id, "Test text", UUID.randomUUID(), Instant.now(), Instant.now());
         when(repository.getById(id)).thenReturn(Optional.of(response));
-        Optional<SupportResponse> found = service.getSupportResponse(id);
-        assertTrue(found.isPresent());
-        assertEquals(response.getId(), found.get().getId());
+        SupportResponse found = service.getSupportResponse(id);
+        assertEquals(response.getId(), found.getId());
         verify(repository, times(1)).getById(id);
     }
 
