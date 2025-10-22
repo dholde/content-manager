@@ -57,10 +57,9 @@ class CustomerRequestServiceTest {
         );
         when(repository.getById(id)).thenReturn(Optional.of(request));
 
-        Optional<CustomerRequest> result = service.findById(id);
+        CustomerRequest result = service.findById(id);
 
-        assertTrue(result.isPresent());
-        assertEquals(request, result.get());
+        assertEquals(request, result);
         verify(repository, times(1)).getById(id);
     }
 

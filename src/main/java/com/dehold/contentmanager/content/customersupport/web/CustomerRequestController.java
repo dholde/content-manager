@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,9 +30,8 @@ public class CustomerRequestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerRequestDto> getById(@PathVariable UUID id) {
-        Optional<CustomerRequest> request = service.findById(id);
-        return request.map(r -> ResponseEntity.ok(toDto(r)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        CustomerRequest request = service.findById(id); // This will throw EntityNotFoundException if not found
+        return ResponseEntity.ok(toDto(request));
     }
 
     @PostMapping
@@ -52,16 +50,13 @@ public class CustomerRequestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerRequestDto> update(@PathVariable UUID id, @RequestBody CustomerRequestDto dto) {
-        Optional<CustomerRequest> existing = service.findById(id);
-        if (existing.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        CustomerRequest existing = service.findById(id); // This will throw EntityNotFoundException if not found
         CustomerRequest entity = new CustomerRequest(
                 id,
                 dto.getText(),
                 dto.getSupportResponse(),
                 dto.getCustomerId(),
-                existing.get().getCreatedAt(),
+                existing.getCreatedAt(),
                 Instant.now()
         );
         service.updateCustomerRequest(entity);

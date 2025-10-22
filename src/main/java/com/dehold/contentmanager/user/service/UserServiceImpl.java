@@ -1,5 +1,6 @@
 package com.dehold.contentmanager.user.service;
 
+import com.dehold.contentmanager.exception.EntityNotFoundException;
 import com.dehold.contentmanager.user.model.User;
 import com.dehold.contentmanager.user.repository.UserRepository;
 import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(UUID id) {
         return userRepository.getUserById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> EntityNotFoundException.of("User", id.toString()));
     }
 
     @Override

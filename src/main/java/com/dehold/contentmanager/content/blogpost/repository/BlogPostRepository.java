@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -29,12 +30,12 @@ public class BlogPostRepository {
         );
     }
 
-    public BlogPost getBlogPost(UUID id) {
-        return jdbcTemplate.queryForObject(
+    public Optional<BlogPost> getBlogPost(UUID id) {
+        return jdbcTemplate.query(
                 "SELECT * FROM blog_post WHERE id = ?",
                 this::mapRowToBlogPost,
                 id
-        );
+        ).stream().findFirst();
     }
 
     public List<BlogPost> getAllBlogPosts() {
