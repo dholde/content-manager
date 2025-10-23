@@ -12,7 +12,6 @@ public class LengthValidator implements ValidationStep {
     public static final String ERROR_CODE = "LENGTH_VALIDATION_FAILED";
     public static final String ERROR_MESSAGE_TOO_SHORT = "The Text is too short.";
     public static final String ERROR_MESSAGE_TOO_LONG = "The Text is too long.";
-    public static final String ERROR_MESSAGE_NULL = "No text provided (null).";
 
     public LengthValidator(int minLength, int maxLength) {
         this.minLength = minLength;
