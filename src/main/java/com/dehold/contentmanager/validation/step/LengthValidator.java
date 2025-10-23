@@ -28,13 +28,9 @@ public class LengthValidator implements ValidationStep {
         if (minLength < 0 || maxLength < 0 || minLength > maxLength) {
             throw new IllegalArgumentException("Invalid min/max lengths");
         }
-        if (value == null) {
-            return ValidationResult.invalid(List.of());
-        }
         if(value.length() < minLength) return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE, ERROR_MESSAGE_TOO_SHORT)));
         if(value.length() > maxLength) return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE,
                 ERROR_MESSAGE_TOO_LONG)));
-        int len = value.length();
-        return len >= minLength && len <= maxLength ? ValidationResult.valid() : ValidationResult.invalid(List.of());
+        return ValidationResult.valid();
     }
 }

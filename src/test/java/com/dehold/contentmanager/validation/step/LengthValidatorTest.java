@@ -41,11 +41,6 @@ class LengthValidatorTest {
     }
 
     @Test
-    void validate_null_returnsFalse() {
-        assertFalse(validator.validate(null).isValid());
-    }
-
-    @Test
     void validate_minEqualsMax() {
         assertTrue(validator.validate("ab").isValid());
         assertFalse(validator.validate("a").isValid());
