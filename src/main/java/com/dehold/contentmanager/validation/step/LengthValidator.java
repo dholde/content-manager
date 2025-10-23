@@ -11,7 +11,7 @@ public class LengthValidator implements ValidationStep {
     private int maxLength;
     public static final String ERROR_CODE = "LENGTH_VALIDATION_FAILED";
     public static final String ERROR_MESSAGE_TOO_SHORT = "The Text is too short.";
-    public static final String ERROR_MESSAGE_TOO_Long= "The Text is too long.";
+    public static final String ERROR_MESSAGE_TOO_LONG = "The Text is too long.";
     public static final String ERROR_MESSAGE_NULL = "No text provided (null).";
 
     public LengthValidator(int minLength, int maxLength) {
@@ -32,6 +32,8 @@ public class LengthValidator implements ValidationStep {
             return ValidationResult.invalid(List.of());
         }
         if(value.length() < minLength) return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE, ERROR_MESSAGE_TOO_SHORT)));
+        if(value.length() > maxLength) return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE,
+                ERROR_MESSAGE_TOO_LONG)));
         int len = value.length();
         return len >= minLength && len <= maxLength ? ValidationResult.valid() : ValidationResult.invalid(List.of());
     }

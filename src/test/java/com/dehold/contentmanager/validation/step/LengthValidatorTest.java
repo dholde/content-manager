@@ -34,6 +34,13 @@ class LengthValidatorTest {
     }
 
     @Test
+    void validate_tooLong_returnsErrorCodeAndErrorMessage() {
+        List<ValidationError> errors = validator.validate("abcdef").getErrors();
+        assertEquals(1, errors.size());
+        assertEquals(LengthValidator.ERROR_MESSAGE_TOO_LONG, errors.getFirst().message());
+    }
+
+    @Test
     void validate_null_returnsFalse() {
         assertFalse(validator.validate(null).isValid());
     }
