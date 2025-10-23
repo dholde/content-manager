@@ -52,6 +52,7 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
 | POST | `/api/users` | Create new user |
 | PUT | `/api/users/{id}` | Update existing user |
 | DELETE | `/api/users/{id}` | Delete user |
+| GET | `/api/users/{id}/blogposts` | Retrieve blog posts owned by a specific user |
 
 **User Model:**
 ```json
@@ -72,7 +73,9 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
 | POST | `/api/blog-posts` | Create new blog post |
 | PUT | `/api/blog-posts/{id}` | Update existing blog post |
 | DELETE | `/api/blog-posts/{id}` | Delete blog post |
-| GET | `/api/blogposts/user/{userId}` | Get all blog posts for a specific user |
+| GET | `/api/blogposts?userId={userId}` | Filter blog posts by user (optional query parameter) |
+
+> **Note:** The endpoint `/api/blogposts/user/{userId}` is now deprecated. Use `/api/blogposts?userId={userId}` instead.
 
 **Blog Post Model:**
 ```json

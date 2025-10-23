@@ -1,5 +1,7 @@
 package com.dehold.contentmanager.user.web;
 
+import com.dehold.contentmanager.content.blogpost.model.BlogPost;
+import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
 import com.dehold.contentmanager.user.model.User;
 import com.dehold.contentmanager.user.repository.UserRepository;
 import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +32,9 @@ class UserControllerIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BlogPostRepository blogPostRepository;
 
     @Test
     void createUser_shouldReturnCreatedUser() {
@@ -83,5 +89,20 @@ class UserControllerIntegrationTest {
         assertEquals(404, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertTrue(response.getBody().contains("The entity User with id " + nonExistentId + " does not exist"));
+    }
+
+    @Test
+    void getBlogpostsByUserId_shouldReturnBlogposts() {
+        User user = new User(UUID.randomUUID(), "Blogpost User", "blogpostuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Test Blogpost", "This is a test blogpost.", Instant.now(), Instant.now(), user.getId());
+        blogPostRepository.createBlogPost(blogPost);
+
+        ResponseEntity<BlogPost[]> response = restTemplate.getForEntity("http://localhost:" + port + "/api/users" +
+                "/" + user.getId() + "/blogposts", BlogPost[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
+        assertEquals(blogPost.getId(), response.getBody()[0].getId());
     }
 }
