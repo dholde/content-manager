@@ -133,7 +133,8 @@ class BlogPostControllerIntegrationTest {
         blogPostRepository.createBlogPost(blogPost2);
 
         // Act: Fetch blog posts for user1
-        ResponseEntity<BlogPost[]> response = restTemplate.getForEntity("http://localhost:" + port + "/api/blogposts/user/" + user1Id, BlogPost[].class);
+        ResponseEntity<BlogPost[]> response = restTemplate.getForEntity("http://localhost:" + port + "/api/blogposts" +
+                "?userId=" + user1Id, BlogPost[].class);
 
         // Assert: Verify the response
         assertEquals(HttpStatus.OK, response.getStatusCode());

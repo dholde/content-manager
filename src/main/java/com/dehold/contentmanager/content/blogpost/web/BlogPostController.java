@@ -35,8 +35,8 @@ public class BlogPostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BlogPost>> getAllBlogPosts() {
-        List<BlogPost> blogPosts = blogPostService.getAllBlogPosts();
+    public ResponseEntity<List<BlogPost>> getBlogPosts(@RequestParam(required = false) UUID userId) {
+        List<BlogPost> blogPosts = userId == null ? blogPostService.getAllBlogPosts() : blogPostService.getBlogPostsByUser(userId);
         return ResponseEntity.ok(blogPosts);
     }
 
@@ -50,11 +50,5 @@ public class BlogPostController {
     public ResponseEntity<Void> deleteBlogPost(@PathVariable UUID id) {
         blogPostService.deleteBlogPost(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BlogPost>> getBlogPostsByUser(@PathVariable UUID userId) {
-        List<BlogPost> blogPosts = blogPostService.getBlogPostsByUser(userId);
-        return ResponseEntity.ok(blogPosts);
     }
 }
