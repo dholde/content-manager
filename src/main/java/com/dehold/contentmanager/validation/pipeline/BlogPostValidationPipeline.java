@@ -12,7 +12,7 @@ public class BlogPostValidationPipeline implements ValidationPipeline {
             return true;
         }
         for (ValidationStep step : steps) {
-            if (!step.validate(value)) {
+            if (!step.validate(value).isValid()) {
                 return false;
             }
         }

@@ -1,5 +1,6 @@
 package com.dehold.contentmanager.validation.pipeline;
 
+import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.step.LengthValidator;
 import com.dehold.contentmanager.validation.step.ValidationStep;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class BlogPostValidationPipelineTest {
     @Test
     void runPipeline_stepFails_returnsFalse() {
         ValidationPipeline pipeline = new BlogPostValidationPipeline();
-        ValidationStep failing = value -> false;
+        ValidationStep failing = value -> ValidationResult.invalid(List.of());
         List<ValidationStep> steps = List.of(new LengthValidator(1,250), failing);
         assertFalse(pipeline.runPipeline("hello", steps));
     }
