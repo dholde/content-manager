@@ -7,8 +7,8 @@ import java.util.List;
 
 public class LengthValidator implements ValidationStep {
 
-    private int minLength;
-    private int maxLength;
+    private final int minLength;
+    private final int maxLength;
     public static final String ERROR_CODE = "LENGTH_VALIDATION_FAILED";
     public static final String ERROR_MESSAGE_TOO_SHORT = "The Text is too short.";
     public static final String ERROR_MESSAGE_TOO_LONG = "The Text is too long.";
