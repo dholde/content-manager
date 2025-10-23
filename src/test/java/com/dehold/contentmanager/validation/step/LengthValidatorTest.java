@@ -10,28 +10,28 @@ class LengthValidatorTest {
 
     @Test
     void validate_withinBounds_returnsTrue() {
-        assertTrue(validator.validate("hello"));
+        assertTrue(validator.validate("hello").isValid());
     }
 
     @Test
     void validate_tooShort_returnsFalse() {
-        assertFalse(validator.validate("a"));
+        assertFalse(validator.validate("a").isValid());
     }
 
     @Test
     void validate_tooLong_returnsFalse() {
-        assertFalse(validator.validate("abcdef"));
+        assertFalse(validator.validate("abcdef").isValid());
     }
 
     @Test
     void validate_null_returnsFalse() {
-        assertFalse(validator.validate(null));
+        assertFalse(validator.validate(null).isValid());
     }
 
     @Test
     void validate_minEqualsMax() {
-        assertTrue(validator.validate("ab"));
-        assertFalse(validator.validate("a"));
+        assertTrue(validator.validate("ab").isValid());
+        assertFalse(validator.validate("a").isValid());
     }
 
 }

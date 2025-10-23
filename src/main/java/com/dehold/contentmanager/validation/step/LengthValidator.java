@@ -1,5 +1,9 @@
 package com.dehold.contentmanager.validation.step;
 
+import com.dehold.contentmanager.validation.result.ValidationResult;
+
+import java.util.List;
+
 public class LengthValidator implements ValidationStep {
 
     private int minLength;
@@ -11,18 +15,18 @@ public class LengthValidator implements ValidationStep {
     }
 
     @Override
-    public boolean validate(String content) {
+    public ValidationResult validate(String content) {
         return this.validate(content, minLength, maxLength);
     }
 
-    private boolean validate(String value, int minLength, int maxLength) {
+    private ValidationResult validate(String value, int minLength, int maxLength) {
         if (minLength < 0 || maxLength < 0 || minLength > maxLength) {
             throw new IllegalArgumentException("Invalid min/max lengths");
         }
         if (value == null) {
-            return false;
+            return ValidationResult.invalid(List.of());
         }
         int len = value.length();
-        return len >= minLength && len <= maxLength;
+        return len >= minLength && len <= maxLength ? ValidationResult.valid() : ValidationResult.invalid(List.of());
     }
 }
