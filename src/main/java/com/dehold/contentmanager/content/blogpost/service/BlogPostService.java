@@ -53,7 +53,7 @@ public class BlogPostService {
         blogPostRepository.deleteBlogPost(id);
     }
 
-    public List<BlogPost> getBlogPostsByUser(UUID userId) {
+    public List<BlogPost> getBlogPostsByUserId(UUID userId) {
         return blogPostRepository.getBlogPostsByUserId(userId);
     }
 }

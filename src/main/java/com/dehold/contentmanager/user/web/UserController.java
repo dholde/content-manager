@@ -55,7 +55,7 @@ public class UserController {
 
     @GetMapping("/{id}/blogposts")
     public ResponseEntity<List<BlogPost>> getBlogpostsByUserId(@PathVariable UUID id) {
-        List<BlogPost> blogPosts = this.blogPostService.getBlogPostsByUser(id);
+        List<BlogPost> blogPosts = this.blogPostService.getBlogPostsByUserId(id);
         return ResponseEntity.ok(blogPosts);
     }
 

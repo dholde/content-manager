@@ -2,7 +2,6 @@ package com.dehold.contentmanager.content.blogpost.service;
 
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
-import com.dehold.contentmanager.content.blogpost.service.BlogPostService;
 import com.dehold.contentmanager.content.blogpost.web.dto.CreateBlogPostRequest;
 import com.dehold.contentmanager.content.blogpost.web.dto.UpdateBlogPostRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,6 +65,27 @@ class BlogPostServiceTest {
         assertNotNull(foundBlogPost);
         assertEquals(blogPostId, foundBlogPost.getId());
         verify(blogPostRepository, times(1)).getBlogPost(blogPostId);
+    }
+
+    @Test
+    void getBlogPostsByUserId_shouldReturnBlogPostsOfUserId() {
+        UUID userId = UUID.randomUUID();
+        BlogPost blogPost1 = new BlogPost(UUID.randomUUID(), "Blog Post 1", "Content 1", Instant.now(),
+                Instant.now(), userId);
+        BlogPost blogPost2 = new BlogPost(UUID.randomUUID(), "Blog Post 2", "Content 2", Instant.now(),
+                Instant.now(), userId);
+
+        when(blogPostRepository.getBlogPostsByUserId(userId)).thenReturn(
+                java.util.List.of(blogPost1, blogPost2)
+        );
+
+        java.util.List<BlogPost> blogPosts = blogPostService.getBlogPostsByUserId(userId);
+
+        assertNotNull(blogPosts);
+        assertEquals(2, blogPosts.size());
+        assertEquals(userId, blogPosts.get(0).getUserId());
+        assertEquals(userId, blogPosts.get(1).getUserId());
+        verify(blogPostRepository, times(1)).getBlogPostsByUserId(userId);
     }
 
     @Test

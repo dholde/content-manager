@@ -36,7 +36,7 @@ public class BlogPostController {
 
     @GetMapping
     public ResponseEntity<List<BlogPost>> getBlogPosts(@RequestParam(required = false) UUID userId) {
-        List<BlogPost> blogPosts = userId == null ? blogPostService.getAllBlogPosts() : blogPostService.getBlogPostsByUser(userId);
+        List<BlogPost> blogPosts = userId == null ? blogPostService.getAllBlogPosts() : blogPostService.getBlogPostsByUserId(userId);
         return ResponseEntity.ok(blogPosts);
     }
 
