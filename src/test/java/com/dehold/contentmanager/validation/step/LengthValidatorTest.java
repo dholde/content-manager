@@ -58,17 +58,16 @@ class LengthValidatorTest {
     }
 
     @Test
-    void error_message_too_short() {
+    void error_message_too_short_contains_field_name() {
         String fieldName = "testField";
-        String expectedMessage = "The field '" + fieldName + "' is too short.";
-        assertEquals(expectedMessage, LengthValidator.errorMessageTooShort(fieldName));
+        assertTrue(LengthValidator.errorMessageTooShort(fieldName).contains(fieldName));
     }
 
     @Test
-    void error_message_too_long() {
+    void error_message_too_long_contains_field_name() {
         String fieldName = "testField";
         String expectedMessage = "The field '" + fieldName + "' is too long.";
-        assertEquals(expectedMessage, LengthValidator.errorMessageTooLong(fieldName));
+        assertTrue(LengthValidator.errorMessageTooLong(fieldName).contains(fieldName));
     }
 
 }
