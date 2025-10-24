@@ -105,4 +105,18 @@ class UserControllerIntegrationTest {
         assertEquals(1, response.getBody().length);
         assertEquals(blogPost.getId(), response.getBody()[0].getId());
     }
+
+    @Test
+    void getBlogPostsForNonExistentUser_shouldReturnNotFound() {
+        UUID nonExistentUserId = UUID.randomUUID();
+
+        ResponseEntity<String> response = restTemplate.getForEntity(
+            "http://localhost:" + port + "/api/users/" + nonExistentUserId + "/blogposts",
+            String.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().contains("The entity User with id " + nonExistentUserId + " does not exist"));
+    }
 }
