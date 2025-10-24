@@ -1,5 +1,6 @@
 package com.dehold.contentmanager.validation.step;
 
+import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.validation.result.ValidationError;
 import org.junit.jupiter.api.Test;
 
@@ -9,41 +10,49 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LengthValidatorTest {
 
-    private final LengthValidator validator = new LengthValidator(2, 5);
+    private final LengthValidator<BlogPost> blogPostContentLengthValidator =
+            new LengthValidator<BlogPost>(BlogPost::getContent,"content", 10,13);
 
     @Test
     void validate_withinBounds_returnsTrue() {
-        assertTrue(validator.validate("hello").isValid());
+        BlogPost post = new BlogPost(null, "Title", "Within Bounds", null, null, null);
+        assertTrue(blogPostContentLengthValidator.validate(post).isValid());
     }
 
     @Test
     void validate_tooShort_returnsFalse() {
-        assertFalse(validator.validate("a").isValid());
+        BlogPost post = new BlogPost(null, "Title", "Too Short", null, null, null);
+        assertFalse(blogPostContentLengthValidator.validate(post).isValid());
     }
 
     @Test
     void validate_tooShort_returnsErrorCodeAndErrorMessage() {
-        List<ValidationError> errors = validator.validate("a").getErrors();
+        BlogPost post = new BlogPost(null, "Title", "Too Short", null, null, null);
+        List<ValidationError> errors = blogPostContentLengthValidator.validate(post).getErrors();
         assertEquals(1, errors.size());
         assertEquals(LengthValidator.ERROR_MESSAGE_TOO_SHORT, errors.getFirst().message());
     }
 
     @Test
     void validate_tooLong_returnsFalse() {
-        assertFalse(validator.validate("abcdef").isValid());
+        BlogPost post = new BlogPost(null, "Title", "This is way too long.", null, null, null);
+        assertFalse(blogPostContentLengthValidator.validate(post).isValid());
     }
 
     @Test
     void validate_tooLong_returnsErrorCodeAndErrorMessage() {
-        List<ValidationError> errors = validator.validate("abcdef").getErrors();
+        BlogPost post = new BlogPost(null, "Title", "This is way too long", null, null, null);
+        List<ValidationError> errors = blogPostContentLengthValidator.validate(post).getErrors();
         assertEquals(1, errors.size());
         assertEquals(LengthValidator.ERROR_MESSAGE_TOO_LONG, errors.getFirst().message());
     }
 
     @Test
     void validate_minEqualsMax() {
-        assertTrue(validator.validate("ab").isValid());
-        assertFalse(validator.validate("a").isValid());
+        LengthValidator<BlogPost> blogPostContentLengthValidator =
+                new LengthValidator<BlogPost>(BlogPost::getContent,"content", 10,10);
+        BlogPost post = new BlogPost(null, "Title", "min == max", null, null, null);
+        assertTrue(blogPostContentLengthValidator.validate(post).isValid());
     }
 
 }
