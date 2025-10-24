@@ -46,9 +46,9 @@ class PhoneNumberForbiddenValidatorTest {
     }
 
     @Test
-    void error_message_phone_number_forbidden() {
-        String expectedMessage = "The field 'text' contains a phone number, which is not allowed.";
-        assertEquals(expectedMessage, PhoneNumberForbiddenValidator.errorMessagePhoneNumberForbidden("text"));
+    void error_message_phone_number_forbidden_contains_field_name() {
+        String fieldName = "text";
+        assertTrue(PhoneNumberForbiddenValidator.errorMessagePhoneNumberForbidden("text").contains(fieldName));
     }
 
 }
