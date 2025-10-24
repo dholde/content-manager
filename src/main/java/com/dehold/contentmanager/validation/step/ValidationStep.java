@@ -4,4 +4,6 @@ import com.dehold.contentmanager.validation.result.ValidationResult;
 
 public interface ValidationStep<T> {
     ValidationResult validate(T content);
+
+    String getFieldName();
 }

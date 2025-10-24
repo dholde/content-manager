@@ -9,7 +9,7 @@ import java.util.function.Function;
 public class PhoneNumberForbiddenValidator<T> implements ValidationStep<T>{
     private final Function<T, String> getter;
     private final String fieldName;
-    private static final String ERROR_CODE = "PHONE_NUMBER_FORBIDDEN_VALIDATION_FAILED";
+    public static final String ERROR_CODE = "PHONE_NUMBER_FORBIDDEN_VALIDATION_FAILED";
 
     private static final String PHONE_PATTERN = ".*\\b(?:\\+?\\d[\\d\\s\\-]{7,})\\b.*";
 
@@ -28,7 +28,12 @@ public class PhoneNumberForbiddenValidator<T> implements ValidationStep<T>{
         return ValidationResult.valid();
     }
 
-    private static String errorMessagePhoneNumberForbidden(String fieldName) {
+    @Override
+    public String getFieldName() {
+        return this.fieldName;
+    }
+
+    public static String errorMessagePhoneNumberForbidden(String fieldName) {
         return "The field '" + fieldName + "' contains a phone number, which is not allowed.";
     }
 }
