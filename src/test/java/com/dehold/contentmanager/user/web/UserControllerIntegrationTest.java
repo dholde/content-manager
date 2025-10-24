@@ -2,6 +2,7 @@ package com.dehold.contentmanager.user.web;
 
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.content.blogpost.repository.BlogPostRepository;
+import com.dehold.contentmanager.exception.CustomErrorResponse;
 import com.dehold.contentmanager.user.model.User;
 import com.dehold.contentmanager.user.repository.UserRepository;
 import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
@@ -110,13 +111,28 @@ class UserControllerIntegrationTest {
     void getBlogPostsForNonExistentUser_shouldReturnNotFound() {
         UUID nonExistentUserId = UUID.randomUUID();
 
-        ResponseEntity<String> response = restTemplate.getForEntity(
+        ResponseEntity<CustomErrorResponse> response = restTemplate.getForEntity(
             "http://localhost:" + port + "/api/users/" + nonExistentUserId + "/blogposts",
-            String.class
+                CustomErrorResponse.class
         );
 
         assertEquals(404, response.getStatusCode().value());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().contains("The entity User with id " + nonExistentUserId + " does not exist"));
+        CustomErrorResponse errorResponse = response.getBody();
+        assertEquals(404, errorResponse.getStatus());
+        assertEquals("The entity User with id " + nonExistentUserId + " does not exist", errorResponse.getError());
+        assertTrue(errorResponse.getPath().contains("/api/users/" + nonExistentUserId + "/blogposts"));
+    }
+
+    @Test
+    void getBlogPostsForExistentUserThatHasNoPosts_shouldReturnEmptyList() {
+        User user = new User(UUID.randomUUID(), "Blogpost User", "blogpostuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+
+        ResponseEntity<BlogPost[]> response = restTemplate.getForEntity("http://localhost:" + port + "/api/users" +
+                "/" + user.getId() + "/blogposts", BlogPost[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals(0, response.getBody().length);
     }
 }
