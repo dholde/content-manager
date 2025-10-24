@@ -57,4 +57,18 @@ class LengthValidatorTest {
         assertTrue(blogPostContentLengthValidator.validate(post).isValid());
     }
 
+    @Test
+    void error_message_too_short() {
+        String fieldName = "testField";
+        String expectedMessage = "The field '" + fieldName + "' is too short.";
+        assertEquals(expectedMessage, LengthValidator.errorMessageTooShort(fieldName));
+    }
+
+    @Test
+    void error_message_too_long() {
+        String fieldName = "testField";
+        String expectedMessage = "The field '" + fieldName + "' is too long.";
+        assertEquals(expectedMessage, LengthValidator.errorMessageTooLong(fieldName));
+    }
+
 }
