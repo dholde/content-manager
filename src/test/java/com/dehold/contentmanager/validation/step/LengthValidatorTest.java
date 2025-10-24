@@ -30,7 +30,8 @@ class LengthValidatorTest {
         BlogPost post = new BlogPost(null, "Title", "Too Short", null, null, null);
         List<ValidationError> errors = blogPostContentLengthValidator.validate(post).getErrors();
         assertEquals(1, errors.size());
-        assertEquals(LengthValidator.ERROR_MESSAGE_TOO_SHORT, errors.getFirst().message());
+        assertEquals(LengthValidator.errorMessageTooShort(blogPostContentLengthValidator.getFieldName()),
+                errors.getFirst().message());
     }
 
     @Test
@@ -44,7 +45,8 @@ class LengthValidatorTest {
         BlogPost post = new BlogPost(null, "Title", "This is way too long", null, null, null);
         List<ValidationError> errors = blogPostContentLengthValidator.validate(post).getErrors();
         assertEquals(1, errors.size());
-        assertEquals(LengthValidator.ERROR_MESSAGE_TOO_LONG, errors.getFirst().message());
+        assertEquals(LengthValidator.errorMessageTooShort(blogPostContentLengthValidator.getFieldName()),
+                errors.getFirst().message());
     }
 
     @Test
