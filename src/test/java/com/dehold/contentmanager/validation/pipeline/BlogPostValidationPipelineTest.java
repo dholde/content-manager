@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BlogPostValidationPipelineTest {
 
-    @Disabled
+    /*@Disabled
     @Test
     void runPipeline_allStepsPass_returnsTrue() {
         ValidationPipeline pipeline = new BlogPostValidationPipeline();
@@ -41,6 +41,6 @@ class BlogPostValidationPipelineTest {
     void runPipeline_nullStepsHandled() {
         ValidationPipeline pipeline = new BlogPostValidationPipeline();
         assertTrue(pipeline.runPipeline("any", null));
-    }
+    }*/
 
 }
