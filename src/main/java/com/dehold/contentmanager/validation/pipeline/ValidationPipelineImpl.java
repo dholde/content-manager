@@ -23,6 +23,6 @@ final class ValidationPipelineImpl<T> implements ValidationPipeline<T> {
                 validationErrors.addAll(result.getErrors());
             }
         }
-        return ValidationResult.invalid(validationErrors);
+        return validationErrors.isEmpty() ? ValidationResult.valid() : ValidationResult.invalid(validationErrors);
     }
 }
