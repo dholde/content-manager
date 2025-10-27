@@ -3,6 +3,7 @@ package com.dehold.contentmanager.validation.pipeline;
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.step.LengthValidator;
+import com.dehold.contentmanager.validation.step.PhoneNumberForbiddenValidator;
 import com.dehold.contentmanager.validation.step.ValidationStep;
 import org.junit.jupiter.api.Test;
 
@@ -40,5 +41,22 @@ class ValidationPipelineBuilderTest {
         assertEquals(1, result.getErrors().size());
         assertEquals("LENGTH_VALIDATION_FAILED", result.getErrors().getFirst().code());
         assertEquals("The field 'content' is too short.", result.getErrors().getFirst().message());
+    }
+
+    @Test
+    void givenValidContent_whenRunPipelineWithTwoValidationSteps_thenShouldReturnValid() {
+        BlogPost post = new BlogPost(null, "Title", "Valid Content", null, null, null);
+
+        ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, "content", 5, 20);
+        ValidationStep<BlogPost> phoneNumberForbiddenValidator = new PhoneNumberForbiddenValidator<>(BlogPost::getContent, "content");
+
+        ValidationPipeline<BlogPost> pipeline = new ValidationPipelineBuilder<BlogPost>()
+                .addStep(lengthValidator)
+                .addStep(phoneNumberForbiddenValidator)
+                .build();
+
+        ValidationResult result = pipeline.run(post);
+        assertTrue(result.isValid());
+        assertTrue(result.getErrors().isEmpty());
     }
 }
