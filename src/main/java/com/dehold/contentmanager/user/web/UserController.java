@@ -55,6 +55,7 @@ public class UserController {
 
     @GetMapping("/{id}/blogposts")
     public ResponseEntity<List<BlogPost>> getBlogpostsByUserId(@PathVariable UUID id) {
+        userService.getUser(id); // Check for the user to be existent
         List<BlogPost> blogPosts = this.blogPostService.getBlogPostsByUserId(id);
         return ResponseEntity.ok(blogPosts);
     }
