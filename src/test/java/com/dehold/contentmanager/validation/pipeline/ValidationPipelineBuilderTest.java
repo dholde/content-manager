@@ -30,7 +30,9 @@ class ValidationPipelineBuilderTest {
     @Test
     void givenInvalidContent_whenRunPipelineWithOneValidationStep_thenShouldReturnError() {
         BlogPost post = new BlogPost(null, "Title", "Short", null, null, null);
-        ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, "content", 10, 20);
+
+        String fieldName = "content";
+        ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, fieldName, 10, 20);
 
         ValidationPipeline<BlogPost> pipeline = new ValidationPipelineBuilder<BlogPost>()
                 .addStep(lengthValidator)
@@ -39,8 +41,8 @@ class ValidationPipelineBuilderTest {
         ValidationResult result = pipeline.run(post);
         assertFalse(result.isValid());
         assertEquals(1, result.getErrors().size());
-        assertEquals("LENGTH_VALIDATION_FAILED", result.getErrors().getFirst().code());
-        assertEquals("The field 'content' is too short.", result.getErrors().getFirst().message());
+        assertEquals(LengthValidator.ERROR_CODE, result.getErrors().getFirst().code());
+        assertEquals(LengthValidator.errorMessageTooShort(fieldName), result.getErrors().getFirst().message());
     }
 
     @Test
@@ -58,5 +60,26 @@ class ValidationPipelineBuilderTest {
         ValidationResult result = pipeline.run(post);
         assertTrue(result.isValid());
         assertTrue(result.getErrors().isEmpty());
+    }
+
+    @Test
+    void givenInvalidContent_whenRunPipelineWithTwoValidationSteps_thenShouldReturnError() {
+        BlogPost post = new BlogPost(null, "Title", "Content with phone number: +1234567890", null, null, null);
+
+        String fieldName = "content";
+        ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, fieldName, 5, 50);
+        ValidationStep<BlogPost> phoneNumberForbiddenValidator = new PhoneNumberForbiddenValidator<>(BlogPost::getContent, "content");
+
+        ValidationPipeline<BlogPost> pipeline = new ValidationPipelineBuilder<BlogPost>()
+                .addStep(lengthValidator)
+                .addStep(phoneNumberForbiddenValidator)
+                .build();
+
+        ValidationResult result = pipeline.run(post);
+        assertFalse(result.isValid());
+        assertEquals(1, result.getErrors().size());
+        assertEquals(PhoneNumberForbiddenValidator.ERROR_CODE, result.getErrors().getFirst().code());
+        assertEquals(PhoneNumberForbiddenValidator.errorMessagePhoneNumberForbidden(fieldName),
+                result.getErrors().getFirst().message());
     }
 }
