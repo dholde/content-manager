@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ValidationPipelineBuilderTest {
 
     @Test
-    void validate_withinBounds_returnsValid() {
+    void givenValidContent_whenRunPipelineWithOneValidationStep_thenShouldReturnValid() {
         BlogPost post = new BlogPost(null, "Title", "Valid Content", null, null, null);
         ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, "content", 5, 20);
 
@@ -27,7 +27,7 @@ class ValidationPipelineBuilderTest {
     }
 
     @Test
-    void validate_tooShort_returnsInvalid() {
+    void givenInvalidContent_whenRunPipelineWithOneValidationStep_thenShouldReturnError() {
         BlogPost post = new BlogPost(null, "Title", "Short", null, null, null);
         ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, "content", 10, 20);
 
