@@ -4,6 +4,6 @@ import com.dehold.contentmanager.validation.step.ValidationStep;
 
 import java.util.List;
 
-public interface ValidationPipeline {
-    boolean runPipeline(String value, List<ValidationStep> steps);
+public interface ValidationPipeline<T> {
+    boolean run(T content);
 }
