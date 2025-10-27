@@ -63,7 +63,7 @@ class ValidationPipelineBuilderTest {
     }
 
     @Test
-    void givenInvalidContent_whenRunPipelineWithTwoValidationSteps_thenShouldReturnError() {
+    void givenInvalidContent_whenRunPipelineWithMultipleValidationSteps_thenShouldReturnError() {
         BlogPost post = new BlogPost(null, "Title", "Content with phone number: +1234567890", null, null, null);
 
         String fieldName = "content";
