@@ -7,11 +7,9 @@ import com.dehold.contentmanager.validation.step.PhoneNumberForbiddenValidator;
 import com.dehold.contentmanager.validation.step.ValidationStep;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class ValidationPipelineBuilderTest {
+class ValidationPipelineTest {
 
     @Test
     void givenValidContent_whenRunPipelineWithOneValidationStep_thenShouldReturnValid() {
