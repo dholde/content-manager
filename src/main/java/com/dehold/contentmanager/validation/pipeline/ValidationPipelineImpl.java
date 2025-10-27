@@ -1,7 +1,10 @@
 package com.dehold.contentmanager.validation.pipeline;
 
+import com.dehold.contentmanager.validation.result.ValidationError;
+import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.step.ValidationStep;
 
+import java.util.ArrayList;
 import java.util.List;
 
 final class ValidationPipelineImpl<T> implements ValidationPipeline<T> {
@@ -12,7 +15,14 @@ final class ValidationPipelineImpl<T> implements ValidationPipeline<T> {
     }
 
     @Override
-    public boolean run(T content) {
-        return false;
+    public ValidationResult run(T content) {
+        List<ValidationError> validationErrors = new ArrayList<>();
+        for(ValidationStep<T> step : validationSteps) {
+            var result = step.validate(content);
+            if(!result.isValid()) {
+                validationErrors.addAll(result.getErrors());
+            }
+        }
+        return ValidationResult.invalid(validationErrors);
     }
 }
