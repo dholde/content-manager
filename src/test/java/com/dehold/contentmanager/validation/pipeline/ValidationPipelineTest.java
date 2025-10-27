@@ -66,7 +66,7 @@ class ValidationPipelineTest {
 
         String fieldName = "content";
         ValidationStep<BlogPost> lengthValidator = new LengthValidator<>(BlogPost::getContent, fieldName, 5, 50);
-        ValidationStep<BlogPost> phoneNumberForbiddenValidator = new PhoneNumberForbiddenValidator<>(BlogPost::getContent, "content");
+        ValidationStep<BlogPost> phoneNumberForbiddenValidator = new PhoneNumberForbiddenValidator<>(BlogPost::getContent, fieldName);
 
         ValidationPipeline<BlogPost> pipeline = new ValidationPipelineBuilder<BlogPost>()
                 .addStep(lengthValidator)
