@@ -5,13 +5,13 @@ import java.time.Instant;
 public class CustomErrorResponse {
 
     private Instant timestamp;
-    private int status;
+    private int httpStatusCode;
     private String error;
     private String path;
 
-    public CustomErrorResponse(Instant timestamp, int status, String error, String path) {
+    public CustomErrorResponse(Instant timestamp, int httpStatusCode, String error, String path) {
         this.timestamp = timestamp;
-        this.status = status;
+        this.httpStatusCode = httpStatusCode;
         this.error = error;
         this.path = path;
     }
@@ -24,12 +24,12 @@ public class CustomErrorResponse {
         this.timestamp = timestamp;
     }
 
-    public int getStatus() {
-        return status;
+    public int getHttpStatusCode() {
+        return httpStatusCode;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setHttpStatusCode(int httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
     }
 
     public String getError() {

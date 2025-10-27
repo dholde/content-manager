@@ -221,14 +221,3 @@ Run specific test suites:
 # Run specific test class
 ./mvnw -Dtest=CustomerRequestControllerIntegrationTest test
 ```
-
-## Contributing
-
-1. Follow the existing code structure and patterns
-2. Add tests for new features
-3. Use the validation system for content validation
-4. Follow REST API conventions for new endpoints
-
-## License
-
-This project is licensed under the MIT License.
