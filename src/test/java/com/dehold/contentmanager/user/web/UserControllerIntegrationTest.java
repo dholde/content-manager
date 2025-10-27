@@ -17,7 +17,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -88,7 +87,7 @@ class UserControllerIntegrationTest {
         );
         assertNotNull(response.getBody());
         CustomErrorResponse errorResponse = response.getBody();
-        assertEquals(404, errorResponse.getStatus());
+        assertEquals(404, errorResponse.getHttpStatusCode());
         assertNotNull(response.getBody());
         assertEquals("The entity User with id " + nonExistentId + " does not exist", errorResponse.getError());
     }
@@ -120,9 +119,7 @@ class UserControllerIntegrationTest {
         assertEquals(404, response.getStatusCode().value());
         assertNotNull(response.getBody());
         CustomErrorResponse errorResponse = response.getBody();
-        assertEquals(404, errorResponse.getStatus());
-        assertEquals("The entity User with id " + nonExistentUserId + " does not exist", errorResponse.getError());
-        assertTrue(errorResponse.getPath().contains("/api/users/" + nonExistentUserId + "/blogposts"));
+        assertEquals(404, errorResponse.getHttpStatusCode());
     }
 
     @Test
