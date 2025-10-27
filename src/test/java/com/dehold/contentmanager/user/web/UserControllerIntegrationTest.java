@@ -109,7 +109,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    void getBlogPostsForNonExistentUser_shouldReturnNotFound() {
+    void getBlogPostsForNonExistentUser_shouldReturnNotFoundResponseCode() {
         UUID nonExistentUserId = UUID.randomUUID();
 
         ResponseEntity<CustomErrorResponse> response = restTemplate.getForEntity(
@@ -122,6 +122,36 @@ class UserControllerIntegrationTest {
         CustomErrorResponse errorResponse = response.getBody();
         assertEquals(404, errorResponse.getStatus());
         assertEquals("The entity User with id " + nonExistentUserId + " does not exist", errorResponse.getError());
+        assertTrue(errorResponse.getPath().contains("/api/users/" + nonExistentUserId + "/blogposts"));
+    }
+
+    @Test
+    void getBlogPostsForNonExistentUser_shouldReturnNotFoundErrorMessage() {
+        UUID nonExistentUserId = UUID.randomUUID();
+
+        ResponseEntity<CustomErrorResponse> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/api/users/" + nonExistentUserId + "/blogposts",
+                CustomErrorResponse.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        CustomErrorResponse errorResponse = response.getBody();
+        assertEquals("The entity User with id " + nonExistentUserId + " does not exist", errorResponse.getError());
+    }
+
+    @Test
+    void getBlogPostsForNonExistentUser_shouldReturnNotFoundErrorPath() {
+        UUID nonExistentUserId = UUID.randomUUID();
+
+        ResponseEntity<CustomErrorResponse> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/api/users/" + nonExistentUserId + "/blogposts",
+                CustomErrorResponse.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        CustomErrorResponse errorResponse = response.getBody();
         assertTrue(errorResponse.getPath().contains("/api/users/" + nonExistentUserId + "/blogposts"));
     }
 
