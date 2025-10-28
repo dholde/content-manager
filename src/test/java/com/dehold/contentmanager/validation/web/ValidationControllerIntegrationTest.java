@@ -97,4 +97,22 @@ class ValidationControllerIntegrationTest {
         assertEquals(actualError.message(), validationErrors.getFirst().message());
     }
 
+    @Test
+    void givenBlogPostWithInvalidField_whenValidate_thenReturnsValidationError() {
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Valid Title", "This content is not valid: Too short", Instant.now(), Instant.now(), UUID.randomUUID());
+        BlogPostValidationRequest request = new BlogPostValidationRequest(2, 100, 300, 1000, blogPost);
+
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
+                ValidationResponse.class);
+
+        assertEquals(200, response.getStatusCode().value());
+        var validationErrors = List.of(
+                new ValidationError(LengthValidator.ERROR_CODE,
+                        LengthValidator.errorMessageTooShort("content")));
+        ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
+                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+        ValidationResponse actual = response.getBody();
+        assertNotNull(actual);
+        assertEquals(expected, actual);
+    }
 }
