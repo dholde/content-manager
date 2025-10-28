@@ -38,4 +38,9 @@ public class ValidationResponse {
         ValidationResponse that = (ValidationResponse) o;
         return Objects.equals(contentType, that.contentType) && Objects.equals(validationResult, that.validationResult);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contentType, validationResult);
+    }
 }
