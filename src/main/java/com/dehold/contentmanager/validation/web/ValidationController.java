@@ -17,7 +17,7 @@ public class ValidationController {
         this.validationService = validationService;
     }
 
-    @PostMapping("/blog-post")
+    @PostMapping("/blogpost")
     public ResponseEntity<ValidationResponse> validateBlogPost(@RequestBody BlogPostValidationRequest request) {
         ValidationResponse result = validationService.validateBlogPost(request);
         return ResponseEntity.ok(result);

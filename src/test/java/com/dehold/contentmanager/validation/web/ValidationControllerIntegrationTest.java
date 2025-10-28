@@ -36,7 +36,7 @@ class ValidationControllerIntegrationTest {
                 , Instant.now(), Instant.now(), UUID.randomUUID());
         BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
 
-        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blog-post", request,
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
                 ValidationResponse.class);
 
         assertEquals(200, response.getStatusCode().value());
@@ -56,7 +56,7 @@ class ValidationControllerIntegrationTest {
                 , Instant.now(), Instant.now(), UUID.randomUUID());
         BlogPostValidationRequest request = new BlogPostValidationRequest(50, 100, 10, 1000, blogPost);
 
-        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blog-post", request,
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
                 ValidationResponse.class);
 
         assertEquals(200, response.getStatusCode().value());
@@ -79,7 +79,7 @@ class ValidationControllerIntegrationTest {
         BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Valid Title", "This content is not valid: Too short", Instant.now(), Instant.now(), UUID.randomUUID());
         BlogPostValidationRequest request = new BlogPostValidationRequest(2, 100, 300, 1000, blogPost);
 
-        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blog-post", request,
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
                 ValidationResponse.class);
 
         assertEquals(200, response.getStatusCode().value());

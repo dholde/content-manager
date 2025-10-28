@@ -135,7 +135,7 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST   | `/api/validate/blog-post` | Validate a blog post |
+| POST   | `/api/validate/blogpost` | Validate a blog post |
 
 **Validation Request Model:**
 ```json
