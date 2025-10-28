@@ -35,7 +35,7 @@ class ValidationControllerIntegrationTest {
         var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blog-post", request,
                 ValidationResponse.class);
 
-        assertEquals(201, response.getStatusCode().value());
+        assertEquals(200, response.getStatusCode().value());
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
                 ValidationResult.valid());
         assertEquals(expected, response.getBody());
