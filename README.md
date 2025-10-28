@@ -131,6 +131,46 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
 }
 ```
 
+### Validation
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/api/validate/blogpost` | Validate a blog post |
+
+**Validation Request Model:**
+```json
+{
+  "titleMinLength": "integer",
+  "titleMaxLength": "integer",
+  "contentMinLength": "integer",
+  "contentMaxLength": "integer",
+  "blogPost": {
+    "id": "uuid",
+    "title": "string",
+    "content": "string",
+    "createdAt": "timestamp",
+    "updatedAt": "timestamp",
+    "userId": "uuid"
+  }
+}
+```
+
+**Validation Response Model:**
+```json
+{
+  "contentType": "string",
+  "validationResult": {
+    "valid": "boolean",
+    "errors": [
+      {
+        "code": "string",
+        "message": "string"
+      }
+    ]
+  }
+}
+```
+
 ## Validation System
 
 The service includes a flexible validation pipeline system:

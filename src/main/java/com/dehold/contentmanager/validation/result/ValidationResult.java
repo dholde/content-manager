@@ -1,6 +1,7 @@
 package com.dehold.contentmanager.validation.result;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ValidationResult {
     private final boolean isValid;
@@ -26,4 +27,5 @@ public class ValidationResult {
     public List<ValidationError> getErrors() {
         return errors;
     }
+
 }
