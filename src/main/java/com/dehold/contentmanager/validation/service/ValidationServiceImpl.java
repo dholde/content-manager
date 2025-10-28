@@ -6,7 +6,9 @@ import com.dehold.contentmanager.validation.pipeline.ValidationPipelineBuilder;
 import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.step.LengthValidator;
 import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ValidationServiceImpl implements ValidationService {
     @Override
     public ValidationResult validateBlogPost(BlogPostValidationRequest request) {
