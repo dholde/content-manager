@@ -1,11 +1,11 @@
 package com.dehold.contentmanager.validation.web;
 
-import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.service.ValidationService;
 import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
 import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +20,6 @@ public class ValidationController {
     @PostMapping("/blog-post")
     public ResponseEntity<ValidationResponse> validateBlogPost(@RequestBody BlogPostValidationRequest request) {
         ValidationResponse result = validationService.validateBlogPost(request);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.ok(result);
     }
 }

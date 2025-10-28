@@ -1,6 +1,7 @@
 package com.dehold.contentmanager.validation.result;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ValidationResult {
     private final boolean isValid;
@@ -25,5 +26,18 @@ public class ValidationResult {
 
     public List<ValidationError> getErrors() {
         return errors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ValidationResult that = (ValidationResult) o;
+        return isValid == that.isValid && Objects.equals(errors, that.errors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isValid, errors);
     }
 }
