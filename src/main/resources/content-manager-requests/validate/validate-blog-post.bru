@@ -1,0 +1,29 @@
+meta {
+  name: validate-blog-post
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/validate/blog-post
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "titleMinLength": 3,
+    "titleMaxLength": 100,
+    "contentMinLength": 10,
+    "contentMaxLength": 2000,
+    "blogPost": {
+      "title": "A Valid Blog Post Title",
+      "content": "This content is long enough to meet the minimum content length requirement."
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

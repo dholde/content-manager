@@ -1,0 +1,29 @@
+meta {
+  name: validate-blog-post (FAIL)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/validate/blog-post
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "titleMinLength": 10,
+    "titleMaxLength": 100,
+    "contentMinLength": 10,
+    "contentMaxLength": 2000,
+    "blogPost": {
+      "title": "Short",
+      "content": "This content is fine but the title is too short."
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
