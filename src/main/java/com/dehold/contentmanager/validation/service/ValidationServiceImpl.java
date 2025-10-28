@@ -6,16 +6,18 @@ import com.dehold.contentmanager.validation.pipeline.ValidationPipelineBuilder;
 import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.step.LengthValidator;
 import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
+import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ValidationServiceImpl implements ValidationService {
     @Override
-    public ValidationResult validateBlogPost(BlogPostValidationRequest request) {
+    public ValidationResponse validateBlogPost(BlogPostValidationRequest request) {
         ValidationPipeline<BlogPost> pipeline = new ValidationPipelineBuilder<BlogPost>()
                 .addStep(new LengthValidator<>(BlogPost::getTitle, "title", request.getTitleMinLength(), request.getTitleMaxLength()))
                 .addStep(new LengthValidator<>(BlogPost::getContent, "content", request.getContentMinLength(), request.getContentMaxLength()))
                 .build();
-        return pipeline.run(request.getBlogPost());
+        ValidationResult result =  pipeline.run(request.getBlogPost());
+        return new ValidationResponse(BlogPost.class.getSimpleName(), result);
     }
 }

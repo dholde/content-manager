@@ -9,6 +9,14 @@ public class BlogPostValidationRequest {
     int contentMaxLength;
     BlogPost blogPost;
 
+    public BlogPostValidationRequest(int titleMinLength, int titleMaxLength, int contentMinLength, int contentMaxLength, BlogPost blogPost) {
+        this.titleMinLength = titleMinLength;
+        this.titleMaxLength = titleMaxLength;
+        this.contentMinLength = contentMinLength;
+        this.contentMaxLength = contentMaxLength;
+        this.blogPost = blogPost;
+    }
+
 
     public int getTitleMinLength() {
         return titleMinLength;
