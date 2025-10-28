@@ -28,16 +28,4 @@ public class ValidationResult {
         return errors;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ValidationResult that = (ValidationResult) o;
-        return isValid == that.isValid && Objects.equals(errors, that.errors);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(isValid, errors);
-    }
 }
