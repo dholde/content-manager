@@ -1,7 +1,8 @@
-package com.dehold.contentmanager.validation.web.dto;
+package com.dehold.contentmanager.validation.web;
 
 import com.dehold.contentmanager.validation.result.ValidationResult;
 import com.dehold.contentmanager.validation.service.ValidationService;
+import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
