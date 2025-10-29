@@ -1,12 +1,13 @@
 package com.dehold.contentmanager.validation.step;
 
+import com.dehold.contentmanager.content.Content;
 import com.dehold.contentmanager.validation.model.ValidationError;
 import com.dehold.contentmanager.validation.model.ValidationResult;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class PhoneNumberForbiddenValidator<T> implements ValidationStep<T>{
+public class PhoneNumberForbiddenValidator<T extends Content> implements ValidationStep<T>{
     private final Function<T, String> getter;
     private final String fieldName;
     public static final String ERROR_CODE = "PHONE_NUMBER_FORBIDDEN_VALIDATION_FAILED";
@@ -22,10 +23,12 @@ public class PhoneNumberForbiddenValidator<T> implements ValidationStep<T>{
     public ValidationResult validate(T content) {
         String value = getter.apply(content);
         if (value != null && value.matches(PHONE_PATTERN)) {
-            return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE,
+            return ValidationResult.invalid(content.getClass().getSimpleName(),
+                    content.getId(),List.of(new ValidationError(ERROR_CODE,
                     errorMessagePhoneNumberForbidden(fieldName))));
         }
-        return ValidationResult.valid();
+        return ValidationResult.valid(content.getClass().getSimpleName(),
+                content.getId());
     }
 
     @Override

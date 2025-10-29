@@ -1,11 +1,12 @@
 package com.dehold.contentmanager.validation.pipeline;
 
+import com.dehold.contentmanager.content.Content;
 import com.dehold.contentmanager.validation.step.ValidationStep;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ValidationPipelineBuilder<T> {
+public final class ValidationPipelineBuilder<T extends Content> {
     List<ValidationStep<T>> steps = new ArrayList<>();
     public ValidationPipelineBuilder<T> addStep(ValidationStep<T> step) {
         steps.add(step);

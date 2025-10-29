@@ -41,7 +41,7 @@ class ValidationControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.valid()));
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -64,7 +64,7 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("title")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(), blogPost.getId(),validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -87,7 +87,8 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("content")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(), blogPost.getId(),
+                        validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -110,7 +111,8 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("content")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(),
+                        blogPost.getId(), validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected, actual);

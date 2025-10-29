@@ -1,9 +1,11 @@
 package com.dehold.contentmanager.content.customersupport.model;
 
+import com.dehold.contentmanager.content.Content;
+
 import java.time.Instant;
 import java.util.UUID;
 
-public class SupportRequest {
+public class SupportRequest implements Content {
     private UUID id;
     private String text;
     private UUID supportResponse;
@@ -22,6 +24,7 @@ public class SupportRequest {
         this.updatedAt = updatedAt;
     }
 
+    @Override
     public UUID getId() {
         return id;
     }

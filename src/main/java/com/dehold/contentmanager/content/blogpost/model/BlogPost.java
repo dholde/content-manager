@@ -1,9 +1,11 @@
 package com.dehold.contentmanager.content.blogpost.model;
 
+import com.dehold.contentmanager.content.Content;
+
 import java.time.Instant;
 import java.util.UUID;
 
-public class BlogPost {
+public class BlogPost implements Content {
 
     private UUID id;
     private String title;
@@ -21,8 +23,9 @@ public class BlogPost {
         this.userId = userId;
     }
 
+    @Override
     public UUID getId() {
-        return id;
+        return null;
     }
 
     public void setId(UUID id) {

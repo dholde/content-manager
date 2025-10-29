@@ -1,5 +1,6 @@
 package com.dehold.contentmanager.validation.pipeline;
 
+import com.dehold.contentmanager.content.Content;
 import com.dehold.contentmanager.validation.model.ValidationError;
 import com.dehold.contentmanager.validation.model.ValidationResult;
 import com.dehold.contentmanager.validation.step.ValidationStep;
@@ -7,7 +8,7 @@ import com.dehold.contentmanager.validation.step.ValidationStep;
 import java.util.ArrayList;
 import java.util.List;
 
-final class ValidationPipelineImpl<T> implements ValidationPipeline<T> {
+final class ValidationPipelineImpl<T extends Content> implements ValidationPipeline<T> {
     private final List<ValidationStep<T>> validationSteps;
 
     public ValidationPipelineImpl(List<ValidationStep<T>> validationSteps) {
@@ -23,6 +24,9 @@ final class ValidationPipelineImpl<T> implements ValidationPipeline<T> {
                 validationErrors.addAll(result.getErrors());
             }
         }
-        return validationErrors.isEmpty() ? ValidationResult.valid() : ValidationResult.invalid(validationErrors);
+        return validationErrors.isEmpty() ? ValidationResult.valid(content.getClass().getSimpleName(),
+                content.getId()) :
+                ValidationResult.invalid(content.getClass().getSimpleName(),
+                        content.getId(), validationErrors);
     }
 }

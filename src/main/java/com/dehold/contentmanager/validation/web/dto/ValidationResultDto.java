@@ -5,25 +5,33 @@ import com.dehold.contentmanager.validation.model.ValidationResult;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class ValidationResultDto {
+    private String contentType;
+    private UUID contentId;
     private boolean valid;
     private List<ValidationError> errors;
 
     public ValidationResultDto() {
     }
 
-    public ValidationResultDto(boolean valid, List<ValidationError> errors) {
+    public ValidationResultDto(String contentType, UUID contentId, boolean valid, List<ValidationError> errors) {
+        this.contentType = contentType;
+        this.contentId = contentId;
         this.valid = valid;
         this.errors = errors;
     }
 
     public static ValidationResultDto from(ValidationResult validationResult) {
-        return new ValidationResultDto(validationResult.isValid(), validationResult.getErrors());
+        return new ValidationResultDto(validationResult.getContentType(),
+                validationResult.getContentId(), validationResult.isValid(),
+                validationResult.getErrors());
     }
 
     public ValidationResult toValidationResult() {
-        return valid ? ValidationResult.valid() : ValidationResult.invalid(errors);
+        return valid ? ValidationResult.valid(this.contentType, this.contentId) :
+                ValidationResult.invalid(this.contentType, this.contentId, errors);
     }
 
     public boolean isValid() {

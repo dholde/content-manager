@@ -16,15 +16,11 @@ public class ValidationResult {
         this.errors = errors;
     }
 
-    public static ValidationResult valid() {
-        return valid("", null);
-    }
-
     public static ValidationResult valid(String contentType, UUID contentId) {
         return new ValidationResult(contentType, contentId, true, List.of());
     }
 
-    public static ValidationResult invalid(List<ValidationError> errors) {
+    public static ValidationResult invalid(String contentType, UUID contentId, List<ValidationError> errors) {
         return new ValidationResult(null, null, false, errors);
     }
 
@@ -36,4 +32,11 @@ public class ValidationResult {
         return errors;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
+    public UUID getContentId() {
+        return contentId;
+    }
 }
