@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.validation.pipeline;
 
-import com.dehold.contentmanager.validation.result.ValidationError;
-import com.dehold.contentmanager.validation.result.ValidationResult;
+import com.dehold.contentmanager.validation.model.ValidationError;
+import com.dehold.contentmanager.validation.model.ValidationResult;
 import com.dehold.contentmanager.validation.step.ValidationStep;
 
 import java.util.ArrayList;

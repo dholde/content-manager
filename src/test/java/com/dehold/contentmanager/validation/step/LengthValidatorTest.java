@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.validation.step;
 
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
-import com.dehold.contentmanager.validation.result.ValidationError;
+import com.dehold.contentmanager.validation.model.ValidationError;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

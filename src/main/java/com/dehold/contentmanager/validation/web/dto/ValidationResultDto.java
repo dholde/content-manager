@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.validation.web.dto;
 
-import com.dehold.contentmanager.validation.result.ValidationError;
-import com.dehold.contentmanager.validation.result.ValidationResult;
+import com.dehold.contentmanager.validation.model.ValidationError;
+import com.dehold.contentmanager.validation.model.ValidationResult;
 
 import java.util.List;
 import java.util.Objects;

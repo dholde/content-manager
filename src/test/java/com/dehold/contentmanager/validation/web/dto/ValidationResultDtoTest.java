@@ -1,6 +1,6 @@
 package com.dehold.contentmanager.validation.web.dto;
 
-import com.dehold.contentmanager.validation.result.ValidationError;
+import com.dehold.contentmanager.validation.model.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
