@@ -33,3 +33,11 @@ CREATE TABLE IF NOT EXISTS customer_request (
     updated_at TIMESTAMP NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS validation_result (
+    id UUID PRIMARY KEY,
+    content_id UUID NOT NULL,
+    content_type VARCHAR(255) NOT NULL,
+    errors JSONB NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);

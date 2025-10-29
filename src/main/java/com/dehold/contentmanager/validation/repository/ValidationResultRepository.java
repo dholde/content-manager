@@ -32,26 +32,6 @@ public class ValidationResultRepository {
         );
     }
 
-    public List<ValidationResult> findAll() {
-        return jdbcTemplate.query("SELECT * FROM validation_result", this::mapRowToValidationResult);
-    }
-
-    public Optional<ValidationResult> findByContentId(UUID contentId) {
-        return jdbcTemplate.query(
-                "SELECT * FROM validation_result WHERE content_id = ?",
-                this::mapRowToValidationResult,
-                contentId
-        ).stream().findFirst();
-    }
-
-    public List<ValidationResult> findByContentType(String contentType) {
-        return jdbcTemplate.query(
-                "SELECT * FROM validation_result WHERE content_type = ?",
-                this::mapRowToValidationResult,
-                contentType
-        );
-    }
-
     private ValidationResult mapRowToValidationResult(ResultSet rs, int rowNum) throws SQLException {
         return ValidationResult.fromPersistence(
                 UUID.fromString(rs.getString("id")),
