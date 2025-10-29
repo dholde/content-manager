@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS validation_result (
     id UUID PRIMARY KEY,
     content_id UUID NOT NULL,
     content_type VARCHAR(255) NOT NULL,
-    errors JSONB NOT NULL,
+    is_valid BOOLEAN NOT NULL,
+    errors TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );
