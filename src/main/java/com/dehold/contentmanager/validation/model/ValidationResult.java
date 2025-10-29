@@ -21,7 +21,7 @@ public class ValidationResult {
     }
 
     public static ValidationResult invalid(String contentType, UUID contentId, List<ValidationError> errors) {
-        return new ValidationResult(null, null, false, errors);
+        return new ValidationResult(contentType, contentId, false, errors);
     }
 
     public boolean isValid() {

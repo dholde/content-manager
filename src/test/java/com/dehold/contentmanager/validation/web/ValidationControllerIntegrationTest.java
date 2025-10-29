@@ -119,10 +119,30 @@ class ValidationControllerIntegrationTest {
     }
 
     @Test
-    void whenValidate_thenResponseContainsValidationResultIncludingContentTypeAndContentId() {
+    void givenValidContent_whenValidate_thenResponseContainsValidationResultIncludingContentTypeAndContentId() {
         BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Valid Title", "This is valid content for the blog post."
                 , Instant.now(), Instant.now(), UUID.randomUUID());
         BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
+                ValidationResponse.class);
+
+        assertEquals(200, response.getStatusCode().value());
+        ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+        ValidationResponse actual = response.getBody();
+        assertNotNull(actual);
+        assertEquals(expected.getValidationResult().getContentType(), actual.getValidationResult().getContentType());
+        assertEquals(expected.getValidationResult().getContentId(), actual.getValidationResult().getContentId());
+    }
+
+    @Test
+    void givenInvalidContent_whenValidate_thenResponseContainsValidationResultIncludingContentTypeAndContentId() {
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Invalid: This title is too short", "This is valid " +
+                "content for the " +
+                "blog post."
+                , Instant.now(), Instant.now(), UUID.randomUUID());
+        BlogPostValidationRequest request = new BlogPostValidationRequest(50, 100, 10, 1000, blogPost);
 
         var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
                 ValidationResponse.class);
