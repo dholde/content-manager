@@ -39,6 +39,5 @@ CREATE TABLE IF NOT EXISTS validation_result (
     content_type VARCHAR(255) NOT NULL,
     is_valid BOOLEAN NOT NULL,
     errors TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL
 );

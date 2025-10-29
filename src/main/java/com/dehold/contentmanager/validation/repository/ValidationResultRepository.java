@@ -2,11 +2,14 @@ package com.dehold.contentmanager.validation.repository;
 
 import com.dehold.contentmanager.validation.model.ValidationError;
 import com.dehold.contentmanager.validation.model.ValidationResult;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,9 +18,11 @@ import java.util.UUID;
 public class ValidationResultRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final ObjectMapper objectMapper;
 
-    public ValidationResultRepository(JdbcTemplate jdbcTemplate) {
+    public ValidationResultRepository(JdbcTemplate jdbcTemplate, ObjectMapper objectMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public void create(ValidationResult validationResult) {
@@ -27,7 +32,7 @@ public class ValidationResultRepository {
                 validationResult.getContentId(),
                 validationResult.getContentType(),
                 validationResult.isValid(),
-                validationResult.getErrors(),
+                serializeErrors(validationResult.getErrors()),
                 validationResult.getCreatedAt()
         );
     }
@@ -42,8 +47,27 @@ public class ValidationResultRepository {
                 rs.getString("content_type"),
                 UUID.fromString(rs.getString("content_id")),
                 rs.getBoolean("is_valid"),
-                (List<ValidationError>) rs.getObject("errors"),
+                deserializeErrors(rs.getString("errors")),
                 rs.getTimestamp("created_at").toInstant()
         );
+    }
+
+    private String serializeErrors(List<ValidationError> errors) {
+        try {
+            return objectMapper.writeValueAsString(errors);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize errors", e);
+        }
+    }
+
+    private List<ValidationError> deserializeErrors(String errorsJson) {
+        try {
+            if (errorsJson == null || errorsJson.isEmpty()) {
+                return Collections.emptyList();
+            }
+            return objectMapper.readValue(errorsJson, new TypeReference<List<ValidationError>>() {});
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to deserialize errors", e);
+        }
     }
 }
