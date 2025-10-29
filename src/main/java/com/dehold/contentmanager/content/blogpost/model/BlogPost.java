@@ -25,7 +25,7 @@ public class BlogPost implements Content {
 
     @Override
     public UUID getId() {
-        return null;
+        return id;
     }
 
     public void setId(UUID id) {
