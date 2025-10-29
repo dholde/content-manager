@@ -3,7 +3,7 @@ package com.dehold.contentmanager.validation.service;
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.validation.pipeline.ValidationPipeline;
 import com.dehold.contentmanager.validation.pipeline.ValidationPipelineBuilder;
-import com.dehold.contentmanager.validation.result.ValidationResult;
+import com.dehold.contentmanager.validation.model.ValidationResult;
 import com.dehold.contentmanager.validation.step.LengthValidator;
 import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
 import com.dehold.contentmanager.validation.web.dto.ValidationResponse;

@@ -2,8 +2,8 @@ package com.dehold.contentmanager.validation.web;
 
 
 import com.dehold.contentmanager.content.blogpost.model.BlogPost;
-import com.dehold.contentmanager.validation.result.ValidationError;
-import com.dehold.contentmanager.validation.result.ValidationResult;
+import com.dehold.contentmanager.validation.model.ValidationError;
+import com.dehold.contentmanager.validation.model.ValidationResult;
 import com.dehold.contentmanager.validation.step.LengthValidator;
 import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
 import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
@@ -41,7 +41,7 @@ class ValidationControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.valid()));
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -64,7 +64,7 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("title")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(), blogPost.getId(),validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -87,7 +87,8 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("content")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(), blogPost.getId(),
+                        validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -110,9 +111,49 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("content")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(),
+                        blogPost.getId(), validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void givenValidContent_whenValidate_thenResponseContainsValidationResultIncludingContentTypeAndContentId() {
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Valid Title", "This is valid content for the blog post."
+                , Instant.now(), Instant.now(), UUID.randomUUID());
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
+                ValidationResponse.class);
+
+        assertEquals(200, response.getStatusCode().value());
+        ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+        ValidationResponse actual = response.getBody();
+        assertNotNull(actual);
+        assertEquals(expected.getValidationResult().getContentType(), actual.getValidationResult().getContentType());
+        assertEquals(expected.getValidationResult().getContentId(), actual.getValidationResult().getContentId());
+    }
+
+    @Test
+    void givenInvalidContent_whenValidate_thenResponseContainsValidationResultIncludingContentTypeAndContentId() {
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Invalid: This title is too short", "This is valid " +
+                "content for the " +
+                "blog post."
+                , Instant.now(), Instant.now(), UUID.randomUUID());
+        BlogPostValidationRequest request = new BlogPostValidationRequest(50, 100, 10, 1000, blogPost);
+
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
+                ValidationResponse.class);
+
+        assertEquals(200, response.getStatusCode().value());
+        ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+        ValidationResponse actual = response.getBody();
+        assertNotNull(actual);
+        assertEquals(expected.getValidationResult().getContentType(), actual.getValidationResult().getContentType());
+        assertEquals(expected.getValidationResult().getContentId(), actual.getValidationResult().getContentId());
+    }
+
 }

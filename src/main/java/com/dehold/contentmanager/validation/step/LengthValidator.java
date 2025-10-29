@@ -1,13 +1,14 @@
 package com.dehold.contentmanager.validation.step;
 
-import com.dehold.contentmanager.validation.result.ValidationError;
-import com.dehold.contentmanager.validation.result.ValidationResult;
+import com.dehold.contentmanager.content.Content;
+import com.dehold.contentmanager.validation.model.ValidationError;
+import com.dehold.contentmanager.validation.model.ValidationResult;
 
 import java.util.List;
 import java.util.function.Function;
 
 
-public class LengthValidator<T> implements ValidationStep<T> {
+public class LengthValidator<T extends Content> implements ValidationStep<T> {
 
     private final Function<T, String> getter;
     private final String fieldName;
@@ -28,11 +29,15 @@ public class LengthValidator<T> implements ValidationStep<T> {
         if (minLength < 0 || maxLength < 0 || minLength > maxLength) {
             throw new IllegalArgumentException("Invalid min/max lengths");
         }
-        if(value.length() < minLength) return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE,
+        if(value.length() < minLength) return ValidationResult.invalid(content.getClass().getSimpleName(),
+                content.getId(),
+                List.of(new ValidationError(ERROR_CODE,
                 errorMessageTooShort(fieldName))));
-        if(value.length() > maxLength) return ValidationResult.invalid(List.of(new ValidationError(ERROR_CODE,
+        if(value.length() > maxLength) return ValidationResult.invalid(content.getClass().getSimpleName(),
+                content.getId(),List.of(new ValidationError(ERROR_CODE,
                 errorMessageTooShort(fieldName))));
-        return ValidationResult.valid();
+        return ValidationResult.valid(content.getClass().getSimpleName(),
+                content.getId());
     }
 
     public static String errorMessageTooShort(String fieldName) {
