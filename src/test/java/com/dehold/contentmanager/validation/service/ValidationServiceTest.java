@@ -1,5 +1,6 @@
 package com.dehold.contentmanager.validation.service;
 
+import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.validation.repository.ValidationResultRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,5 +19,10 @@ class ValidationServiceTest {
     private ValidationServiceImpl validationService;
 
 
+    @Test
+    void givenContent_whenServiceValidates_thenValidationResultIsCreated() {
+        BlogPost blogPost = new BlogPost()
+        //validationService.validateBlogPost()
+    }
 
 }
