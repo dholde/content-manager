@@ -4,6 +4,7 @@ import com.dehold.contentmanager.content.blogpost.model.BlogPost;
 import com.dehold.contentmanager.validation.pipeline.ValidationPipeline;
 import com.dehold.contentmanager.validation.pipeline.ValidationPipelineBuilder;
 import com.dehold.contentmanager.validation.model.ValidationResult;
+import com.dehold.contentmanager.validation.repository.ValidationResultRepository;
 import com.dehold.contentmanager.validation.step.LengthValidator;
 import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
 import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
@@ -12,6 +13,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ValidationServiceImpl implements ValidationService {
+
+    private final ValidationResultRepository validationResultRepository;
+
+    public ValidationServiceImpl(ValidationResultRepository validationResultRepository) {
+        this.validationResultRepository = validationResultRepository;
+    }
+
     @Override
     public ValidationResponse validateBlogPost(BlogPostValidationRequest request) {
         ValidationPipeline<BlogPost> pipeline = new ValidationPipelineBuilder<BlogPost>()
@@ -19,6 +27,7 @@ public class ValidationServiceImpl implements ValidationService {
                 .addStep(new LengthValidator<>(BlogPost::getContent, "content", request.getContentMinLength(), request.getContentMaxLength()))
                 .build();
         ValidationResult result = pipeline.run(request.getBlogPost());
+        validationResultRepository.create(result);
         ValidationResultDto resultDto = ValidationResultDto.from(result);
         return new ValidationResponse(BlogPost.class.getSimpleName(), resultDto);
     }
