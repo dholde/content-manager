@@ -117,4 +117,23 @@ class ValidationControllerIntegrationTest {
         assertNotNull(actual);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void whenValidate_thenResponseContainsValidationResultIncludingContentTypeAndContentId() {
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Valid Title", "This is valid content for the blog post."
+                , Instant.now(), Instant.now(), UUID.randomUUID());
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+
+        var response = restTemplate.postForEntity("http://localhost:" + port + "/api/validate/blogpost", request,
+                ValidationResponse.class);
+
+        assertEquals(200, response.getStatusCode().value());
+        ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+        ValidationResponse actual = response.getBody();
+        assertNotNull(actual);
+        assertEquals(expected.getValidationResult().getContentType(), actual.getValidationResult().getContentType());
+        assertEquals(expected.getValidationResult().getContentId(), actual.getValidationResult().getContentId());
+    }
+
 }

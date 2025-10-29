@@ -50,6 +50,14 @@ public class ValidationResultDto {
         this.errors = errors;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
+    public UUID getContentId() {
+        return contentId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
