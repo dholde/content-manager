@@ -32,6 +32,10 @@ public class ValidationResultRepository {
         );
     }
 
+    public List<ValidationResult> findAll() {
+        return jdbcTemplate.query("SELECT * FROM validation_result", this::mapRowToValidationResult);
+    }
+
     private ValidationResult mapRowToValidationResult(ResultSet rs, int rowNum) throws SQLException {
         return ValidationResult.fromPersistence(
                 UUID.fromString(rs.getString("id")),
