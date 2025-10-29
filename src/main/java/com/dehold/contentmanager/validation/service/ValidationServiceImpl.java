@@ -27,8 +27,15 @@ public class ValidationServiceImpl implements ValidationService {
                 .addStep(new LengthValidator<>(BlogPost::getContent, "content", request.getContentMinLength(), request.getContentMaxLength()))
                 .build();
         ValidationResult result = pipeline.run(request.getBlogPost());
-        validationResultRepository.create(result);
+
+        this.createValidationResult(result);
+
         ValidationResultDto resultDto = ValidationResultDto.from(result);
         return new ValidationResponse(BlogPost.class.getSimpleName(), resultDto);
+    }
+
+    @Override
+    public void createValidationResult(ValidationResult result) {
+        validationResultRepository.create(result);
     }
 }
