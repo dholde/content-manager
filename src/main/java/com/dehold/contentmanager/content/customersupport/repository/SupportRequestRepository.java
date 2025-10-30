@@ -35,7 +35,7 @@ public class SupportRequestRepository {
     };
 
     public void create(SupportRequest request) {
-        String sql = "INSERT INTO customer_request (id, userId, text, support_response, customer_id, created_at, " +
+        String sql = "INSERT INTO customer_request (id, user_id, text, support_response, customer_id, created_at, " +
                 "updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, request.getId(), request.getUserId(), request.getText(), request.getSupportResponse(),
                 request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt());
