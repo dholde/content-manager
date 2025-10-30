@@ -7,6 +7,10 @@ import com.dehold.contentmanager.user.model.User;
 import com.dehold.contentmanager.user.repository.UserRepository;
 import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
 import com.dehold.contentmanager.user.web.dto.UpdateUserRequest;
+import com.dehold.contentmanager.validation.model.ValidationResult;
+import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
+import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
+import com.dehold.contentmanager.validation.web.dto.ValidationResultDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -162,5 +166,26 @@ class UserControllerIntegrationTest {
         assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals(0, response.getBody().length);
+    }
+
+    @Test
+    void getValidationResultsByUser_shouldReturnValidationResults() {
+        User user = new User(UUID.randomUUID(), "Validation User", "validationuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Validation Blogpost", "This is a validation blogpost.", Instant.now(), Instant.now(), user.getId());
+        blogPostRepository.createBlogPost(blogPost);
+
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+        ValidationResponse validationResponse = restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class).getBody();
+        assertNotNull(validationResponse);
+        ValidationResult validationResult = validationResponse.getValidationResult().toValidationResult();
+
+        ValidationResultDto[] validationResults = restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
+                user.getId() + "/validation-results", ValidationResultDto[].class).getBody();
+        assertNotNull(validationResults);
+        assertEquals(1, validationResults.length);
+
     }
 }
