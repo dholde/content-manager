@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class ValidationResult {
     private final UUID id;
+    private final UUID userId;
     private final String contentType;
     private final UUID contentId;
     private final boolean isValid;
@@ -21,8 +22,10 @@ public class ValidationResult {
         this.createdAt = Instant.now();
     }
 
-    private ValidationResult(UUID id, String contentType, UUID contentId, boolean isValid, List<ValidationError> errors, Instant createdAt) {
+    private ValidationResult(UUID id, UUID userId, String contentType, UUID contentId, boolean isValid,
+                             List<ValidationError> errors, Instant createdAt) {
         this.id = id;
+        this.userId = userId;
         this.contentType = contentType;
         this.contentId = contentId;
         this.isValid = isValid;
@@ -38,8 +41,9 @@ public class ValidationResult {
         return new ValidationResult(contentType, contentId, false, errors);
     }
 
-    public static ValidationResult fromPersistence(UUID id, String contentType, UUID contentId, boolean isValid, List<ValidationError> errors, Instant createdAt) {
-        return new ValidationResult(id, contentType, contentId, isValid, errors, createdAt);
+    public static ValidationResult fromPersistence(UUID id, UUID userId, String contentType, UUID contentId,
+                                                   boolean isValid, List<ValidationError> errors, Instant createdAt) {
+        return new ValidationResult(id, userId, contentType, contentId, isValid, errors, createdAt);
     }
 
     public boolean isValid() {
@@ -60,6 +64,10 @@ public class ValidationResult {
 
     public UUID getId() {
         return id;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public Instant getCreatedAt() {

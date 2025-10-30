@@ -44,6 +44,6 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public List<ValidationResult> findByUserId(UUID id) {
-        return List.of();
+        return validationResultRepository.findByUserId(id);
     }
 }
