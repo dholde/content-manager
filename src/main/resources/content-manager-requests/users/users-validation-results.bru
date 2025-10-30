@@ -1,0 +1,20 @@
+meta {
+  name: users-validation-results
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/users/:id/validation-results
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: af202a82-52cc-4ac7-be2a-930ab96608de
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

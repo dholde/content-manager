@@ -11,6 +11,9 @@ import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
 import com.dehold.contentmanager.validation.web.dto.ValidationResultDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class ValidationServiceImpl implements ValidationService {
 
@@ -37,5 +40,10 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public void createValidationResult(ValidationResult result) {
         validationResultRepository.create(result);
+    }
+
+    @Override
+    public List<ValidationResult> findByUserId(UUID id) {
+        return validationResultRepository.findByUserId(id);
     }
 }

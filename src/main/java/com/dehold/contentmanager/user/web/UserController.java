@@ -6,6 +6,10 @@ import com.dehold.contentmanager.user.service.UserService;
 import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
 import com.dehold.contentmanager.user.web.dto.UserResponse;
 import com.dehold.contentmanager.user.web.dto.UpdateUserRequest;
+import com.dehold.contentmanager.validation.model.ValidationResult;
+import com.dehold.contentmanager.validation.service.ValidationService;
+import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
+import com.dehold.contentmanager.validation.web.dto.ValidationResultDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,10 +25,12 @@ public class UserController {
 
     private final UserService userService;
     private final BlogPostService blogPostService;
+    private final ValidationService validationService;
 
-    public UserController(UserService userService, BlogPostService blogPostService){
+    public UserController(UserService userService, BlogPostService blogPostService, ValidationService validationService) {
         this.userService = userService;
         this.blogPostService = blogPostService;
+        this.validationService = validationService;
     }
 
     @PostMapping
@@ -58,6 +64,14 @@ public class UserController {
         userService.getUser(id); // Check for the user to be existent
         List<BlogPost> blogPosts = this.blogPostService.getBlogPostsByUserId(id);
         return ResponseEntity.ok(blogPosts);
+    }
+
+    @GetMapping("/{id}/validation-results")
+    public ResponseEntity<List<ValidationResultDto>> getValidationResultsByUserId(@PathVariable UUID id) {
+        userService.getUser(id); // Check for the user to be existent. Throws if not existent.
+        List<ValidationResult> validationResults = validationService.findByUserId(id);
+        List<ValidationResultDto> validationResultDtos = validationResults.stream().map(ValidationResultDto::from).toList();
+        return ResponseEntity.ok(validationResultDtos);
     }
 
     @PutMapping("/{id}")

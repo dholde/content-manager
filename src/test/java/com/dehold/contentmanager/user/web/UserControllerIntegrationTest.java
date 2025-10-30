@@ -7,6 +7,10 @@ import com.dehold.contentmanager.user.model.User;
 import com.dehold.contentmanager.user.repository.UserRepository;
 import com.dehold.contentmanager.user.web.dto.CreateUserRequest;
 import com.dehold.contentmanager.user.web.dto.UpdateUserRequest;
+import com.dehold.contentmanager.validation.model.ValidationResult;
+import com.dehold.contentmanager.validation.web.dto.BlogPostValidationRequest;
+import com.dehold.contentmanager.validation.web.dto.ValidationResponse;
+import com.dehold.contentmanager.validation.web.dto.ValidationResultDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +21,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -162,5 +169,131 @@ class UserControllerIntegrationTest {
         assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals(0, response.getBody().length);
+    }
+
+    @Test
+    void givenOneValidationResult_getValidationResultsByUser_shouldReturnOneValidationResult() {
+        User user = new User(UUID.randomUUID(), "Validation User", "validationuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Validation Blogpost", "This is a validation blogpost.", Instant.now(), Instant.now(), user.getId());
+        blogPostRepository.createBlogPost(blogPost);
+
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+        ValidationResponse validationResponse = restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class).getBody();
+        assertNotNull(validationResponse);
+        ValidationResult validationResult = validationResponse.getValidationResult().toValidationResult();
+
+        ResponseEntity<ValidationResultDto[]> response =
+                restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
+                user.getId() + "/validation-results", ValidationResultDto[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
+    }
+
+    @Test
+    void givenMultipleValidationResults_getValidationResultsByUser_shouldReturnMultipleValidationResults() {
+        User user = new User(UUID.randomUUID(), "Validation User", "validationuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Validation Blogpost", "This is a validation blogpost.", Instant.now(), Instant.now(), user.getId());
+        blogPostRepository.createBlogPost(blogPost);
+
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+        // Run validation multiple times to create multiple validation results
+        restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class);
+        restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class);
+        restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class);
+
+
+        ResponseEntity<ValidationResultDto[]> response =
+                restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
+                        user.getId() + "/validation-results", ValidationResultDto[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals(3, response.getBody().length);
+    }
+
+    @Test
+    void givenOneValidationResult_getValidationResultsByUser_shouldReturnRightPayload() {
+        User user = new User(UUID.randomUUID(), "Validation User", "validationuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Validation Blogpost", "This is a validation blogpost.", Instant.now(), Instant.now(), user.getId());
+        blogPostRepository.createBlogPost(blogPost);
+
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+        ValidationResponse validationResponse = restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class).getBody();
+        assertNotNull(validationResponse);
+
+
+        ResponseEntity<ValidationResultDto[]> response =
+                restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
+                        user.getId() + "/validation-results", ValidationResultDto[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+
+        ValidationResultDto actual = response.getBody()[0];
+        ValidationResultDto expected = validationResponse.getValidationResult();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void givenMultipleValidationResults_getValidationResultsByUser_shouldReturnRightPayload() {
+        User user = new User(UUID.randomUUID(), "Validation User", "validationuser-" + UUID.randomUUID() + "@example.com", Instant.now(), Instant.now());
+        userRepository.createUser(user);
+
+        BlogPost blogPost = new BlogPost(UUID.randomUUID(), "Validation Blogpost", "This is a validation blogpost.", Instant.now(), Instant.now(), user.getId());
+        blogPostRepository.createBlogPost(blogPost);
+
+        BlogPostValidationRequest request = new BlogPostValidationRequest(3, 100, 10, 1000, blogPost);
+        ValidationResponse validationResponse1 = restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class).getBody();
+        assertNotNull(validationResponse1);
+
+        ValidationResponse validationResponse2 = restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class).getBody();
+        assertNotNull(validationResponse2);
+
+        ValidationResponse validationResponse3 = restTemplate.postForEntity("http://localhost:" + port + "/api" +
+                "/validate/blogpost", request, ValidationResponse.class).getBody();
+        assertNotNull(validationResponse3);
+
+
+        ResponseEntity<ValidationResultDto[]> response =
+                restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
+                        user.getId() + "/validation-results", ValidationResultDto[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+
+        Set<ValidationResultDto> actual= new HashSet<>(List.of(response.getBody()));
+        Set<ValidationResultDto> expected = new HashSet<>(List.of(
+            validationResponse1.getValidationResult(),
+            validationResponse2.getValidationResult(),
+            validationResponse3.getValidationResult()
+        ));
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    void givenNonExistingUser_getValidationResultsByUser_shouldReturnNotFoundErrorMessage() {
+        UUID nonExistentUserId = UUID.randomUUID();
+
+        ResponseEntity<CustomErrorResponse> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/api/users/" + nonExistentUserId + "/validation-results",
+                CustomErrorResponse.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        CustomErrorResponse errorResponse = response.getBody();
+        assertEquals("The entity User with id " + nonExistentUserId + " does not exist", errorResponse.getError());
     }
 }
