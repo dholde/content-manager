@@ -23,6 +23,7 @@ public class SupportResponseRepository {
         public SupportResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new SupportResponse(
                 UUID.fromString(rs.getString("id")),
+                UUID.fromString(rs.getString("user_id")),
                 rs.getString("text"),
                 UUID.fromString(rs.getString("support_request")),
                 rs.getTimestamp("created_at").toInstant(),
@@ -32,8 +33,12 @@ public class SupportResponseRepository {
     };
 
     public void create(SupportResponse response) {
-        String sql = "INSERT INTO support_response (id, text, support_request, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, response.getId(), response.getText(), response.getSupportRequest(), response.getCreatedAt(), response.getUpdatedAt());
+        String sql = "INSERT INTO support_response (id, user_id, text, support_request, created_at, updated_at) " +
+                "VALUES" +
+                " (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, response.getId(), response.getUserId(), response.getText(),
+                response.getSupportRequest(),
+                response.getCreatedAt(), response.getUpdatedAt());
     }
 
     public Optional<SupportResponse> getById(UUID id) {

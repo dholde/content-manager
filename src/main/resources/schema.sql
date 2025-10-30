@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS blog_post (
 
 CREATE TABLE IF NOT EXISTS support_response (
     id UUID PRIMARY KEY,
+    user_id UUID,
     text TEXT NOT NULL,
     support_request UUID NOT NULL,
     created_at TIMESTAMP NOT NULL,
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS support_response (
 
 CREATE TABLE IF NOT EXISTS customer_request (
     id UUID PRIMARY KEY,
+    user_id UUID,
     text TEXT NOT NULL,
     support_response UUID NOT NULL,
     customer_id UUID NOT NULL,

@@ -31,13 +31,14 @@ public class LengthValidator<T extends Content> implements ValidationStep<T> {
         }
         if(value.length() < minLength) return ValidationResult.invalid(content.getClass().getSimpleName(),
                 content.getId(),
+                content.getUserId(),
                 List.of(new ValidationError(ERROR_CODE,
                 errorMessageTooShort(fieldName))));
         if(value.length() > maxLength) return ValidationResult.invalid(content.getClass().getSimpleName(),
-                content.getId(),List.of(new ValidationError(ERROR_CODE,
+                content.getId(),content.getUserId(),List.of(new ValidationError(ERROR_CODE,
                 errorMessageTooShort(fieldName))));
         return ValidationResult.valid(content.getClass().getSimpleName(),
-                content.getId());
+                content.getId(), content.getUserId());
     }
 
     public static String errorMessageTooShort(String fieldName) {

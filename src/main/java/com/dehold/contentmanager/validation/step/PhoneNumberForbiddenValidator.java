@@ -24,11 +24,11 @@ public class PhoneNumberForbiddenValidator<T extends Content> implements Validat
         String value = getter.apply(content);
         if (value != null && value.matches(PHONE_PATTERN)) {
             return ValidationResult.invalid(content.getClass().getSimpleName(),
-                    content.getId(),List.of(new ValidationError(ERROR_CODE,
+                    content.getId(), content.getUserId(), List.of(new ValidationError(ERROR_CODE,
                     errorMessagePhoneNumberForbidden(fieldName))));
         }
         return ValidationResult.valid(content.getClass().getSimpleName(),
-                content.getId());
+                content.getId(), content.getUserId());
     }
 
     @Override

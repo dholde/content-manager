@@ -32,6 +32,7 @@ class SupportRequestServiceTest {
     void save_shouldCallRepositoryCreate() {
         SupportRequest request = new SupportRequest(
             UUID.randomUUID(),
+            UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),
             UUID.randomUUID(),
@@ -49,6 +50,7 @@ class SupportRequestServiceTest {
         UUID id = UUID.randomUUID();
         SupportRequest request = new SupportRequest(
             id,
+            UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),
             UUID.randomUUID(),
