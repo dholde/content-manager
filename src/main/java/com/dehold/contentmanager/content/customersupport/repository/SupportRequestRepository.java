@@ -24,6 +24,7 @@ public class SupportRequestRepository {
         public SupportRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new SupportRequest(
                 UUID.fromString(rs.getString("id")),
+                UUID.fromString(rs.getString("user_id")),
                 rs.getString("text"),
                 UUID.fromString(rs.getString("support_response")),
                 UUID.fromString(rs.getString("customer_id")),
@@ -34,12 +35,15 @@ public class SupportRequestRepository {
     };
 
     public void create(SupportRequest request) {
-        String sql = "INSERT INTO customer_request (id, text, support_response, customer_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, request.getId(), request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt());
+        String sql = "INSERT INTO customer_request (id, userId, text, support_response, customer_id, created_at, " +
+                "updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, request.getId(), request.getUserId(), request.getText(), request.getSupportResponse(),
+                request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt());
     }
 
     public void update(SupportRequest request) {
-        String sql = "UPDATE customer_request SET text = ?, support_response = ?, customer_id = ?, created_at = ?, updated_at = ? WHERE id = ?";
+        String sql = "UPDATE customer_request SET text = ?, support_response = ?, customer_id = ?, created_at = " +
+                "?, updated_at = ? WHERE id = ?";
         jdbcTemplate.update(sql, request.getText(), request.getSupportResponse(), request.getCustomerId(), request.getCreatedAt(), request.getUpdatedAt(), request.getId());
     }
 

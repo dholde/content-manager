@@ -38,6 +38,7 @@ public class SupportRequestController {
     public ResponseEntity<CustomerRequestDto> create(@RequestBody CustomerRequestDto dto) {
         SupportRequest entity = new SupportRequest(
                 UUID.randomUUID(),
+                UUID.randomUUID(),
                 dto.getText(),
                 dto.getSupportResponse(),
                 dto.getCustomerId(),
@@ -53,6 +54,7 @@ public class SupportRequestController {
         SupportRequest existing = service.findById(id); // This will throw EntityNotFoundException if not found
         SupportRequest entity = new SupportRequest(
                 id,
+                UUID.randomUUID(),
                 dto.getText(),
                 dto.getSupportResponse(),
                 dto.getCustomerId(),

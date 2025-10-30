@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class SupportResponse implements Content {
     private UUID id;
+    private UUID userId;
     private String text;
     private UUID supportRequest;
     private Instant createdAt;
@@ -14,8 +15,10 @@ public class SupportResponse implements Content {
 
     public SupportResponse() {}
 
-    public SupportResponse(UUID id, String text, UUID supportRequest, Instant createdAt, Instant updatedAt) {
+    public SupportResponse(UUID id, UUID userId, String text, UUID supportRequest, Instant createdAt,
+                           Instant updatedAt) {
         this.id = id;
+        this.userId = userId;
         this.text = text;
         this.supportRequest = supportRequest;
         this.createdAt = createdAt;
@@ -25,6 +28,11 @@ public class SupportResponse implements Content {
     @Override
     public UUID getId() {
         return id;
+    }
+
+    @Override
+    public UUID getUserId() {
+        return userId;
     }
 
     public void setId(UUID id) {

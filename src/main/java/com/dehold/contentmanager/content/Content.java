@@ -4,4 +4,6 @@ import java.util.UUID;
 
 public interface Content {
     UUID getId();
+
+    UUID getUserId();
 }

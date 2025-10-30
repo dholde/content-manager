@@ -25,8 +25,8 @@ final class ValidationPipelineImpl<T extends Content> implements ValidationPipel
             }
         }
         return validationErrors.isEmpty() ? ValidationResult.valid(content.getClass().getSimpleName(),
-                content.getId()) :
+                content.getId(), content.getUserId()) :
                 ValidationResult.invalid(content.getClass().getSimpleName(),
-                        content.getId(), validationErrors);
+                        content.getId(), content.getUserId(), validationErrors);
     }
 }
