@@ -13,9 +13,11 @@ public class ValidationResult {
     private final List<ValidationError> errors;
     private final Instant createdAt;
 
-    private ValidationResult(String contentType, UUID contentId, boolean isValid, List<ValidationError> errors) {
+    private ValidationResult(String contentType, UUID contentId, UUID userId, boolean isValid,
+                             List<ValidationError> errors) {
         this.contentType = contentType;
         this.contentId = contentId;
+        this.userId = userId;
         this.isValid = isValid;
         this.errors = errors;
         this.id = UUID.randomUUID();
@@ -33,12 +35,13 @@ public class ValidationResult {
         this.createdAt = createdAt;
     }
 
-    public static ValidationResult valid(String contentType, UUID contentId) {
-        return new ValidationResult(contentType, contentId, true, List.of());
+    public static ValidationResult valid(String contentType, UUID contentId, UUID userId) {
+        return new ValidationResult(contentType, contentId, userId, true, List.of());
     }
 
-    public static ValidationResult invalid(String contentType, UUID contentId, List<ValidationError> errors) {
-        return new ValidationResult(contentType, contentId, false, errors);
+    public static ValidationResult invalid(String contentType, UUID contentId,
+                                           UUID userId, List<ValidationError> errors) {
+        return new ValidationResult(contentType, contentId, userId, false, errors);
     }
 
     public static ValidationResult fromPersistence(UUID id, UUID userId, String contentType, UUID contentId,
