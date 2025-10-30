@@ -26,8 +26,10 @@ public class ValidationResultRepository {
 
     public void create(ValidationResult validationResult) {
         jdbcTemplate.update(
-                "INSERT INTO validation_result (id, content_id, content_type, is_valid, errors, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO validation_result (id, user_id, content_id, content_type, is_valid, errors, created_at) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
                 validationResult.getId(),
+                validationResult.getUserId(),
                 validationResult.getContentId(),
                 validationResult.getContentType(),
                 validationResult.isValid(),
@@ -43,6 +45,7 @@ public class ValidationResultRepository {
     private ValidationResult mapRowToValidationResult(ResultSet rs, int rowNum) throws SQLException {
         return ValidationResult.fromPersistence(
                 UUID.fromString(rs.getString("id")),
+                UUID.fromString(rs.getString("user_id")),
                 rs.getString("content_type"),
                 UUID.fromString(rs.getString("content_id")),
                 rs.getBoolean("is_valid"),

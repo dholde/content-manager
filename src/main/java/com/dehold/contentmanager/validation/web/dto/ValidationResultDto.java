@@ -10,28 +10,31 @@ import java.util.UUID;
 public class ValidationResultDto {
     private String contentType;
     private UUID contentId;
+    private UUID userId;
     private boolean valid;
     private List<ValidationError> errors;
 
     public ValidationResultDto() {
     }
 
-    public ValidationResultDto(String contentType, UUID contentId, boolean valid, List<ValidationError> errors) {
+    public ValidationResultDto(String contentType, UUID contentId, UUID userId, boolean valid,
+                               List<ValidationError> errors) {
         this.contentType = contentType;
         this.contentId = contentId;
+        this.userId = userId;
         this.valid = valid;
         this.errors = errors;
     }
 
     public static ValidationResultDto from(ValidationResult validationResult) {
         return new ValidationResultDto(validationResult.getContentType(),
-                validationResult.getContentId(), validationResult.isValid(),
+                validationResult.getContentId(), validationResult.getUserId(), validationResult.isValid(),
                 validationResult.getErrors());
     }
 
     public ValidationResult toValidationResult() {
-        return valid ? ValidationResult.valid(this.contentType, this.contentId) :
-                ValidationResult.invalid(this.contentType, this.contentId, errors);
+        return valid ? ValidationResult.valid(this.contentType, this.contentId, this.userId) :
+                ValidationResult.invalid(this.contentType, this.contentId, this.userId, errors);
     }
 
     public boolean isValid() {
@@ -58,16 +61,21 @@ public class ValidationResultDto {
         return contentId;
     }
 
+    public UUID getUserId() {
+        return userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ValidationResultDto that = (ValidationResultDto) o;
-        return valid == that.valid && Objects.equals(errors, that.errors);
+        return valid == that.valid && Objects.equals(userId, that.userId) && Objects.equals(contentId,
+                that.contentId) && Objects.equals(contentType, that.contentType) && Objects.equals(errors, that.errors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(valid, errors);
+        return Objects.hash(contentType, contentId, userId, valid, errors);
     }
 }

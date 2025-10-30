@@ -41,7 +41,8 @@ class ValidationControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId()
+                        , blogPost.getUserId())));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -64,7 +65,8 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("title")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(), blogPost.getId(),validationErrors)));
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(),
+                        blogPost.getId(), blogPost.getUserId(), validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getContentType(), actual.getContentType());
@@ -87,7 +89,8 @@ class ValidationControllerIntegrationTest {
                 new ValidationError(LengthValidator.ERROR_CODE,
                         LengthValidator.errorMessageTooShort("content")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(), blogPost.getId(),
+                ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(),
+                        blogPost.getId(),  blogPost.getUserId(),
                         validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
@@ -112,7 +115,7 @@ class ValidationControllerIntegrationTest {
                         LengthValidator.errorMessageTooShort("content")));
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
                 ValidationResultDto.from(ValidationResult.invalid(blogPost.getClass().getSimpleName(),
-                        blogPost.getId(), validationErrors)));
+                        blogPost.getId(), blogPost.getUserId(), validationErrors)));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected, actual);
@@ -129,7 +132,7 @@ class ValidationControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId(), blogPost.getUserId())));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getValidationResult().getContentType(), actual.getValidationResult().getContentType());
@@ -149,7 +152,7 @@ class ValidationControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
         ValidationResponse expected = new ValidationResponse(BlogPost.class.getSimpleName(),
-                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId())));
+                ValidationResultDto.from(ValidationResult.valid(blogPost.getClass().getSimpleName(), blogPost.getId(), blogPost.getUserId())));
         ValidationResponse actual = response.getBody();
         assertNotNull(actual);
         assertEquals(expected.getValidationResult().getContentType(), actual.getValidationResult().getContentType());

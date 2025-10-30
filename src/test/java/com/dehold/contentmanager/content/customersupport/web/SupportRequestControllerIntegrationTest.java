@@ -54,6 +54,7 @@ class SupportRequestControllerIntegrationTest {
     void getCustomerRequest_shouldReturnRequest() {
         SupportRequest request = new SupportRequest(
             UUID.randomUUID(),
+            UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),
             UUID.randomUUID(),
@@ -76,6 +77,7 @@ class SupportRequestControllerIntegrationTest {
     @Test
     void updateCustomerRequest_shouldReturnUpdated() {
         SupportRequest request = new SupportRequest(
+            UUID.randomUUID(),
             UUID.randomUUID(),
             "Old text",
             UUID.randomUUID(),
@@ -107,6 +109,7 @@ class SupportRequestControllerIntegrationTest {
     @Test
     void deleteCustomerRequest_shouldReturnNoContent() {
         SupportRequest request = new SupportRequest(
+            UUID.randomUUID(),
             UUID.randomUUID(),
             "Test text",
             UUID.randomUUID(),

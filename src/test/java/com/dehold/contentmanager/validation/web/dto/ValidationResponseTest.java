@@ -21,10 +21,14 @@ class ValidationResponseTest {
 
         String contentType = BlogPost.class.getSimpleName();
         UUID contentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
-        ValidationResultDto validationResult1 = new ValidationResultDto(contentType, contentId, true, List.of(error1,
+        ValidationResultDto validationResult1 = new ValidationResultDto(contentType, contentId, userId, true,
+                List.of(error1,
                 error2));
-        ValidationResultDto validationResult2 = new ValidationResultDto(contentType, contentId,true, List.of(error1, error2));
+        ValidationResultDto validationResult2 = new ValidationResultDto(contentType, contentId, userId, true,
+                List.of(error1,
+                error2));
 
         ValidationResponse response1 = new ValidationResponse("BlogPost", validationResult1);
         ValidationResponse response2 = new ValidationResponse("BlogPost", validationResult2);
@@ -39,10 +43,13 @@ class ValidationResponseTest {
 
         String contentType = BlogPost.class.getSimpleName();
         UUID contentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
-        ValidationResultDto validationResult1 = new ValidationResultDto(contentType, contentId, true, List.of(error1,
+        ValidationResultDto validationResult1 = new ValidationResultDto(contentType, contentId, userId, true,
+                List.of(error1,
                 error2));
-        ValidationResultDto validationResult2 = new ValidationResultDto(contentType, contentId, false, List.of(error1));
+        ValidationResultDto validationResult2 = new ValidationResultDto(contentType, contentId, userId, false,
+                List.of(error1));
 
         ValidationResponse response1 = new ValidationResponse("BlogPost", validationResult1);
         ValidationResponse response2 = new ValidationResponse("BlogPost", validationResult2);
@@ -56,9 +63,10 @@ class ValidationResponseTest {
         String contentType2 = SupportRequest.class.getSimpleName();
         UUID contentId1 = UUID.randomUUID();
         UUID contentId2 = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
-        ValidationResultDto validationResult1 = new ValidationResultDto(contentType1, contentId1, true, null);
-        ValidationResultDto validationResult2 = new ValidationResultDto(contentType2, contentId2, true, null);
+        ValidationResultDto validationResult1 = new ValidationResultDto(contentType1, contentId1, userId, true, null);
+        ValidationResultDto validationResult2 = new ValidationResultDto(contentType2, contentId2, userId, true, null);
 
         ValidationResponse response1 = new ValidationResponse("BlogPost", validationResult1);
         ValidationResponse response2 = new ValidationResponse("Article", validationResult2);

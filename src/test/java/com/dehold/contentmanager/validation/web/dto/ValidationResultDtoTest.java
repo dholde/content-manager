@@ -17,9 +17,10 @@ class ValidationResultDtoTest {
     void givenEqualValidationResultDtosWithNullError_whenEquals_thenReturnTrue() {
         String contentType = BlogPost.class.getSimpleName();
         UUID contentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
-        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, true, null);
-        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, true, null);
+        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, userId, true, null);
+        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, userId, true, null);
 
         assertEquals(dto1, dto2);
     }
@@ -28,9 +29,10 @@ class ValidationResultDtoTest {
     void givenDifferentValidationResultDtosWithNullError_whenEquals_thenReturnFalse() {
         String contentType = BlogPost.class.getSimpleName();
         UUID contentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
-        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, true, null);
-        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, false, null);
+        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, userId, true, null);
+        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, userId, false, null);
 
         assertNotEquals(dto1, dto2);
     }
@@ -39,12 +41,15 @@ class ValidationResultDtoTest {
     void givenEqualValidationResultDtosWithErrors_whenEquals_thenReturnTrue() {
         String contentType = BlogPost.class.getSimpleName();
         UUID contentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
         ValidationError error1 = new ValidationError("FIELD_1", "Error message 1");
         ValidationError error2 = new ValidationError("FIELD_2", "Error message 2");
 
-        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, false, List.of(error1, error2));
-        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, false, List.of(error1, error2));
+        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, userId, false, List.of(error1,
+                error2));
+        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, userId, false, List.of(error1,
+                error2));
 
         assertEquals(dto1, dto2);
     }
@@ -53,13 +58,16 @@ class ValidationResultDtoTest {
     void givenDifferentValidationResultDtosWithErrors_whenEquals_thenReturnFalse() {
         String contentType = BlogPost.class.getSimpleName();
         UUID contentId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
 
         ValidationError error1 = new ValidationError("FIELD_1", "Error message 1");
         ValidationError error2 = new ValidationError("FIELD_2", "Error message 2");
         ValidationError error3 = new ValidationError("FIELD_3", "Error message 3");
 
-        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, false, List.of(error1, error2));
-        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, false, List.of(error1, error3));
+        ValidationResultDto dto1 = new ValidationResultDto(contentType, contentId, userId, false, List.of(error1,
+                error2));
+        ValidationResultDto dto2 = new ValidationResultDto(contentType, contentId, userId, false, List.of(error1,
+                error3));
 
         assertNotEquals(dto1, dto2);
     }
