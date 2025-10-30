@@ -6,23 +6,28 @@ import java.util.UUID;
 
 public class ValidationResult {
     private final UUID id;
+    private final UUID userId;
     private final String contentType;
     private final UUID contentId;
     private final boolean isValid;
     private final List<ValidationError> errors;
     private final Instant createdAt;
 
-    private ValidationResult(String contentType, UUID contentId, boolean isValid, List<ValidationError> errors) {
+    private ValidationResult(String contentType, UUID contentId, UUID userId, boolean isValid,
+                             List<ValidationError> errors) {
         this.contentType = contentType;
         this.contentId = contentId;
+        this.userId = userId;
         this.isValid = isValid;
         this.errors = errors;
         this.id = UUID.randomUUID();
         this.createdAt = Instant.now();
     }
 
-    private ValidationResult(UUID id, String contentType, UUID contentId, boolean isValid, List<ValidationError> errors, Instant createdAt) {
+    private ValidationResult(UUID id, UUID userId, String contentType, UUID contentId, boolean isValid,
+                             List<ValidationError> errors, Instant createdAt) {
         this.id = id;
+        this.userId = userId;
         this.contentType = contentType;
         this.contentId = contentId;
         this.isValid = isValid;
@@ -30,16 +35,18 @@ public class ValidationResult {
         this.createdAt = createdAt;
     }
 
-    public static ValidationResult valid(String contentType, UUID contentId) {
-        return new ValidationResult(contentType, contentId, true, List.of());
+    public static ValidationResult valid(String contentType, UUID contentId, UUID userId) {
+        return new ValidationResult(contentType, contentId, userId, true, List.of());
     }
 
-    public static ValidationResult invalid(String contentType, UUID contentId, List<ValidationError> errors) {
-        return new ValidationResult(contentType, contentId, false, errors);
+    public static ValidationResult invalid(String contentType, UUID contentId,
+                                           UUID userId, List<ValidationError> errors) {
+        return new ValidationResult(contentType, contentId, userId, false, errors);
     }
 
-    public static ValidationResult fromPersistence(UUID id, String contentType, UUID contentId, boolean isValid, List<ValidationError> errors, Instant createdAt) {
-        return new ValidationResult(id, contentType, contentId, isValid, errors, createdAt);
+    public static ValidationResult fromPersistence(UUID id, UUID userId, String contentType, UUID contentId,
+                                                   boolean isValid, List<ValidationError> errors, Instant createdAt) {
+        return new ValidationResult(id, userId, contentType, contentId, isValid, errors, createdAt);
     }
 
     public boolean isValid() {
@@ -60,6 +67,10 @@ public class ValidationResult {
 
     public UUID getId() {
         return id;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public Instant getCreatedAt() {
