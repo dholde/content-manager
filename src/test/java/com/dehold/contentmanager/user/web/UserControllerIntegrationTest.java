@@ -182,10 +182,12 @@ class UserControllerIntegrationTest {
         assertNotNull(validationResponse);
         ValidationResult validationResult = validationResponse.getValidationResult().toValidationResult();
 
-        ValidationResultDto[] validationResults = restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
-                user.getId() + "/validation-results", ValidationResultDto[].class).getBody();
-        assertNotNull(validationResults);
-        assertEquals(1, validationResults.length);
+        ResponseEntity<ValidationResultDto[]> response =
+                restTemplate.getForEntity("http://localhost:" + port + "/api/users/" +
+                user.getId() + "/validation-results", ValidationResultDto[].class);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
 
     }
 }
