@@ -280,4 +280,20 @@ class UserControllerIntegrationTest {
         ));
         assertEquals(expected, actual);
     }
+
+
+    @Test
+    void givenNonExistingUser_getValidationResultsByUser_shouldReturnNotFoundErrorMessage() {
+        UUID nonExistentUserId = UUID.randomUUID();
+
+        ResponseEntity<CustomErrorResponse> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/api/users/" + nonExistentUserId + "/validation-results",
+                CustomErrorResponse.class
+        );
+
+        assertEquals(404, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        CustomErrorResponse errorResponse = response.getBody();
+        assertEquals("The entity User with id " + nonExistentUserId + " does not exist", errorResponse.getError());
+    }
 }
