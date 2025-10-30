@@ -35,18 +35,22 @@ class ValidationResultRepositoryTest {
     @Test
     void whenValidationResultCreateCalled_thenJdbcTemplateUpdateCalledWithProperParameters() {
         UUID id = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
         UUID contentId = UUID.randomUUID();
         String contentType = "testContentType";
         boolean isValid = true;
         Instant createdAt = Instant.now();
 
-        ValidationResult validationResult = ValidationResult.fromPersistence(id, contentType, contentId, isValid, Collections.emptyList(), createdAt);
+        ValidationResult validationResult = ValidationResult.fromPersistence(id, userId, contentType, contentId,
+                isValid, Collections.emptyList(), createdAt);
 
         validationResultRepository.create(validationResult);
 
         verify(jdbcTemplate, times(1)).update(
-                eq("INSERT INTO validation_result (id, content_id, content_type, is_valid, errors, created_at) VALUES (?, ?, ?, ?, ?, ?)"),
+                eq("INSERT INTO validation_result (id, user_id, content_id, content_type, is_valid, errors, " +
+                        "created_at) VALUES (?, ?, ?, ?, ?, ?)"),
                 eq(id),
+                eq(userId),
                 eq(contentId),
                 eq(contentType),
                 eq(isValid),

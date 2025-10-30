@@ -22,7 +22,7 @@ public class SupportResponseController {
 
     @PostMapping
     public ResponseEntity<SupportResponse> create(@RequestBody CreateSupportResponseRequest request) {
-        SupportResponse response = new SupportResponse(UUID.randomUUID(), request.getText(), request.getSupportRequest(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(UUID.randomUUID(), UUID.randomUUID(), request.getText(), request.getSupportRequest(), Instant.now(), Instant.now());
         service.createSupportResponse(response);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -36,7 +36,7 @@ public class SupportResponseController {
     @PutMapping("/{id}")
     public ResponseEntity<SupportResponse> update(@PathVariable UUID id, @RequestBody UpdateSupportResponseRequest request) {
         SupportResponse supportResponse = service.getSupportResponse(id);
-        SupportResponse updated = new SupportResponse(id, request.getText(), request.getSupportRequest(), supportResponse.getCreatedAt(), Instant.now());
+        SupportResponse updated = new SupportResponse(id, UUID.randomUUID(), request.getText(), request.getSupportRequest(), supportResponse.getCreatedAt(), Instant.now());
         service.updateSupportResponse(updated);
         return ResponseEntity.ok(updated);
     }

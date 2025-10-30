@@ -29,7 +29,8 @@ class SupportResponseServiceTest {
 
     @Test
     void createSupportResponse_shouldCallRepository() {
-        SupportResponse response = new SupportResponse(UUID.randomUUID(), "Test text", UUID.randomUUID(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(UUID.randomUUID(), UUID.randomUUID(), "Test text",
+                UUID.randomUUID(), Instant.now(), Instant.now());
         doNothing().when(repository).create(any(SupportResponse.class));
         service.createSupportResponse(response);
         verify(repository, times(1)).create(any(SupportResponse.class));
@@ -38,7 +39,8 @@ class SupportResponseServiceTest {
     @Test
     void getSupportResponse_shouldReturnResponseIfExists() {
         UUID id = UUID.randomUUID();
-        SupportResponse response = new SupportResponse(id, "Test text", UUID.randomUUID(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(id, UUID.randomUUID(),"Test text", UUID.randomUUID(),
+                Instant.now(), Instant.now());
         when(repository.getById(id)).thenReturn(Optional.of(response));
         SupportResponse found = service.getSupportResponse(id);
         assertEquals(response.getId(), found.getId());
@@ -47,7 +49,8 @@ class SupportResponseServiceTest {
 
     @Test
     void updateSupportResponse_shouldCallRepository() {
-        SupportResponse response = new SupportResponse(UUID.randomUUID(), "Updated text", UUID.randomUUID(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(UUID.randomUUID(), UUID.randomUUID(), "Updated text", UUID.randomUUID(),
+                Instant.now(), Instant.now());
         doNothing().when(repository).update(any(SupportResponse.class));
         service.updateSupportResponse(response);
         verify(repository, times(1)).update(any(SupportResponse.class));

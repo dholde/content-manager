@@ -47,7 +47,7 @@ class SupportResponseControllerIntegrationTest {
 
     @Test
     void getSupportResponse_shouldReturnResponse() {
-        SupportResponse response = new SupportResponse(UUID.randomUUID(), "Test text", UUID.randomUUID(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(UUID.randomUUID(), UUID.randomUUID(), "Test text", UUID.randomUUID(), Instant.now(), Instant.now());
         repository.create(response);
         ResponseEntity<SupportResponse> getResponse = restTemplate.getForEntity(
             "http://localhost:" + port + "/api/support-responses/" + response.getId(),
@@ -61,7 +61,7 @@ class SupportResponseControllerIntegrationTest {
 
     @Test
     void updateSupportResponse_shouldReturnUpdated() {
-        SupportResponse response = new SupportResponse(UUID.randomUUID(), "Old text", UUID.randomUUID(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(UUID.randomUUID(), UUID.randomUUID(), "Old text", UUID.randomUUID(), Instant.now(), Instant.now());
         repository.create(response);
         UpdateSupportResponseRequest request = new UpdateSupportResponseRequest();
         request.setText("Updated text");
@@ -80,7 +80,7 @@ class SupportResponseControllerIntegrationTest {
 
     @Test
     void deleteSupportResponse_shouldDelete() {
-        SupportResponse response = new SupportResponse(UUID.randomUUID(), "Delete text", UUID.randomUUID(), Instant.now(), Instant.now());
+        SupportResponse response = new SupportResponse(UUID.randomUUID(), UUID.randomUUID(), "Delete text", UUID.randomUUID(), Instant.now(), Instant.now());
         repository.create(response);
         restTemplate.delete("http://localhost:" + port + "/api/support-responses/" + response.getId());
         ResponseEntity<SupportResponse> getResponse = restTemplate.getForEntity(
