@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS customer_request (
 
 CREATE TABLE IF NOT EXISTS validation_result (
     id UUID PRIMARY KEY,
+    user_id UUID NOT NULL,
     content_id UUID NOT NULL,
     content_type VARCHAR(255) NOT NULL,
     is_valid BOOLEAN NOT NULL,
