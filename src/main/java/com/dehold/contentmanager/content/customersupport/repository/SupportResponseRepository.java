@@ -33,8 +33,9 @@ public class SupportResponseRepository {
     };
 
     public void create(SupportResponse response) {
-        String sql = "INSERT INTO support_response (id, userId, text, support_request, created_at, updated_at) VALUES" +
-                " (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO support_response (id, user_id, text, support_request, created_at, updated_at) " +
+                "VALUES" +
+                " (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, response.getId(), response.getUserId(), response.getText(),
                 response.getSupportRequest(),
                 response.getCreatedAt(), response.getUpdatedAt());
