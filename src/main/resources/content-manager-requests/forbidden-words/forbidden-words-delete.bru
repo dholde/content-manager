@@ -1,0 +1,16 @@
+meta {
+  name: forbidden-words-delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/forbidden-words/cd4be0ae-062c-4ab3-bf2c-2f8b2b1460ea
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,27 @@
+meta {
+  name: forbidden-words-update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/forbidden-words/7edb486a-64ee-44b1-aa54-038c2d5b18d8
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": "123e4567-e89b-12d3-a456-426614174000",
+    "description": "Forbidden words for blog post content",
+    "contentType": "blogpost",
+    "fieldName": "content",
+    "words": ["spam", "inappropriate", "offensive", "badword", "new1", "new2"]
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
