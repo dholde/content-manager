@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 Instant.now(),
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
                 request.getDescription(false).replace("uri=", "")
         );
