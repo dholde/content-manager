@@ -61,7 +61,7 @@ public class ForbiddenWordsService implements IService<ForbiddenWords> {
             throw new IllegalStateException("forbiddenWords.json not found on classpath");
         }
         try (InputStream inputStream = resource.getInputStream()) {
-            return objectMapper.readValue(resource.getInputStream(), new TypeReference<LinkedHashSet<String>>() {});
+            return objectMapper.readValue(inputStream, new TypeReference<>() {});
         } catch(IOException e) {
             throw new IllegalStateException("Failed to load default forbidden words", e);
         }
@@ -69,7 +69,11 @@ public class ForbiddenWordsService implements IService<ForbiddenWords> {
 
     @Override
     public ForbiddenWords update(UUID id, ForbiddenWords entity) {
-        findById(id);
+        ForbiddenWords existing = findById(id);
+
+        entity.setCreatedAt(existing.getCreatedAt());
+        entity.setUpdatedAt(java.time.Instant.now());
+
         repository.save(entity);
         return entity;
     }

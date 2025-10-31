@@ -1,7 +1,9 @@
 package com.dehold.contentmanager.validation.web;
 
+import com.dehold.contentmanager.exception.InvalidPayloadException;
 import com.dehold.contentmanager.validation.model.ForbiddenWords;
 import com.dehold.contentmanager.validation.service.ForbiddenWordsService;
+import com.dehold.contentmanager.validation.web.dto.ForbiddenWordsUpdateDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -40,8 +42,14 @@ public class ForbiddenWordsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ForbiddenWords> updateForbiddenWords(@PathVariable UUID id, @RequestBody ForbiddenWords request) {
-        var forbiddenWords = forbiddenWordsService.update(id, request);
+    public ResponseEntity<ForbiddenWords> updateForbiddenWords(@PathVariable UUID id, @RequestBody ForbiddenWordsUpdateDto request) {
+        request.validateForUpdate();
+
+        if (!id.equals(request.getId())) {
+            throw new InvalidPayloadException("The path ID does not match payload ID.");
+        }
+
+        var forbiddenWords = forbiddenWordsService.update(id, request.toForbiddenWords());
         return ResponseEntity.ok(forbiddenWords);
     }
 
