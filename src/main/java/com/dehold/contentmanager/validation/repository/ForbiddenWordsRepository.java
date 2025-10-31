@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import java.util.UUID;
 public class ForbiddenWordsRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private final ForbiddenWordsRowMapper FORBIDDEN_WORDS_ROW_MAPPER = new ForbiddenWordsRowMapper();
 
     public ForbiddenWordsRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -31,12 +34,9 @@ public class ForbiddenWordsRepository {
         );
     }
 
-    public ForbiddenWords findById(UUID id) {
-        return jdbcTemplate.queryForObject(
-                "SELECT * FROM forbidden_words WHERE id = ?",
-                new Object[]{id},
-                new ForbiddenWordsRowMapper()
-        );
+    public Optional<ForbiddenWords> findById(UUID id) {
+        String sql = "SELECT * FROM forbidden_words WHERE id = ?";
+        return jdbcTemplate.query(sql, FORBIDDEN_WORDS_ROW_MAPPER, id).stream().findFirst();
     }
 
     public List<ForbiddenWords> findAll() {
@@ -48,21 +48,6 @@ public class ForbiddenWordsRepository {
                 "DELETE FROM forbidden_words WHERE id = ?",
                 forbiddenWords.getId()
         );
-    }
-
-    public void addForbiddenWord(String word) {
-        String sql = "INSERT INTO forbidden_words (word) VALUES (?)";
-        jdbcTemplate.update(sql, word);
-    }
-
-    public void removeForbiddenWord(String word) {
-        String sql = "DELETE FROM forbidden_words WHERE word = ?";
-        jdbcTemplate.update(sql, word);
-    }
-
-    public Set<String> getAllForbiddenWords() {
-        String sql = "SELECT word FROM forbidden_words";
-        return Set.copyOf(jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("word")));
     }
 
     private static class ForbiddenWordsRowMapper implements RowMapper<ForbiddenWords> {
