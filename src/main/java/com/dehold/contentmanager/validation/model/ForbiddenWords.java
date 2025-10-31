@@ -18,6 +18,14 @@ public class ForbiddenWords {
         this.words = words;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
     public String getContentType() {
         return contentType;
     }
