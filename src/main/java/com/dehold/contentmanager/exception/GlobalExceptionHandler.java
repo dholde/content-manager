@@ -24,4 +24,18 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(InvalidPayloadException.class)
+    public ResponseEntity<CustomErrorResponse> handleEntityNotFoundException(
+            InvalidPayloadException ex, WebRequest request) {
+
+        CustomErrorResponse errorResponse = new CustomErrorResponse(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
