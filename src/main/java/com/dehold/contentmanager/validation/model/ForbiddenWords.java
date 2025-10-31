@@ -1,18 +1,22 @@
 package com.dehold.contentmanager.validation.model;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
 public class ForbiddenWords {
     UUID id;
     UUID userId;
+    String description;
     String contentType;
     String fieldName;
-    Set<String> words;
+    LinkedHashSet<String> words;
 
-    public ForbiddenWords(UUID id, UUID userId, String contentType, String fieldName, Set<String> words) {
+    public ForbiddenWords(UUID id, UUID userId, String description, String contentType, String fieldName,
+                          LinkedHashSet<String> words) {
         this.id = id;
         this.userId = userId;
+        this.description = description;
         this.contentType = contentType;
         this.fieldName = fieldName;
         this.words = words;
@@ -24,6 +28,14 @@ public class ForbiddenWords {
 
     public UUID getUserId() {
         return userId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getContentType() {
@@ -46,7 +58,7 @@ public class ForbiddenWords {
         return words;
     }
 
-    public void setWords(Set<String> words) {
+    public void setWords(LinkedHashSet<String> words) {
         this.words = words;
     }
 }

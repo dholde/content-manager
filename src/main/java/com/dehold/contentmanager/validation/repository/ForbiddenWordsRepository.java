@@ -7,10 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class ForbiddenWordsRepository {
@@ -58,7 +55,7 @@ public class ForbiddenWordsRepository {
                     UUID.fromString(rs.getString("user_id")),
                     rs.getString("content_type"),
                     rs.getString("field_name"),
-                    Set.of(rs.getString("words").split(","))
+                    LinkedHashSet.of(rs.getString("words").split(","))
             );
         }
     }
