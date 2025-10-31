@@ -1,0 +1,27 @@
+meta {
+  name: forbidden-words-create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/forbidden-words
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": "123e4567-e89b-12d3-a456-426614174000",
+    "description": "Forbidden words for blog post content",
+    "contentType": "blogpost",
+    "fieldName": "content",
+    "words": ["spam", "inappropriate", "offensive", "badword"]
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

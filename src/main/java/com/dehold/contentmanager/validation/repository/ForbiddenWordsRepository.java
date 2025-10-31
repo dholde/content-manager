@@ -30,6 +30,9 @@ public class ForbiddenWordsRepository {
     }
 
     private void insert(ForbiddenWords forbiddenWords) {
+        forbiddenWords.setId(UUID.randomUUID());
+        forbiddenWords.setCreatedAt(java.time.Instant.now());
+        forbiddenWords.setUpdatedAt(java.time.Instant.now());
         jdbcTemplate.update(
                 "INSERT INTO forbidden_words (id, user_id, description, content_type, field_name, words, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 forbiddenWords.getId(),
