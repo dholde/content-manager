@@ -1,8 +1,11 @@
 package com.dehold.contentmanager.validation.web.dto;
 
+import com.dehold.contentmanager.exception.InvalidPayloadException;
 import com.dehold.contentmanager.validation.model.ForbiddenWords;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -47,6 +50,21 @@ public class ForbiddenWordsUpdateDto {
                 this.fieldName,
                 this.words
         );
+    }
+
+    public void validateForUpdate() {
+        List<String> nullFields = new ArrayList<>();
+
+        if (id == null) nullFields.add("id");
+        if (userId == null) nullFields.add("userId");
+        if (description == null) nullFields.add("description");
+        if (contentType == null) nullFields.add("contentType");
+        if (fieldName == null) nullFields.add("fieldName");
+        if (words == null) nullFields.add("words");
+
+        if (!nullFields.isEmpty()) {
+            throw new InvalidPayloadException("The following fields must not be null: " + String.join(", ", nullFields));
+        }
     }
 
     public UUID getId() {
@@ -96,5 +114,22 @@ public class ForbiddenWordsUpdateDto {
     public void setWords(LinkedHashSet<String> words) {
         this.words = words;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ForbiddenWordsUpdateDto that = (ForbiddenWordsUpdateDto) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(contentType, that.contentType) &&
+                Objects.equals(fieldName, that.fieldName) &&
+                Objects.equals(words, that.words);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, description, contentType, fieldName, words);
+    }
 }
