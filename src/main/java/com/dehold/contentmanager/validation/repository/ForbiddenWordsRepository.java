@@ -22,13 +22,15 @@ public class ForbiddenWordsRepository {
 
     public void save(ForbiddenWords forbiddenWords) {
         jdbcTemplate.update(
-                "INSERT INTO forbidden_words (id, user_id, description, content_type, field_name, words) VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO forbidden_words (id, user_id, description, content_type, field_name, words, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 forbiddenWords.getId(),
                 forbiddenWords.getUserId(),
                 forbiddenWords.getDescription(),
                 forbiddenWords.getContentType(),
                 forbiddenWords.getFieldName(),
-                String.join(",", forbiddenWords.getWords())
+                String.join(",", forbiddenWords.getWords()),
+                forbiddenWords.getCreatedAt(),
+                forbiddenWords.getUpdatedAt()
         );
     }
 
@@ -53,7 +55,7 @@ public class ForbiddenWordsRepository {
         public ForbiddenWords mapRow(ResultSet rs, int rowNum) throws SQLException {
             String wordsAsString = rs.getString("words");
             LinkedHashSet<String> words = new LinkedHashSet<String>(Arrays.asList(wordsAsString.split(",")));
-            return new ForbiddenWords(
+            ForbiddenWords forbiddenWords = new ForbiddenWords(
                     UUID.fromString(rs.getString("id")),
                     UUID.fromString(rs.getString("user_id")),
                     rs.getString("description"),
@@ -61,6 +63,9 @@ public class ForbiddenWordsRepository {
                     rs.getString("field_name"),
                     words
             );
+            forbiddenWords.setCreatedAt(rs.getTimestamp("created_at").toInstant());
+            forbiddenWords.setUpdatedAt(rs.getTimestamp("updated_at").toInstant());
+            return forbiddenWords;
         }
     }
 }

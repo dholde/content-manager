@@ -1,7 +1,7 @@
 package com.dehold.contentmanager.validation.model;
 
+import java.time.Instant;
 import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.UUID;
 
 public class ForbiddenWords {
@@ -11,6 +11,8 @@ public class ForbiddenWords {
     String contentType;
     String fieldName;
     LinkedHashSet<String> words;
+    Instant createdAt;
+    Instant updatedAt;
 
     public ForbiddenWords(UUID id, UUID userId, String description, String contentType, String fieldName,
                           LinkedHashSet<String> words) {
@@ -20,6 +22,8 @@ public class ForbiddenWords {
         this.contentType = contentType;
         this.fieldName = fieldName;
         this.words = words;
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     public UUID getId() {
@@ -60,5 +64,21 @@ public class ForbiddenWords {
 
     public void setWords(LinkedHashSet<String> words) {
         this.words = words;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

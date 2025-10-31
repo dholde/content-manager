@@ -44,3 +44,14 @@ CREATE TABLE IF NOT EXISTS validation_result (
     errors TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS forbidden_words (
+    id UUID PRIMARY KEY,
+    user_id UUID,
+    description TEXT NOT NULL,
+    content_type VARCHAR(255) NOT NULL,
+    field_name VARCHAR(255) NOT NULL,
+    words TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
