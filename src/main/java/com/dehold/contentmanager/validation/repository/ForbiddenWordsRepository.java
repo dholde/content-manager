@@ -22,7 +22,7 @@ public class ForbiddenWordsRepository {
 
     public void save(ForbiddenWords forbiddenWords) {
         jdbcTemplate.update(
-                "INSERT INTO forbidden_words (id, user_id, content_type, field_name, words) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO forbidden_words (id, user_id, description, content_type, field_name, words) VALUES (?, ?, ?, ?, ?, ?)",
                 forbiddenWords.getId(),
                 forbiddenWords.getUserId(),
                 forbiddenWords.getContentType(),
@@ -50,12 +50,15 @@ public class ForbiddenWordsRepository {
     private static class ForbiddenWordsRowMapper implements RowMapper<ForbiddenWords> {
         @Override
         public ForbiddenWords mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String wordsAsString = rs.getString("words");
+            LinkedHashSet<String> words = new LinkedHashSet<String>(Arrays.asList(wordsAsString.split(",")));
             return new ForbiddenWords(
                     UUID.fromString(rs.getString("id")),
                     UUID.fromString(rs.getString("user_id")),
+                    rs.getString("description"),
                     rs.getString("content_type"),
                     rs.getString("field_name"),
-                    LinkedHashSet.of(rs.getString("words").split(","))
+                    words
             );
         }
     }
