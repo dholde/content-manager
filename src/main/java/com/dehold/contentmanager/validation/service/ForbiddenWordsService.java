@@ -56,9 +56,9 @@ public class ForbiddenWordsService implements IService<ForbiddenWords> {
     }
 
     private LinkedHashSet<String> getDefaultForbiddenWords() {
-        ClassPathResource resource = new ClassPathResource("forbidden-words.json");
+        ClassPathResource resource = new ClassPathResource("forbiddenWords.json");
         if (!resource.exists()) {
-            throw new IllegalStateException("forbidden-words.json not found on classpath");
+            throw new IllegalStateException("forbiddenWords.json not found on classpath");
         }
         try (InputStream inputStream = resource.getInputStream()) {
             return objectMapper.readValue(resource.getInputStream(), new TypeReference<LinkedHashSet<String>>() {});

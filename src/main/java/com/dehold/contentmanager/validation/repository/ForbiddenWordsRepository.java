@@ -25,6 +25,7 @@ public class ForbiddenWordsRepository {
                 "INSERT INTO forbidden_words (id, user_id, description, content_type, field_name, words) VALUES (?, ?, ?, ?, ?, ?)",
                 forbiddenWords.getId(),
                 forbiddenWords.getUserId(),
+                forbiddenWords.getDescription(),
                 forbiddenWords.getContentType(),
                 forbiddenWords.getFieldName(),
                 String.join(",", forbiddenWords.getWords())

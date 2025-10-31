@@ -54,7 +54,7 @@ public class ForbiddenWords {
         this.fieldName = fieldName;
     }
 
-    public Set<String> getWords() {
+    public LinkedHashSet<String> getWords() {
         return words;
     }
 
