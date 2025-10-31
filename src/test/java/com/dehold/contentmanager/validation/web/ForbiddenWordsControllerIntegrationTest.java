@@ -3,6 +3,7 @@ package com.dehold.contentmanager.validation.web;
 import com.dehold.contentmanager.exception.CustomErrorResponse;
 import com.dehold.contentmanager.validation.model.ForbiddenWords;
 import com.dehold.contentmanager.validation.repository.ForbiddenWordsRepository;
+import com.dehold.contentmanager.validation.web.dto.ForbiddenWordsUpdateDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,11 +114,11 @@ class ForbiddenWordsControllerIntegrationTest {
         );
         forbiddenWordsRepository.save(original);
 
-        LinkedHashSet<String> updatedWords = originalWords;
+        LinkedHashSet<String> updatedWords = new LinkedHashSet<>(originalWords);
         updatedWords.add("newword1");
         updatedWords.add("newword2");
 
-        ForbiddenWords updateRequest = new ForbiddenWords(
+        ForbiddenWordsUpdateDto updateRequest = new ForbiddenWordsUpdateDto(
                 original.getId(),
                 original.getUserId(),
                 "Updated description",
@@ -126,7 +127,7 @@ class ForbiddenWordsControllerIntegrationTest {
                 updatedWords
         );
 
-        HttpEntity<ForbiddenWords> entity = new HttpEntity<>(updateRequest);
+        HttpEntity<ForbiddenWordsUpdateDto> entity = new HttpEntity<>(updateRequest);
         ResponseEntity<ForbiddenWords> response = restTemplate.exchange(
                 "http://localhost:" + port + "/api/forbidden-words/" + original.getId(),
                 HttpMethod.PUT,
@@ -136,6 +137,7 @@ class ForbiddenWordsControllerIntegrationTest {
 
         assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
+        assertEquals(original.getId(), response.getBody().getId());
         assertEquals(updateRequest.getDescription(), response.getBody().getDescription());
         assertEquals(updateRequest.getContentType(), response.getBody().getContentType());
         LinkedHashSet<String> updatedWordsResponse = response.getBody().getWords();
