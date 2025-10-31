@@ -171,93 +171,53 @@ A Spring Boot service that helps create, manage, validate and moderate content. 
 }
 ```
 
-## Validation System
+### Forbidden Words Management
 
-The service includes a flexible validation pipeline system:
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/forbidden-words` | Get all forbidden words (includes system defaults) |
+| GET | `/api/forbidden-words/{id}` | Get forbidden words by ID |
+| POST | `/api/forbidden-words` | Create new forbidden words |
+| PUT | `/api/forbidden-words/{id}` | Update existing forbidden words |
+| DELETE | `/api/forbidden-words/{id}` | Delete forbidden words |
 
-### Available Validators
-
-- **LengthValidator**: Validates string length against min/max bounds
-
-### Usage Example
-
-```java
-ValidationPipeline pipeline = new BlockPostValidationPipeline();
-List<ValidationStep> steps = List.of(new LengthValidator(5, 100));
-boolean isValid = pipeline.runPipeline(content, steps);
+**Forbidden Words Model:**
+```json
+{
+  "id": "uuid",
+  "userId": "uuid",
+  "description": "string",
+  "contentType": "string",
+  "fieldName": "string",
+  "words": ["string"],
+  "createdAt": "timestamp",
+  "updatedAt": "timestamp"
+}
 ```
 
-## Configuration
+**Create/Update Request Examples:**
 
-### Application Profiles
-
-- **Default/Test Profile**: Uses H2 in-memory database
-- **Production Profile**: Uses MySQL database
-
-### Database Configuration
-
-The application automatically sets up the required database schema on startup. Schema files are located in `src/main/resources/schema.sql`.
-
-### Example Configuration (application.yml)
-
-```yaml
-spring:
-  profiles:
-    active: test
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create-drop
+*Create Request:*
+```json
+{
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "description": "Inappropriate words for blog posts",
+  "contentType": "blogpost",
+  "fieldName": "content",
+  "words": ["badword1", "inappropriate", "spam"]
+}
 ```
 
-## Project Structure
-
+*Update Request (PUT - all fields required):*
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174001",
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "description": "Updated inappropriate words for blog posts",
+  "contentType": "blogpost",
+  "fieldName": "content",
+  "words": ["badword1", "inappropriate", "spam", "newbadword"]
+}
 ```
-src/
-├── main/java/com/dehold/contentmanager/
-│   ├── user/                      # User management
-│   ├── content/
-│   │   ├── blogpost/              # Blog post management
-│   │   └── customersupport/       # Customer support system
-│   └── validation/                # Validation framework
-└── test/                          # Test classes
-```
 
-## Development
-
-### Database Schema
-
-The service uses the following main tables:
-- `user` - User information
-- `blog_post` - Blog posts
-- `customer_request` - Customer support requests
-- `support_response` - Support team responses
-
-### Adding New Content Types
-
-1. Create model class in appropriate package
-2. Implement repository with JDBC operations
-3. Create service layer
-4. Add REST controller
-5. Write integration tests
-
-## Testing
-
-The project includes comprehensive test coverage:
-- Unit tests for service layers
-- Integration tests for REST endpoints
-- Validation pipeline tests
-
-Run specific test suites:
-```bash
-# Run all tests
-./mvnw test
-
-# Run specific test class
-./mvnw -Dtest=CustomerRequestControllerIntegrationTest test
-```
+> **Note:** PUT requests require all fields to be present. Missing fields will result in a 400 Bad Request with details about which fields are missing. The path ID must match the payload ID.

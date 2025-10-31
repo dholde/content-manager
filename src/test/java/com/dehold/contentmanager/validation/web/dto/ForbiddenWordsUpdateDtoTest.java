@@ -33,7 +33,7 @@ class ForbiddenWordsUpdateDtoTest {
         words.add("test");
 
         ForbiddenWordsUpdateDto dto = new ForbiddenWordsUpdateDto(
-                null, // id is null
+                null,
                 UUID.randomUUID(),
                 "Test description",
                 "blogpost",
@@ -48,12 +48,12 @@ class ForbiddenWordsUpdateDtoTest {
     @Test
     void validateForUpdate_shouldThrowExceptionWithMultipleNullFields() {
         ForbiddenWordsUpdateDto dto = new ForbiddenWordsUpdateDto(
-                null, // id is null
-                null, // userId is null
+                null,
+                null,
                 "Test description",
-                null, // contentType is null
+                null,
                 "content",
-                null  // words is null
+                null
         );
 
         InvalidPayloadException exception = assertThrows(InvalidPayloadException.class, dto::validateForUpdate);
