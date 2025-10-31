@@ -21,6 +21,15 @@ public class ForbiddenWordsRepository {
     }
 
     public void save(ForbiddenWords forbiddenWords) {
+        Optional<ForbiddenWords> existing = findById(forbiddenWords.getId());
+        if (existing.isPresent()) {
+            update(forbiddenWords);
+        } else {
+            insert(forbiddenWords);
+        }
+    }
+
+    private void insert(ForbiddenWords forbiddenWords) {
         jdbcTemplate.update(
                 "INSERT INTO forbidden_words (id, user_id, description, content_type, field_name, words, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 forbiddenWords.getId(),
@@ -33,6 +42,21 @@ public class ForbiddenWordsRepository {
                 forbiddenWords.getUpdatedAt()
         );
     }
+
+    private void update(ForbiddenWords forbiddenWords) {
+        forbiddenWords.setUpdatedAt(java.time.Instant.now());
+        jdbcTemplate.update(
+                "UPDATE forbidden_words SET user_id = ?, description = ?, content_type = ?, field_name = ?, words = ?, updated_at = ? WHERE id = ?",
+                forbiddenWords.getUserId(),
+                forbiddenWords.getDescription(),
+                forbiddenWords.getContentType(),
+                forbiddenWords.getFieldName(),
+                String.join(",", forbiddenWords.getWords()),
+                forbiddenWords.getUpdatedAt(),
+                forbiddenWords.getId()
+        );
+    }
+
 
     public Optional<ForbiddenWords> findById(UUID id) {
         String sql = "SELECT * FROM forbidden_words WHERE id = ?";
