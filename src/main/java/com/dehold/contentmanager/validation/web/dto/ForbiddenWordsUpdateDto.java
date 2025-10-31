@@ -52,7 +52,7 @@ public class ForbiddenWordsUpdateDto {
         );
     }
 
-    public void validateForUpdate() {
+    public void validateForUpdate() throws InvalidPayloadException {
         List<String> nullFields = new ArrayList<>();
 
         if (id == null) nullFields.add("id");
