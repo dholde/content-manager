@@ -115,21 +115,4 @@ public class ForbiddenWordsUpdateDto {
         this.words = words;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ForbiddenWordsUpdateDto that = (ForbiddenWordsUpdateDto) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(contentType, that.contentType) &&
-                Objects.equals(fieldName, that.fieldName) &&
-                Objects.equals(words, that.words);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userId, description, contentType, fieldName, words);
-    }
 }
