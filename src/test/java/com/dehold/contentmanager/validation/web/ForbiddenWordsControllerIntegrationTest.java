@@ -3,6 +3,7 @@ package com.dehold.contentmanager.validation.web;
 import com.dehold.contentmanager.exception.CustomErrorResponse;
 import com.dehold.contentmanager.validation.model.ForbiddenWords;
 import com.dehold.contentmanager.validation.repository.ForbiddenWordsRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -25,10 +27,18 @@ class ForbiddenWordsControllerIntegrationTest {
     private int port;
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
     private TestRestTemplate restTemplate;
 
     @Autowired
     private ForbiddenWordsRepository forbiddenWordsRepository;
+
+    @BeforeEach
+    void setup() {
+        jdbcTemplate.update("DELETE FROM forbidden_words");
+    }
 
     @Test
     void createForbiddenWords_shouldReturnCreatedForbiddenWords() {
