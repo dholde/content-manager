@@ -43,6 +43,8 @@ public class ForbiddenWordsController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ForbiddenWords> updateForbiddenWords(@PathVariable UUID id, @RequestBody ForbiddenWordsUpdateDto request) {
+        request.validateForUpdate();
+
         if (!id.equals(request.getId())) {
             throw new InvalidPayloadException("The path ID does not match payload ID.");
         }
