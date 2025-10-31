@@ -47,7 +47,7 @@ class ForbiddenWordsControllerIntegrationTest {
         words.add("inappropriate");
 
         ForbiddenWords request = new ForbiddenWords(
-                UUID.randomUUID(),
+                null,
                 UUID.randomUUID(),
                 "Test forbidden words",
                 "blogpost",
