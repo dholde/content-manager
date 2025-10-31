@@ -148,6 +148,96 @@ class ForbiddenWordsControllerIntegrationTest {
     }
 
     @Test
+    void updateForbiddenWords_shouldReturnBadRequestWhenFieldsAreMissing() {
+        LinkedHashSet<String> originalWords = new LinkedHashSet<>();
+        originalWords.add("originalword");
+
+        ForbiddenWords original = new ForbiddenWords(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                "Original description",
+                "blogpost",
+                "title",
+                originalWords
+        );
+        forbiddenWordsRepository.save(original);
+
+
+        ForbiddenWordsUpdateDto updateRequest = new ForbiddenWordsUpdateDto(
+                null,
+                null,
+                "Updated description",
+                null,
+                "content",
+                null
+        );
+
+        HttpEntity<ForbiddenWordsUpdateDto> entity = new HttpEntity<>(updateRequest);
+        ResponseEntity<CustomErrorResponse> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/forbidden-words/" + original.getId(),
+                HttpMethod.PUT,
+                entity,
+                CustomErrorResponse.class
+        );
+
+        assertEquals(400, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().getError().contains("The following fields must not be null"));
+        assertTrue(response.getBody().getError().contains("id"));
+        assertTrue(response.getBody().getError().contains("userId"));
+        assertTrue(response.getBody().getError().contains("contentType"));
+        assertTrue(response.getBody().getError().contains("words"));
+        assertFalse(response.getBody().getError().contains("description"));
+        assertFalse(response.getBody().getError().contains("fieldName"));
+        assertTrue(response.getBody().getPath().contains("/api/forbidden-words/" + original.getId()));
+    }
+
+    @Test
+    void updateForbiddenWords_shouldReturnBadRequestWhenPathIdDoesNotMatchPayloadId() {
+        LinkedHashSet<String> originalWords = new LinkedHashSet<>();
+        originalWords.add("originalword");
+
+        ForbiddenWords original = new ForbiddenWords(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                "Original description",
+                "blogpost",
+                "title",
+                originalWords
+        );
+        forbiddenWordsRepository.save(original);
+
+        LinkedHashSet<String> updatedWords = new LinkedHashSet<>(originalWords);
+        updatedWords.add("newword");
+
+        // Create DTO with different ID than the path parameter
+        UUID differentId = UUID.randomUUID();
+        ForbiddenWordsUpdateDto updateRequest = new ForbiddenWordsUpdateDto(
+                differentId, // different ID than path parameter
+                original.getUserId(),
+                "Updated description",
+                "comment",
+                "content",
+                updatedWords
+        );
+
+        HttpEntity<ForbiddenWordsUpdateDto> entity = new HttpEntity<>(updateRequest);
+        ResponseEntity<CustomErrorResponse> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/forbidden-words/" + original.getId(),
+                HttpMethod.PUT,
+                entity,
+                CustomErrorResponse.class
+        );
+
+        assertEquals(400, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals("The path ID does not match payload ID.", response.getBody().getError());
+        assertTrue(response.getBody().getPath().contains("/api/forbidden-words/" + original.getId()));
+    }
+
+
+
+    @Test
     void getForbiddenWords_shouldReturnNotFound() {
         UUID nonExistentId = UUID.randomUUID();
 
